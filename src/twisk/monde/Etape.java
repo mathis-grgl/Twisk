@@ -6,15 +6,15 @@ import java.util.Iterator;
 
 public abstract class Etape implements Iterable<Etape> {
     private String nom;
-    ArrayList<Etape> lEtape;
+    private GestionnaireSuccesseurs gestSucc;
 
     public Etape(String nom){
         this.nom = nom;
-        lEtape = new ArrayList<>();
+        this.gestSucc = new GestionnaireSuccesseurs();
     }
 
     public void ajouterSuccesseur(Etape... e){
-        lEtape.addAll(Arrays.asList(e));
+        gestSucc.ajouter(e);
     }
 
     public abstract boolean estUneActivite();
@@ -22,7 +22,7 @@ public abstract class Etape implements Iterable<Etape> {
     public abstract boolean estUnGuicher();
 
     public Iterator<Etape> iterator(){
-        return lEtape.iterator();
+        return null;
     }
 
     public int nbSuccesseur(){
