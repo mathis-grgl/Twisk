@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public abstract class Etape {
+public abstract class Etape implements Iterable<Etape> {
     private String nom;
     ArrayList<Etape> lEtape;
 
@@ -23,5 +23,9 @@ public abstract class Etape {
 
     Iterator<Etape> iterator(){
         return lEtape.iterator();
+    }
+
+    public int nbSuccesseur(){
+        return ;
     }
 }
