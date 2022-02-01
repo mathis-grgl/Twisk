@@ -1,5 +1,21 @@
 package twisk.monde;
 
-public class Etape {
+import java.util.Iterator;
 
-d}
+public abstract class Etape {
+    private String nom;
+
+    public Etape(String nom){
+        this.nom = nom;
+    }
+
+    public void ajouterSuccesseur(Etape... e){}
+
+    public abstract boolean estUneActivite();
+
+    public abstract boolean estUnGuicher();
+
+    Iterator<Etape> iterator(){
+        return null;
+    }
+}
