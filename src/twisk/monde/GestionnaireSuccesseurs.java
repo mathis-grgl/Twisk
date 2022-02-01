@@ -1,5 +1,7 @@
 package twisk.monde;
 
+import java.util.Iterator;
+
 public class GestionnaireSuccesseurs implements Iterable<Etape>{
 
     public GestionnaireSuccesseurs(){}

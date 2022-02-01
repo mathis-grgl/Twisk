@@ -21,11 +21,11 @@ public abstract class Etape implements Iterable<Etape> {
 
     public abstract boolean estUnGuicher();
 
-    Iterator<Etape> iterator(){
+    public Iterator<Etape> iterator(){
         return lEtape.iterator();
     }
 
     public int nbSuccesseur(){
-        return ;
+        return 0;
     }
 }
