@@ -1,6 +1,5 @@
 package twisk.monde;
 
-import java.lang.annotation.ElementType;
 import java.util.Iterator;
 
 public class GestionnaireEtapes implements Iterable<Etape>{
