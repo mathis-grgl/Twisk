@@ -19,7 +19,7 @@ public abstract class Etape implements Iterable<Etape> {
 
     public abstract boolean estUneActivite();
 
-    public abstract boolean estUnGuicher();
+    public abstract boolean estUnGuichet();
 
     public Iterator<Etape> iterator(){
         return new GestionnaireEtapes().iterator();

@@ -20,7 +20,7 @@ public class Activite extends Etape{
     }
 
     @Override
-    public boolean estUnGuicher() {
+    public boolean estUnGuichet() {
         return false;
     }
 

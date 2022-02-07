@@ -21,7 +21,7 @@ public class Monde implements Iterable<Etape>{
         int cmp =0;
         Iterator<Etape> g = gEtapes.iterator();
         while(g.hasNext()){
-            if(g.next().estUnGuicher()) cmp++;
+            if(g.next().estUnGuichet()) cmp++;
         }
         return cmp;
     }

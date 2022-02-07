@@ -18,7 +18,7 @@ public class Guichet extends Etape{
     }
 
     @Override
-    public boolean estUnGuicher() {
+    public boolean estUnGuichet() {
         return true;
     }
 
