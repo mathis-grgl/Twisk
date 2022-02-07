@@ -36,10 +36,10 @@ class EtapeTest {
 
     @org.junit.jupiter.api.Test
     void estUnGuicher() {
-        assertTrue(ac.estUnGuichet(),"bug dans estUnGuichet()");
-        assertFalse(gui.estUnGuichet(),"bug dans estUnGuichet()");
-        assertTrue(acR.estUnGuichet(),"bug dans estUnGuichet()");
-        assertTrue(sE.estUnGuichet(),"bug dans estUnGuichet()");
-        assertTrue(sS.estUnGuichet(),"bug dans estUnGuichet()");
+        assertFalse(ac.estUnGuichet(),"bug dans estUnGuichet()");
+        assertTrue(gui.estUnGuichet(),"bug dans estUnGuichet()");
+        assertFalse(acR.estUnGuichet(),"bug dans estUnGuichet()");
+        assertFalse(sE.estUnGuichet(),"bug dans estUnGuichet()");
+        assertFalse(sS.estUnGuichet(),"bug dans estUnGuichet()");
     }
 }
