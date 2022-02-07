@@ -28,4 +28,6 @@ public abstract class Etape implements Iterable<Etape> {
     public int nbSuccesseur(){
         return gestSucc.nbEtapes();
     }
+
+    //public String toString(){}
 }

@@ -8,4 +8,6 @@ public class ActiviteRestreinte extends Activite{
     public ActiviteRestreinte(String nom, int t, int e) {
         super(nom, t, e);
     }
+
+    //public String toString(){}
 }

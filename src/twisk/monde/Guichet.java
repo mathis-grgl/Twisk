@@ -5,6 +5,7 @@ public class Guichet extends Etape{
 
     public Guichet(String nom){
         super(nom);
+        nbjetons = 1;
     }
 
     public Guichet(String nom, int nb){
@@ -20,4 +21,6 @@ public class Guichet extends Etape{
     public boolean estUnGuicher() {
         return true;
     }
+
+    //public String toString(){}
 }
