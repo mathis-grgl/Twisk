@@ -5,21 +5,21 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class GestionnaireSuccesseurs implements Iterable<Etape>{
-    private ArrayList<Etape> etapes;
+    private ArrayList<Etape> gSuccesseur;
     
     public GestionnaireSuccesseurs(){
-        this.etapes = new ArrayList<>();
+        this.gSuccesseur = new ArrayList<>();
     }
 
-    public void ajouter(Etape... etapes){
-        this.etapes.addAll(Arrays.asList(etapes));
+    public void ajouter(Etape... successeurs){
+        this.gSuccesseur.addAll(Arrays.asList(successeurs));
     }
 
-    public int nbEtapes(){
-        return etapes.size();
+    public int nbSuccesseurs(){
+        return gSuccesseur.size();
     }
 
     public Iterator<Etape> iterator(){
-        return null;
+        return gSuccesseur.iterator();
     }
 }

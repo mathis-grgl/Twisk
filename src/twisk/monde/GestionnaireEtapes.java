@@ -1,17 +1,21 @@
 package twisk.monde;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class GestionnaireEtapes implements Iterable<Etape>{
-    public GestionnaireEtapes(){}
+    private ArrayList<Etape> gEtapes;
 
-    public void ajouter(Etape... Etapes){}
+    public GestionnaireEtapes(){this.gEtapes = new ArrayList<>();}
+
+    public void ajouter(Etape... Etapes){gEtapes.addAll(Arrays.asList(Etapes));}
 
     public int nbEtapes(){
-        return 0;
+        return gEtapes.size();
     }
 
     public Iterator<Etape> iterator(){
-        return null;
+        return gEtapes.iterator();
     }
 }

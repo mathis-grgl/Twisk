@@ -22,10 +22,10 @@ public abstract class Etape implements Iterable<Etape> {
     public abstract boolean estUnGuicher();
 
     public Iterator<Etape> iterator(){
-        return null;
+        return new GestionnaireEtapes().iterator();
     }
 
     public int nbSuccesseur(){
-        return 0;
+        return gestSucc.nbSuccesseurs();
     }
 }
