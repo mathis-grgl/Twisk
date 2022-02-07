@@ -15,7 +15,7 @@ public class GestionnaireSuccesseurs implements Iterable<Etape>{
         this.gSuccesseur.addAll(Arrays.asList(successeurs));
     }
 
-    public int nbSuccesseurs(){
+    public int nbEtapes(){
         return gSuccesseur.size();
     }
 
