@@ -19,5 +19,5 @@ public class GestionnaireEtapes implements Iterable<Etape>{
         return gEtapes.iterator();
     }
 
-    //public String toString(){}
+    public String toString(){return gEtapes.toString();}
 }

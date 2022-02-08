@@ -9,5 +9,5 @@ public class ActiviteRestreinte extends Activite{
         super(nom, t, e);
     }
 
-    //public String toString(){}
+    public String toString(){return super.toString();}
 }

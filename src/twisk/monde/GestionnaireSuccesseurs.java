@@ -23,5 +23,5 @@ public class GestionnaireSuccesseurs implements Iterable<Etape>{
         return gSuccesseur.iterator();
     }
 
-    //public String toString(){}
+    public String toString(){return gSuccesseur.size() + " successeur " + gSuccesseur.toString();}
 }

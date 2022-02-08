@@ -2,8 +2,8 @@ package twisk.monde;
 
 public class SasEntree extends Activite {
     public SasEntree() {
-        super("SasEntree");
+        super("entree");
     }
 
-    //public String toString(){}
+    public String toString(){return super.toString();}
 }
