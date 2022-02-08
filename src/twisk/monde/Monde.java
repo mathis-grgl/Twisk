@@ -30,5 +30,5 @@ public class Monde implements Iterable<Etape>{
         return gEtapes.iterator();
     }
 
-    public String toString(){return gEtapes.toString();}
+    public String toString(){return gEtapes.toString()+"\n nombre de guichets "+nbGuichets();}
 }

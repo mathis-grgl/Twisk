@@ -29,5 +29,7 @@ public abstract class Etape implements Iterable<Etape> {
         return gestSucc.nbEtapes();
     }
 
-    public String toString(){return nom +" : "+ gestSucc.nbEtapes() +" - "+ gestSucc.toString();}
+    public String getNom() {return nom;}
+
+    public String toString(){return nom +" : "+ gestSucc.toString();}
 }

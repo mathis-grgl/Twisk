@@ -22,5 +22,5 @@ public class Guichet extends Etape{
         return true;
     }
 
-    public String toString(){return super.toString()+nbjetons;}
+    public String toString(){return super.toString();}
 }

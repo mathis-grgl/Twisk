@@ -42,4 +42,14 @@ class EtapeTest {
         assertFalse(sE.estUnGuichet(),"bug dans estUnGuichet()");
         assertFalse(sS.estUnGuichet(),"bug dans estUnGuichet()");
     }
+
+    @org.junit.jupiter.api.Test
+    void toString1() {
+        ac.ajouterSuccesseur(acR);
+        assertEquals(ac.toString(),"ac : 1 successeur - acR");
+        assertEquals(gui.toString(),"gui : 0 successeur");
+        assertEquals(acR.toString(),"acR : 0 successeur");
+        assertEquals(sE.toString(),"entree : 0 successeur");
+        assertEquals(sS.toString(),"sortie : 0 successeur");
+    }
 }

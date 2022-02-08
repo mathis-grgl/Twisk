@@ -24,5 +24,5 @@ public class Activite extends Etape{
         return false;
     }
 
-    public String toString(){return super.toString()+temps+ecartTemps;}
+    public String toString(){return super.toString();}
 }
