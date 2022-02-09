@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EtapeTest {
-    Etape ac,gui,acR,sE,sS;
+    private Etape ac,acR,sE,sS;
+    private Guichet gui,gui2;
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
@@ -15,6 +16,7 @@ class EtapeTest {
         acR = new ActiviteRestreinte("acR");
         sE = new SasEntree();
         sS = new SasSortie();
+        gui2 = new Guichet("gui2");
     }
 
     @org.junit.jupiter.api.Test
@@ -22,7 +24,6 @@ class EtapeTest {
         assertEquals(ac.nbSuccesseur(),0,"bug dans nbSuccesseur()");
         ac.ajouterSuccesseur(acR);
         assertEquals(ac.nbSuccesseur(),1,"bug dans nbSuccesseur()");
-
     }
 
     @org.junit.jupiter.api.Test
@@ -35,7 +36,7 @@ class EtapeTest {
     }
 
     @org.junit.jupiter.api.Test
-    void estUnGuicher() {
+    void estUnGuichet() {
         assertFalse(ac.estUnGuichet(),"bug dans estUnGuichet()");
         assertTrue(gui.estUnGuichet(),"bug dans estUnGuichet()");
         assertFalse(acR.estUnGuichet(),"bug dans estUnGuichet()");
@@ -51,5 +52,20 @@ class EtapeTest {
         assertEquals(acR.toString(),"acR : 0 successeur");
         assertEquals(sE.toString(),"entree : 0 successeur");
         assertEquals(sS.toString(),"sortie : 0 successeur");
+    }
+
+    @org.junit.jupiter.api.Test
+    void getNum1(){
+        assertEquals(ac.getNum(),12);
+        assertEquals(gui.getNum(),13);
+        assertEquals(acR.getNum(),14);
+        assertEquals(sE.getNum(),15);
+        assertEquals(sS.getNum(),16);
+    }
+
+    @org.junit.jupiter.api.Test
+    void getSem1(){
+        assertEquals(gui.getSema(),7);
+        assertEquals(gui2.getSema(),8);
     }
 }
