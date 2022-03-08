@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public abstract class Etape implements Iterable<Etape> {
-    private String nom;
-    private int num;
-    private GestionnaireSuccesseurs gestSucc;
+    protected String nom;
+    protected int num;
+    protected GestionnaireSuccesseurs gestSucc;
 
     public Etape(String nom){
         this.nom = nom;
@@ -25,10 +25,6 @@ public abstract class Etape implements Iterable<Etape> {
 
     public abstract boolean estUnGuichet();
 
-    public int getNum(){
-        return num;
-    }
-
     public Iterator<Etape> iterator(){
         return new GestionnaireEtapes().iterator();
     }
@@ -37,7 +33,7 @@ public abstract class Etape implements Iterable<Etape> {
         return gestSucc.nbEtapes();
     }
 
-    public String getNom() {return nom;}
-
     public String toString(){return nom +" : "+ gestSucc.toString();}
+
+    public abstract String toC();
 }

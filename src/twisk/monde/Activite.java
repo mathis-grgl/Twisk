@@ -1,7 +1,7 @@
 package twisk.monde;
 
 public class Activite extends Etape{
-    private int temps,ecartTemps;
+    protected int temps,ecartTemps;
     public Activite(String nom){
         super(nom);
         temps = 4;
@@ -24,5 +24,13 @@ public class Activite extends Etape{
         return false;
     }
 
+
     public String toString(){return super.toString();}
+
+    @Override
+    public String toC() {
+        StringBuilder str = new StringBuilder();
+        str.append("transfert(").append(nom).append(",").append(gestSucc.getSucc(0).nom).append(");\ndelai(").append(temps).append(",").append(ecartTemps).append(");\n");
+        return str.toString();
+    }
 }

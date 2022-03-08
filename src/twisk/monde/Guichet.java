@@ -31,4 +31,13 @@ public class Guichet extends Etape{
     }
 
     public String toString(){return super.toString();}
+
+    @Override
+    public String toC() {
+        StringBuilder str = new StringBuilder();
+        str.append("P(ids,"+getSema()+");\n" +
+                "transfert("+nom+","+gestSucc.getSucc(0).nom+");\n" +
+                "V(ids,"+getSema()+");\n");
+        return str.toString();
+    }
 }

@@ -24,7 +24,7 @@ public class GestionnaireEtapes implements Iterable<Etape>{
         str.append(gEtapes.size() + " etapes");
         if(gEtapes.size()!=0) {
             for (int i = 0; i < gEtapes.size(); i++) {
-                str.append(" - "+gEtapes.get(i).getNom() );
+                str.append(" - "+gEtapes.get(i).nom );
             }
         }
         return str.toString();
