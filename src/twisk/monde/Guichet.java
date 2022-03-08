@@ -3,7 +3,7 @@ package twisk.monde;
 import twisk.outils.FabriqueNumero;
 
 public class Guichet extends Etape{
-   public int nbjetons, sema;
+   protected int nbjetons, sema;
 
     public Guichet(String nom){
         super(nom);
@@ -26,18 +26,23 @@ public class Guichet extends Etape{
         return true;
     }
 
-    public int getSema(){
-        return sema;
-    }
-
     public String toString(){return super.toString();}
 
     @Override
     public String toC() {
         StringBuilder str = new StringBuilder();
-        str.append("P(ids,"+getSema()+");\n" +
-                "transfert("+nom+","+gestSucc.getSucc(0).nom+");\n" +
-                "V(ids,"+getSema()+");\n");
+        str.append("P(ids,")
+                .append(sema)
+                .append(");\n")
+                .append("transfert(")
+                .append(nom)
+                .append(",")
+                .append(gestSucc.getSucc(0).nom)
+                .append(");\n")
+                .append("V(ids,")
+                .append(sema)
+                .append(");\n")
+                .append(gestSucc.getSucc(0).toC());
         return str.toString();
     }
 }

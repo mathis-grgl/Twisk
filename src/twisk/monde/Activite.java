@@ -30,7 +30,17 @@ public class Activite extends Etape{
     @Override
     public String toC() {
         StringBuilder str = new StringBuilder();
-        str.append("transfert(").append(nom).append(",").append(gestSucc.getSucc(0).nom).append(");\ndelai(").append(temps).append(",").append(ecartTemps).append(");\n");
+        str.append("delai(")
+                .append(temps)
+                .append(",")
+                .append(ecartTemps)
+                .append(");\n")
+                .append("transfert(")
+                .append(nom)
+                .append(",")
+                .append(gestSucc.getSucc(0).nom)
+                .append(");\n")
+                .append(gestSucc.getSucc(0).toC());
         return str.toString();
     }
 }
