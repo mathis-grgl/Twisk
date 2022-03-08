@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EtapeTest {
-    private Etape ac,acR,sE,sS;
+    private Etape ac,acR,ac2,ac3,sE,sS;
     private Guichet gui,gui2;
 
     @org.junit.jupiter.api.BeforeEach
@@ -14,9 +14,11 @@ class EtapeTest {
         ac = new Activite("ac");
         gui = new Guichet("gui");
         acR = new ActiviteRestreinte("acR");
+        ac2 = new Activite("ac2");
+        ac3 = new Activite("ac3");
+        gui2 = new Guichet("gui2");
         sE = new SasEntree();
         sS = new SasSortie();
-        gui2 = new Guichet("gui2");
     }
 
     @org.junit.jupiter.api.Test
@@ -31,8 +33,8 @@ class EtapeTest {
         assertTrue(ac.estUneActivite(),"bug dans estUneActivite()");
         assertFalse(gui.estUneActivite(),"bug dans estUneActivite()");
         assertTrue(acR.estUneActivite(),"bug dans estUneActivite()");
-        assertTrue(sE.estUneActivite(),"bug dans estUneActivite()");
-        assertTrue(sS.estUneActivite(),"bug dans estUneActivite()");
+        assertTrue(ac2.estUneActivite(),"bug dans estUneActivite()");
+        assertTrue(ac3.estUneActivite(),"bug dans estUneActivite()");
     }
 
     @org.junit.jupiter.api.Test
@@ -40,8 +42,8 @@ class EtapeTest {
         assertFalse(ac.estUnGuichet(),"bug dans estUnGuichet()");
         assertTrue(gui.estUnGuichet(),"bug dans estUnGuichet()");
         assertFalse(acR.estUnGuichet(),"bug dans estUnGuichet()");
-        assertFalse(sE.estUnGuichet(),"bug dans estUnGuichet()");
-        assertFalse(sS.estUnGuichet(),"bug dans estUnGuichet()");
+        assertFalse(ac2.estUnGuichet(),"bug dans estUnGuichet()");
+        assertFalse(ac3.estUnGuichet(),"bug dans estUnGuichet()");
     }
 
     @org.junit.jupiter.api.Test
@@ -50,28 +52,35 @@ class EtapeTest {
         assertEquals(ac.toString(),"ac : 1 successeur - acR");
         assertEquals(gui.toString(),"gui : 0 successeur");
         assertEquals(acR.toString(),"acR : 0 successeur");
-        assertEquals(sE.toString(),"entree : 0 successeur");
-        assertEquals(sS.toString(),"sortie : 0 successeur");
+        assertEquals(ac2.toString(),"ac2 : 0 successeur");
+        assertEquals(ac3.toString(),"ac3 : 0 successeur");
     }
 
     @org.junit.jupiter.api.Test
     void toC1(){
+        sE.ajouterSuccesseur(ac);
         ac.ajouterSuccesseur(acR);
         acR.ajouterSuccesseur(gui);
-        sE.ajouterSuccesseur(ac);
-        gui.ajouterSuccesseur(ac);
-        gui2.ajouterSuccesseur(acR);
+        gui.ajouterSuccesseur(ac2);
+        ac2.ajouterSuccesseur(gui2);
+        gui2.ajouterSuccesseur(ac3);
+        ac3.ajouterSuccesseur(sS);
         assertEquals(sE.toC(),"entrer(entree);\n" +
                 "delai(4,2);\n" +
+                "transfert(entree,ac);\n" +
+                "delai(4,2);\n" +
                 "transfert(ac,acR);\n" +
-                "delai(4,2);\n","Bug dans toC1");
-        assertEquals(ac.toC(),"transfert(ac,acR);\n" + "delai(4,2);\n","Bug dans toC1");
-        assertEquals(gui.toC(),"P(ids,1);\n" +
-                "transfert(gui,ac);\n" +
-                "V(ids,1);\n","Bug dans toC1");
-        assertEquals(gui2.toC(),"P(ids,2);\n" +
-                "transfert(gui2,acR);\n" +
-                "V(ids,2);\n","Bug dans toC1");
-        assertEquals(acR.toC(),"transfert(acR,gui);\n" +"delai(4,2);\n","Bug dans toC1");
+                "delai(4,2);\n" +
+                "transfert(acR,gui);\n" +
+                "P(ids,1);\n" +
+                "transfert(gui,ac2);\n" +
+                "V(ids,1);\n" +
+                "delai(4,2);\n" +
+                "transfert(ac2,gui2);\n" +
+                "P(ids,2);\n" +
+                "transfert(gui2,ac3);\n" +
+                "V(ids,2);\n" +
+                "delai(4,2);\n" +
+                "transfert(ac3,sortie);\n");
     }
 }

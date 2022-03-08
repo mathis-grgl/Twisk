@@ -32,7 +32,7 @@ public class Simulation {
 
 
         monde.aCommeEntree(fpi);
-        monde.ajouter(pi,fto,to);
+        monde.ajouter(fpi,pi,fto,to,bas);
         monde.aCommeSortie(bas);
 
         sim.simuler(monde);
