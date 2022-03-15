@@ -26,6 +26,10 @@ public class Guichet extends Etape{
         return true;
     }
 
+    public int getNbjetons() {
+        return nbjetons;
+    }
+
     public String toString(){return super.toString();}
 
     @Override

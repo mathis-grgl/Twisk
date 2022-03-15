@@ -5,6 +5,7 @@ import java.util.Iterator;
 public class Monde implements Iterable<Etape>{
     private GestionnaireEtapes gEtapes;
     private Etape sasE, sasS;
+
     public Monde(){
         sasE = new SasEntree();
         sasS = new SasSortie();
@@ -13,11 +14,15 @@ public class Monde implements Iterable<Etape>{
     }
 
     public void aCommeEntree(Etape... Etapes){sasE.ajouterSuccesseur(Etapes);}
+
     public void aCommeSortie(Etape... Etapes){for(Etape e : Etapes) e.ajouterSuccesseur(sasS);}
+
     public void ajouter(Etape... Etapes){gEtapes.ajouter(Etapes);}
+
     public int nbEtapes(){
         return gEtapes.nbEtapes();
     }
+
     public int nbGuichets(){
         int cmp =0;
         Iterator<Etape> g = gEtapes.iterator();
@@ -42,10 +47,9 @@ public class Monde implements Iterable<Etape>{
             str.append("#define ").append(e.nom).append(" ").append(e.num).append("\n");
         }
 
-        //for (int i = 1; i < nbGuichets()+1; i++) str.append("#define num_sema").append(i).append(" ").append(i).append("\n");
-
         str.append("void simulation(int ids){\n");
         str.append(sasE.toC());
+
 
         str.append("}\n");
         return str.toString();

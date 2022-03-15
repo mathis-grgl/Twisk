@@ -29,6 +29,10 @@ public abstract class Etape implements Iterable<Etape> {
         return new GestionnaireEtapes().iterator();
     }
 
+    public String getNom() {
+        return nom;
+    }
+
     public int nbSuccesseur(){
         return gestSucc.nbEtapes();
     }

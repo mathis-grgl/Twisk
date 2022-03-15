@@ -2,6 +2,7 @@ package twisk.monde;
 
 public class Activite extends Etape{
     protected int temps,ecartTemps;
+
     public Activite(String nom){
         super(nom);
         temps = 4;
