@@ -37,9 +37,9 @@ public class Activite extends Etape{
                 .append(ecartTemps)
                 .append(");\n")
                 .append("transfert(")
-                .append(nom)
+                .append(getNomBien())
                 .append(",")
-                .append(gestSucc.getSucc(0).nom)
+                .append(gestSucc.getSucc(0).getNomBien())
                 .append(");\n")
                 .append(gestSucc.getSucc(0).toC());
         return str.toString();

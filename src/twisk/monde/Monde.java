@@ -44,7 +44,7 @@ public class Monde implements Iterable<Etape>{
         str.append("#include \"def.h\"\n");
 
         for(Etape e : gEtapes){
-            str.append("#define ").append(e.nom).append(" ").append(e.num).append("\n");
+            str.append("#define ").append(e.getNomBien()).append(" ").append(e.num).append("\n");
         }
 
         str.append("void simulation(int ids){\n");

@@ -2,8 +2,8 @@ package twisk.monde;
 
 import twisk.outils.FabriqueNumero;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 public abstract class Etape implements Iterable<Etape> {
@@ -27,6 +27,12 @@ public abstract class Etape implements Iterable<Etape> {
 
     public Iterator<Etape> iterator(){
         return new GestionnaireEtapes().iterator();
+    }
+
+    public String getNomBien() {
+        String copieNom = nom;
+        copieNom = copieNom.replaceAll("(\\s)|(\\W)","");
+        return copieNom;
     }
 
     public String getNom() {

@@ -15,16 +15,16 @@ public class GestionnaireSuccesseurs implements Iterable<Etape>{
         this.gSuccesseur.addAll(Arrays.asList(successeurs));
     }
 
-    public Etape getSucc(int index){
-        return gSuccesseur.get(index);
-    }
-
     public int nbEtapes(){
         return gSuccesseur.size();
     }
 
     public Iterator<Etape> iterator(){
         return gSuccesseur.iterator();
+    }
+
+    public Etape getSucc(int index){
+        return gSuccesseur.get(index);
     }
 
     public String toString(){

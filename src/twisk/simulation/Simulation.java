@@ -3,8 +3,6 @@ package twisk.simulation;
 import twisk.monde.*;
 import twisk.outils.KitC;
 
-import java.util.Iterator;
-
 public class Simulation {
     private KitC c;
     private int nbClients;
@@ -74,7 +72,7 @@ public class Simulation {
             System.out.print("\nEtape "+affichageCmp+" ("+monde.iterator().next().getNom()+") "+ cliPos[0]+" clients : ");
             if(cliPos[0]!=0) for(int j =1;j<cliPos[0]+1;j++) System.out.print(cliPos[j]+" ");
 
-            //Affichage de toutes les étapes (de nbEtape à 1 : Sortie)
+            //Affichage de toutes les étapes (de toutes les activités)
             for(Etape e : monde){
                 if(affichageCmp>1) {
                     System.out.print("\nEtape "+(affichageCmp - 1)+" ("+e.getNom()+") "+cliPos[affichageCmp*(nbClients + 1)]+" clients : ");
@@ -84,6 +82,8 @@ public class Simulation {
                 affichageCmp++;
             }
 
+
+            //Affichage de la sortie
             System.out.print("\nEtape "+(affichageCmp-1)+" ("+new SasSortie().getNom()+") "+ cliPos[(nbClients+1)]+" clients : ");
             for(int j =nbClients+2;j<(nbClients+1)+cliPos[nbClients+1]+1;j++) System.out.print(cliPos[j]+" ");
 

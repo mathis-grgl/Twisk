@@ -39,14 +39,15 @@ public class Guichet extends Etape{
                 .append(sema)
                 .append(");\n")
                 .append("transfert(")
-                .append(nom)
+                .append(getNomBien())
                 .append(",")
-                .append(gestSucc.getSucc(0).nom)
+                .append(gestSucc.getSucc(0).getNomBien())
                 .append(");\n")
                 .append("V(ids,")
                 .append(sema)
                 .append(");\n")
                 .append(gestSucc.getSucc(0).toC());
+
         return str.toString();
     }
 }
