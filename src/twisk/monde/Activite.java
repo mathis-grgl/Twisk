@@ -1,18 +1,49 @@
 package twisk.monde;
 
+/**
+ * Représente la classe Activite, qui hérite de Etape.
+ * @author Mathis GEORGEL
+ * @version 1.0
+ */
 public class Activite extends Etape{
-    protected int temps,ecartTemps;
+    /**
+     * Le temps qu'on passe dans l'activité.
+     */
+    protected int temps;
+    /**
+     * L'écart-temps qu'il peut y avoir dans l'activité.
+     */
+    protected int ecartTemps;
 
+    /**
+     * Booléen permettant d'écrire correctement le code dans Client.c
+     * @see #toC()
+     * @see #toNonC()
+     */
+    private boolean dejaAppele;
+
+    /**
+     * Initialise une nouvelle activité.
+     * @param nom Le nom de l'activité
+     */
     public Activite(String nom){
         super(nom);
         temps = 4;
         ecartTemps = 2;
+        dejaAppele = false;
     }
 
+    /**
+     * Initialise une nouvelle activité.
+     * @param nom Le nom de l'activité
+     * @param t   Le temps de l'activité
+     * @param e   L'écart-temps de l'activité
+     */
     public Activite(String nom, int t, int e){
         super(nom);
         this.temps = t;
         this.ecartTemps = e;
+        dejaAppele = false;
     }
 
     @Override
@@ -25,11 +56,8 @@ public class Activite extends Etape{
         return false;
     }
 
-
-    public String toString(){return super.toString();}
-
     @Override
-    public String toC() {
+    public String toNonC() {
         StringBuilder str = new StringBuilder();
         str.append("delai(")
                 .append(temps)
@@ -40,8 +68,23 @@ public class Activite extends Etape{
                 .append(getNomBien())
                 .append(",")
                 .append(gestSucc.getSucc(0).getNomBien())
-                .append(");\n")
-                .append(gestSucc.getSucc(0).toC());
+                .append(");\n");
+        dejaAppele = true;
+        return str.toString();
+    }
+
+    /**
+     * Génère un morceau de code de l'activité pour client.c.
+     * @return Une chaîne de caractère (String)
+     */
+    @Override
+    public String toC() {
+        StringBuilder str = new StringBuilder();
+        if(!dejaAppele) {
+            str.append(toNonC());
+            dejaAppele = false;
+        }
+        str.append(gestSucc.getSucc(0).toC());
         return str.toString();
     }
 }

@@ -3,26 +3,50 @@ package twisk.simulation;
 import twisk.monde.*;
 import twisk.outils.KitC;
 
+/**
+ * Représente la classe Simulation, qui simule le monde.
+ * @author Mathis GEORGEL
+ * @version 1.0
+ */
 public class Simulation {
+    /**
+     * Le KitC nécessaire au bon fonctionnement de la compilation.
+     */
     private KitC c;
+    /**
+     * Le nombre de clients qui sont dans la simulation.
+     */
     private int nbClients;
 
+    /**
+     * Initialise une nouvelle simulation.
+     */
     public Simulation(){
         c = new KitC();
         c.creerEnvironnemment();
         nbClients = 2;
     }
 
+    /**
+     * Permet d'indiquer le nombre de clients dans la simulation.
+     * @param nbClients Le nombre de clients
+     */
     public void setNbClients(int nbClients){
         this.nbClients = nbClients;
     }
 
+    /**
+     * Simule le monde en affichant les étapes, les clients ; en utilisant les fonctions de KitC et en simulant main.c.
+     * @see KitC
+     * @param monde Le monde à simuler
+     */
     public void simuler(Monde monde){
+        //Affichage du monde
         System.out.println(monde+"\n");
-
         for(Etape e : monde) System.out.println(e);
         System.out.println();
 
+        //Partie concernant la génération des fichiers .c
         String code = monde.toC();
         c.creerFichier(code);
         c.compiler();
@@ -33,7 +57,8 @@ public class Simulation {
         int nbEtapes = monde.nbEtapes();
         int nbGuichets = monde.nbGuichets();
         int[] Guichet = new int[nbGuichets];
-        
+
+        //Assignation des jetons au(x) différent(s) guichet(s)
         int cmpGuichet = 0;
         for (Etape e : monde) {
             if(e.estUnGuichet()){
@@ -43,6 +68,7 @@ public class Simulation {
             }
         }
 
+        //Commencement de la simulation et initialisation du tableau contenant les ID des clients
         int[] tabProc = start_simulation(nbEtapes,nbGuichets,nbClients,Guichet);
 
 
@@ -104,7 +130,26 @@ public class Simulation {
         nettoyage();
     }
 
+    /**
+     * Commence la simulation du monde & retourne le tableau contenant les ID des clients.
+     * @param nbEtapes          Le nombre d'étapes
+     * @param nbServices        Le nombre de guichets
+     * @param nbClients         Le nombre de clients
+     * @param tabJetonsServices Le nombre de jetons dans chaque guichet
+     * @return Le tableau contenant les ID des clients
+     */
     public native int[] start_simulation(int nbEtapes, int nbServices, int nbClients, int[] tabJetonsServices);
+
+    /**
+     * Actualise la simulation et retourne le tableau contenant la position des clients & et le nombre de clients dans chaque étape.
+     * @param nbEtapes  Le nombre d'étapes
+     * @param nbClients Le nombre de clients
+     * @return Le tableau contenant la position des clients et le nombre de clients dans chaque étape
+     */
     public native int[] ou_sont_les_clients(int nbEtapes, int nbClients);
+
+    /**
+     * Nettoie tout correctement.
+     */
     public native void nettoyage();
 }

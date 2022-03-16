@@ -5,10 +5,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Représente la classe KitC, permettant de créer et gérer les fichiers .c.
+ * @author Mathis GEORGEL
+ * @version 1.0
+ */
 public class KitC {
 
+    /**
+     * Initialise un nouveau KitC.
+     */
     public KitC(){}
 
+    /**
+     * Crée le répertoire twisk sous /tmp et copie les fichiers de ressources sous ce répertoire.
+     */
     public void creerEnvironnemment(){
         try {
             // création du répertoire twisk sous /tmp. Ne déclenche pas d’erreur si le répertoire existe déjà
@@ -25,6 +36,12 @@ public class KitC {
         }
     }
 
+    /**
+     * Copie un fichier vers la source.
+     * @param source Source vers lequel un fichier est copié
+     * @param dest fichier à copier
+     * @throws IOException gère les erreurs de lecture ou d'écriture
+     */
     private void copier(InputStream source, File dest) throws IOException{
         InputStream sourceFile = source;
         OutputStream destinationFile = new FileOutputStream(dest) ;
@@ -39,6 +56,10 @@ public class KitC {
     }
 
 
+    /**
+     * Crée le fichier client.c à partir du code généré dans le monde.
+     * @param codeC Le code C généré dans le monde
+     */
     public void creerFichier(String codeC){
         try {
             Files.deleteIfExists(Paths.get("/tmp/twisk/client.c"));
@@ -49,6 +70,9 @@ public class KitC {
         }
     }
 
+    /**
+     * Compile le fichier client.c.
+     */
     public void compiler(){
         Runtime runtime = Runtime.getRuntime();
         try {
@@ -67,6 +91,9 @@ public class KitC {
         }
     }
 
+    /**
+     * Construit la librairie partagée utile pour exécuter le main.c.
+     */
     public void construireLaLibrairie(){
         Runtime runtime = Runtime.getRuntime();
         try {

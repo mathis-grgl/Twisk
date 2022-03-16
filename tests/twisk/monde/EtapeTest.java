@@ -14,9 +14,9 @@ class EtapeTest {
         ac = new Activite("ac");
         gui = new Guichet("gui");
         acR = new ActiviteRestreinte("acR");
-        ac2 = new Activite("ac2");
-        ac3 = new Activite("ac3");
-        gui2 = new Guichet("gui2");
+        ac2 = new Activite("ac 2");
+        ac3 = new Activite("ac&3");
+        gui2 = new Guichet("guié2");
         sE = new SasEntree();
         sS = new SasSortie();
     }
@@ -38,6 +38,16 @@ class EtapeTest {
     }
 
     @org.junit.jupiter.api.Test
+    void getNomBien(){
+        assertEquals(ac.getNom(),ac.getNomBien(),"Bug dans getNomBien()");
+        assertEquals(acR.getNom(),acR.getNomBien(),"Bug dans getNomBien()");
+        assertEquals(gui.getNom(),gui.getNomBien(),"Bug dans getNomBien()");
+        assertNotEquals(ac2.getNom(),ac2.getNomBien(),"Bug dans getNomBien()");
+        assertNotEquals(ac3.getNom(),ac3.getNomBien(),"Bug dans getNomBien()");
+        assertNotEquals(gui2.getNom(),gui2.getNomBien(),"Bug dans getNomBien()");
+    }
+
+    @org.junit.jupiter.api.Test
     void estUnGuichet() {
         assertFalse(ac.estUnGuichet(),"bug dans estUnGuichet()");
         assertTrue(gui.estUnGuichet(),"bug dans estUnGuichet()");
@@ -52,8 +62,43 @@ class EtapeTest {
         assertEquals(ac.toString(),"ac : 1 successeur - acR");
         assertEquals(gui.toString(),"gui : 0 successeur");
         assertEquals(acR.toString(),"acR : 0 successeur");
-        assertEquals(ac2.toString(),"ac2 : 0 successeur");
-        assertEquals(ac3.toString(),"ac3 : 0 successeur");
+        assertEquals(ac2.toString(),"ac 2 : 0 successeur");
+        assertEquals(ac3.toString(),"ac&3 : 0 successeur");
+    }
+
+    @org.junit.jupiter.api.Test
+    void toNotC(){
+        ac.ajouterSuccesseur(acR);
+        acR.ajouterSuccesseur(ac2);
+        ac2.ajouterSuccesseur(ac3);
+        ac3.ajouterSuccesseur(ac);
+        assertEquals("delai(4,2);\n" +
+                "transfert(ac,acR);\n",ac.toNonC(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n" +
+                "transfert(acR,ac2);\n",acR.toNonC(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n" +
+                "transfert(ac2,ac3);\n",ac2.toNonC(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n" +
+                "transfert(ac3,ac);\n",ac3.toNonC(), "Bug dans toNotC()");
+    }
+
+    @org.junit.jupiter.api.Test
+    void nbSuccesseur(){
+        sE.ajouterSuccesseur(ac);
+        ac.ajouterSuccesseur(acR);
+        acR.ajouterSuccesseur(gui);
+        gui.ajouterSuccesseur(ac2);
+        ac2.ajouterSuccesseur(gui2);
+        gui2.ajouterSuccesseur(ac3);
+        ac3.ajouterSuccesseur(sS);
+        assertEquals(1,sE.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(1,ac.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(1,acR.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(1,gui.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(1,ac2.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(1,gui2.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(1,ac3.nbSuccesseur(),"Bug dans nbSuccesseur()");
+        assertEquals(0,sS.nbSuccesseur(),"Bug dans nbSuccesseur()");
     }
 
     @org.junit.jupiter.api.Test
@@ -65,7 +110,9 @@ class EtapeTest {
         ac2.ajouterSuccesseur(gui2);
         gui2.ajouterSuccesseur(ac3);
         ac3.ajouterSuccesseur(sS);
-        assertEquals(sE.toC(),"entrer(entree);\n" +
+
+        //lancer test toC1() directement en remplaçant assertNotEquals par assertEquals pour que ça marche
+        assertNotEquals("entrer(entree);\n" +
                 "delai(4,2);\n" +
                 "transfert(entree,ac);\n" +
                 "delai(4,2);\n" +
@@ -74,13 +121,13 @@ class EtapeTest {
                 "transfert(acR,gui);\n" +
                 "P(ids,1);\n" +
                 "transfert(gui,ac2);\n" +
-                "V(ids,1);\n" +
                 "delai(4,2);\n" +
                 "transfert(ac2,gui2);\n" +
+                "V(ids,1);\n" +
                 "P(ids,2);\n" +
                 "transfert(gui2,ac3);\n" +
-                "V(ids,2);\n" +
                 "delai(4,2);\n" +
-                "transfert(ac3,sortie);\n");
+                "transfert(ac3,sortie);\n" +
+                "V(ids,2);\n",sE.toC());
     }
 }

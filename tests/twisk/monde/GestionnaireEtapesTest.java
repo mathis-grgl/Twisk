@@ -28,4 +28,15 @@ class GestionnaireEtapesTest {
         gE.ajouter(e1,e2,e3);
         assertEquals(gE.nbEtapes(),6,"bug dans ajouter()");
     }
+
+    @Test
+    void nbEtapes(){
+        gE.ajouter(e1,e1,e1);
+        assertEquals(gE.nbEtapes(),3,"Bug dans nbEtapes()");
+        gE.ajouter(e1,e1,e1);
+        assertEquals(gE.nbEtapes(),6,"Bug dans nbEtapes()");
+        gE.ajouter(e1,e1,e1);
+        assertEquals(gE.nbEtapes(),9,"Bug dans nbEtapes()");
+        gE.ajouter(e1,e1,e1);
+    }
 }
