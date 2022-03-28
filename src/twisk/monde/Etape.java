@@ -64,10 +64,18 @@ public abstract class Etape implements Iterable<Etape> {
      * Permet d'avoir le nom de l'étape sans espace ou caractère spéciaux afin de créer des noms de variables dans client.c (#define ...).
      * @return Le nom modifié
      */
-    public String getNomBien() {
+    public String getNomNumero() {
         String copieNom = nom;
         copieNom = copieNom.replaceAll("(\\s)|(\\W)","");
-        return copieNom;
+        return copieNom+getNum();
+    }
+
+    /**
+     * Retourne le numéro (unique) de l'étape.
+     * @return Le numéro
+     */
+    public int getNum() {
+        return num;
     }
 
     /**
@@ -96,7 +104,7 @@ public abstract class Etape implements Iterable<Etape> {
      * Génère un morceau de code pour client.c qui n'appelle aucune autre fonction toC().
      * @return Une chaîne de caractère (String)
      */
-    public abstract String toNonC();
+    public abstract String delai();
 
     /**
      * Génère un morceau de code pour client.c.

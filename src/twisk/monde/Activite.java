@@ -18,7 +18,7 @@ public class Activite extends Etape{
     /**
      * Booléen permettant d'écrire correctement le code dans Client.c
      * @see #toC()
-     * @see #toNonC()
+     * @see #delai()
      */
     private boolean dejaAppele;
 
@@ -57,17 +57,12 @@ public class Activite extends Etape{
     }
 
     @Override
-    public String toNonC() {
+    public String delai() {
         StringBuilder str = new StringBuilder();
         str.append("delai(")
                 .append(temps)
                 .append(",")
                 .append(ecartTemps)
-                .append(");\n")
-                .append("transfert(")
-                .append(getNomBien())
-                .append(",")
-                .append(gestSucc.getSucc(0).getNomBien())
                 .append(");\n");
         dejaAppele = true;
         return str.toString();
@@ -81,9 +76,14 @@ public class Activite extends Etape{
     public String toC() {
         StringBuilder str = new StringBuilder();
         if(!dejaAppele) {
-            str.append(toNonC());
+            str.append(delai());
             dejaAppele = false;
         }
+        str.append("transfert(")
+                .append(getNomNumero())
+                .append(",")
+                .append(gestSucc.getSucc(0).getNomNumero())
+                .append(");\n");
         str.append(gestSucc.getSucc(0).toC());
         return str.toString();
     }

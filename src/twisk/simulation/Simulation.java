@@ -91,26 +91,18 @@ public class Simulation {
                 e.printStackTrace();
             }
 
-            //Permet de faire un affichage correct des étapes (en fonction du cours)
-            int affichageCmp = 0;
-
-            //Affichage de l'étape 0
-            System.out.print("\nEtape "+affichageCmp+" ("+monde.iterator().next().getNom()+") "+ cliPos[0]+" clients : ");
-            if(cliPos[0]!=0) for(int j =1;j<cliPos[0]+1;j++) System.out.print(cliPos[j]+" ");
-
             //Affichage de toutes les étapes (de toutes les activités)
             for(Etape e : monde){
-                if(affichageCmp>1) {
-                    System.out.print("\nEtape "+(affichageCmp - 1)+" ("+e.getNom()+") "+cliPos[affichageCmp*(nbClients + 1)]+" clients : ");
-                    for (int j = affichageCmp*(nbClients+1)+1 ;j < affichageCmp*(nbClients + 1)+cliPos[affichageCmp*(nbClients + 1)]+1 ;j++)
+                if(e.getNum()!=1) {
+                    System.out.print("\nEtape "+e.getNum()+" ("+e.getNom()+") "+cliPos[e.getNum()*(nbClients + 1)]+" clients : ");
+                    for (int j = e.getNum()*(nbClients+1)+1 ;j < e.getNum()*(nbClients + 1)+cliPos[e.getNum()*(nbClients + 1)]+1 ;j++)
                         System.out.print(cliPos[j]+" ");
                 }
-                affichageCmp++;
             }
 
 
             //Affichage de la sortie
-            System.out.print("\nEtape "+(affichageCmp-1)+" ("+new SasSortie().getNom()+") "+ cliPos[(nbClients+1)]+" clients : ");
+            System.out.print("\nEtape 1 ("+new SasSortie().getNom()+") "+ cliPos[(nbClients+1)]+" clients : ");
             for(int j =nbClients+2;j<(nbClients+1)+cliPos[nbClients+1]+1;j++) System.out.print(cliPos[j]+" ");
 
 

@@ -96,7 +96,13 @@ public class Monde implements Iterable<Etape>{
         str.append("#include \"def.h\"\n");
 
         for(Etape e : gEtapes){
-            str.append("#define ").append(e.getNomBien()).append(" ").append(e.num).append("\n");
+            str.append("#define ").append(e.getNomNumero()).append(" ").append(e.num).append("\n");
+        }
+        for(Etape e : gEtapes){
+            if(e.estUnGuichet()){
+                Guichet g  = (Guichet) e;
+                str.append("#define ").append(g.getNomSema()).append(" ").append(g.getSema()).append("\n");
+            }
         }
 
         str.append("void simulation(int ids){\n");

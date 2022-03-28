@@ -1,8 +1,5 @@
 package twisk.monde;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class EtapeTest {
@@ -39,12 +36,12 @@ class EtapeTest {
 
     @org.junit.jupiter.api.Test
     void getNomBien(){
-        assertEquals(ac.getNom(),ac.getNomBien(),"Bug dans getNomBien()");
-        assertEquals(acR.getNom(),acR.getNomBien(),"Bug dans getNomBien()");
-        assertEquals(gui.getNom(),gui.getNomBien(),"Bug dans getNomBien()");
-        assertNotEquals(ac2.getNom(),ac2.getNomBien(),"Bug dans getNomBien()");
-        assertNotEquals(ac3.getNom(),ac3.getNomBien(),"Bug dans getNomBien()");
-        assertNotEquals(gui2.getNom(),gui2.getNomBien(),"Bug dans getNomBien()");
+        assertEquals(ac.getNom()+8,ac.getNomNumero(),"Bug dans getNomNumero()");
+        assertEquals(acR.getNom()+10,acR.getNomNumero(),"Bug dans getNomNumero()");
+        assertEquals(gui.getNom()+9,gui.getNomNumero(),"Bug dans getNomNumero()");
+        assertNotEquals(ac2.getNom(),ac2.getNomNumero(),"Bug dans getNomNumero()");
+        assertNotEquals(ac3.getNom(),ac3.getNomNumero(),"Bug dans getNomNumero()");
+        assertNotEquals(gui2.getNom(),gui2.getNomNumero(),"Bug dans getNomNumero()");
     }
 
     @org.junit.jupiter.api.Test
@@ -72,14 +69,15 @@ class EtapeTest {
         acR.ajouterSuccesseur(ac2);
         ac2.ajouterSuccesseur(ac3);
         ac3.ajouterSuccesseur(ac);
-        assertEquals("delai(4,2);\n" +
-                "transfert(ac,acR);\n",ac.toNonC(), "Bug dans toNotC()");
-        assertEquals("delai(4,2);\n" +
-                "transfert(acR,ac2);\n",acR.toNonC(), "Bug dans toNotC()");
-        assertEquals("delai(4,2);\n" +
-                "transfert(ac2,ac3);\n",ac2.toNonC(), "Bug dans toNotC()");
-        assertEquals("delai(4,2);\n" +
-                "transfert(ac3,ac);\n",ac3.toNonC(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n",ac.delai(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n",acR.delai(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n",ac2.delai(), "Bug dans toNotC()");
+        assertEquals("delai(4,2);\n",ac3.delai(), "Bug dans toNotC()");
+    }
+
+    @org.junit.jupiter.api.Test
+    void getNomSema(){
+        assertEquals(gui.getNom()+gui.getNum()+"Sema"+gui.getSema(),gui.getNomSema(),"Bug dans getNomNumero()");
     }
 
     @org.junit.jupiter.api.Test

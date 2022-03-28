@@ -57,10 +57,27 @@ public class Guichet extends Etape{
         return nbjetons;
     }
 
+    /**
+     * Retourne le sémaphore (unique) de l'étape.
+     * @return Le sémaphore
+     */
+    public int getSema() {
+        return sema;
+    }
+
     public String toString(){return super.toString();}
 
+
+    /**
+     * Permet d'avoir le nom de l'étape sans espace ou caractère spéciaux afin de créer des noms de variables pour les sémaphores dans client.c (#define ...).
+     * @return Le nom modifié
+     */
+    public String getNomSema() {
+        return getNomNumero()+"Sema"+getSema();
+    }
+
     @Override
-    public String toNonC() {
+    public String delai() {
         return null;
     }
 
@@ -72,16 +89,16 @@ public class Guichet extends Etape{
     public String toC() {
         StringBuilder str = new StringBuilder();
         str.append("P(ids,")
-                .append(sema)
+                .append(getNomSema())
                 .append(");\n")
                 .append("transfert(")
-                .append(getNomBien())
+                .append(getNomNumero())
                 .append(",")
-                .append(gestSucc.getSucc(0).getNomBien())
+                .append(gestSucc.getSucc(0).getNomNumero())
                 .append(");\n")
-                .append(gestSucc.getSucc(0).toNonC())
+                .append(gestSucc.getSucc(0).delai())
                 .append("V(ids,")
-                .append(sema)
+                .append(getNomSema())
                 .append(");\n")
                 .append(gestSucc.getSucc(0).toC());
 
