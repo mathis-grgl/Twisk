@@ -24,4 +24,11 @@ public class Client {
     public Etape getEtape() {
         return etape;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Client n"+numeroClient+", rg : "+rang+" de l'étape "+ etape.getNom());
+        return str.toString();
+    }
 }

@@ -104,10 +104,19 @@ public class Simulation {
                 posClient = e.getNum()*(nbClients+1);
                 if(e.getNum()!=1) {
                     System.out.print("\nEtape "+e.getNum()+" ("+e.getNom()+") "+cliPos[posClient]+" clients : ");
-                    for (int j = posClient+1 ;j < posClient+cliPos[posClient]+1 ;j++)
-                        System.out.print(cliPos[j]+" ");
+                    int rang=1;
+                    for (int j = posClient+1 ;j < posClient+cliPos[posClient]+1 ;j++) {
+                        System.out.print(cliPos[j] + " ");
+                        gC.allerA(cliPos[j], e, rang);
+                        rang++;
+                    }
+                } else {
+                    int rang=1;
+                    for (int j = posClient+1 ;j < posClient+cliPos[posClient]+1 ;j++) {
+                        gC.allerA(cliPos[j], e, rang);
+                        rang++;
+                    }
                 }
-                gC.allerA(cliPos[posClient],e,1);
             }
 
             //Affichage de la sortie
@@ -118,7 +127,7 @@ public class Simulation {
             //Actualisation
             cliPos = ou_sont_les_clients(nbEtapes,nbClients);
 
-            System.out.println();
+            System.out.println("\n"+gC.toString());
 
             //Teste si tous les clients sont arrivés à la sortie (et permet d'afficher correctement la dernière sortie)
             if(cliPos[nbClients+1]==nbClients) cmp += 1;

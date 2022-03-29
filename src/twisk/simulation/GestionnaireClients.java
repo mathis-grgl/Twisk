@@ -53,4 +53,12 @@ public class GestionnaireClients implements Iterable<Client>{
     public Iterator<Client> iterator() {
         return gC.iterator();
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for(Client c : this) str.append(c.toString()+"\n");
+
+        return str.toString();
+    }
 }
