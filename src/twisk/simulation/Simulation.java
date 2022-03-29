@@ -19,12 +19,18 @@ public class Simulation {
     private int nbClients;
 
     /**
+     * Le gestionnaire de clients
+     */
+    private GestionnaireClients gC;
+
+    /**
      * Initialise une nouvelle simulation.
      */
     public Simulation(){
         c = new KitC();
         c.creerEnvironnemment();
         nbClients = 2;
+        gC = new GestionnaireClients(nbClients);
     }
 
     /**
@@ -69,12 +75,12 @@ public class Simulation {
         }
 
         //Commencement de la simulation et initialisation du tableau contenant les ID des clients
-        int[] tabProc = start_simulation(nbEtapes,nbGuichets,nbClients,Guichet);
+        gC.setClients(start_simulation(nbEtapes,nbGuichets,nbClients,Guichet));
 
 
         //Affichage des clients
         System.out.print("les clients : ");
-        for(int i =0;i!=tabProc.length;i++) System.out.print(tabProc[i]+" ");
+        for(int i =0;i!=gC.size();i++) System.out.print(gC.getClient(i).numeroClient+" ");
         System.out.println();
 
         //Création et affectation du tableau de la position des clients
