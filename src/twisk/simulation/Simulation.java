@@ -30,7 +30,7 @@ public class Simulation {
         c = new KitC();
         c.creerEnvironnemment();
         nbClients = 2;
-        gC = new GestionnaireClients(nbClients);
+        gC = new GestionnaireClients();
     }
 
     /**
@@ -86,8 +86,10 @@ public class Simulation {
         //Création et affectation du tableau de la position des clients
         int[] cliPos = ou_sont_les_clients(nbEtapes,nbClients);
 
+
         //Affichage des étapes avec le nombre de clients et les numéros des clients
         int cmp = 0;
+        int posClient = 0;
         while(cmp != 2){
 
             //Délai d'affichage
@@ -99,18 +101,19 @@ public class Simulation {
 
             //Affichage de toutes les étapes (de toutes les activités)
             for(Etape e : monde){
+                posClient = e.getNum()*(nbClients+1);
                 if(e.getNum()!=1) {
-                    System.out.print("\nEtape "+e.getNum()+" ("+e.getNom()+") "+cliPos[e.getNum()*(nbClients + 1)]+" clients : ");
-                    for (int j = e.getNum()*(nbClients+1)+1 ;j < e.getNum()*(nbClients + 1)+cliPos[e.getNum()*(nbClients + 1)]+1 ;j++)
+                    System.out.print("\nEtape "+e.getNum()+" ("+e.getNom()+") "+cliPos[posClient]+" clients : ");
+                    for (int j = posClient+1 ;j < posClient+cliPos[posClient]+1 ;j++)
                         System.out.print(cliPos[j]+" ");
                 }
+                gC.allerA(cliPos[posClient],e,1);
             }
 
-
             //Affichage de la sortie
-            System.out.print("\nEtape 1 ("+new SasSortie().getNom()+") "+ cliPos[(nbClients+1)]+" clients : ");
-            for(int j =nbClients+2;j<(nbClients+1)+cliPos[nbClients+1]+1;j++) System.out.print(cliPos[j]+" ");
-
+            System.out.print("\nEtape 1 (Sortie) " + cliPos[(nbClients + 1)] + " clients : ");
+            for (int j = nbClients + 2; j < (nbClients + 1) + cliPos[nbClients + 1] + 1; j++)
+                System.out.print(cliPos[j] + " ");
 
             //Actualisation
             cliPos = ou_sont_les_clients(nbEtapes,nbClients);

@@ -30,9 +30,9 @@ public class GestionnaireClients implements Iterable<Client>{
     }
 
     public void allerA(int numeroClient, Etape etape, int rang){
-       for(Client c : gC){
+       for(Client c : this){
            if(c.numeroClient == numeroClient){
-               c.numeroClient = numeroClient;
+               c.allerA(etape,rang);
            }
        }
     }
