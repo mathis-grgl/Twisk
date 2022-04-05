@@ -25,6 +25,10 @@ public class Client {
         return etape;
     }
 
+    public int getNumeroClient() {
+        return numeroClient;
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();

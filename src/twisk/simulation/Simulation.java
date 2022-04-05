@@ -80,7 +80,7 @@ public class Simulation {
 
         //Affichage des clients
         System.out.print("les clients : ");
-        for(int i =0;i!=gC.size();i++) System.out.print(gC.getClient(i).numeroClient+" ");
+        for(int i =0;i!=gC.size();i++) System.out.print(gC.getClient(i).getNumeroClient()+" ");
         System.out.println();
 
         //Création et affectation du tableau de la position des clients
