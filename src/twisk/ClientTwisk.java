@@ -2,6 +2,7 @@ package twisk;
 
 import twisk.monde.*;
 import twisk.outils.ClassLoaderPerso;
+import twisk.simulation.Client;
 import twisk.simulation.Simulation;
 
 import java.lang.reflect.InvocationTargetException;
@@ -9,8 +10,7 @@ import java.lang.reflect.Method;
 
 public class ClientTwisk {
 
-    public void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
+    public ClientTwisk() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException{
         Monde monde = new Monde();
         Etape fpi = new Guichet("FilePiscine", 3);
         Etape pi = new ActiviteRestreinte("Piscine", 8, 2);
@@ -30,9 +30,18 @@ public class ClientTwisk {
         monde.aCommeSortie(test);
 
         ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
-        Class classeSimu = classloader.loadClass("/simulation/Simulation.java");
-        Object sim = classeSimu.getDeclaredConstructor().newInstance();
+        Class classeSimu = classloader.loadClass("twisk.simulation.Simulation");
+        Object sim = classeSimu.getConstructor().newInstance();
         Method simuler = classeSimu.getMethod("simuler",Monde.class);
+        simuler.invoke(sim,monde);
+    }
+
+    public static void main(String[] args)  {
+        try {
+            ClientTwisk c = new ClientTwisk();
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }
 
