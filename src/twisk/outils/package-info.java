@@ -1,4 +1,4 @@
 /**
- * Représente toutes les classes Outils.
+ * Représente les singletons utiles pour Twisk afin d'uniformiser le tout.
  */
-package twisk.outils;
+package outils;
