@@ -1,6 +1,8 @@
 package twisk.simulation;
 
 import twisk.monde.*;
+import twisk.outils.FabriqueIdentifiant;
+import twisk.outils.FabriqueNumero;
 import twisk.outils.KitC;
 
 /**
@@ -22,6 +24,7 @@ public class Simulation {
      * Le gestionnaire de clients
      */
     private GestionnaireClients gC;
+
 
     /**
      * Initialise une nouvelle simulation.
@@ -53,11 +56,12 @@ public class Simulation {
         System.out.println();
 
         //Partie concernant la génération des fichiers .c
+        String num = FabriqueNumero.getInstance().getIdentifiantSimulation();
         String code = monde.toC();
         c.creerFichier(code);
         c.compiler();
-        c.construireLaLibrairie();
-        System.load("/tmp/twisk/libTwisk.so");
+        c.construireLaLibrairie(num);
+        System.load("/tmp/twisk/libTwisk"+ num+".so");
 
         //Initialisation et déclarations des variables
         int nbEtapes = monde.nbEtapes();

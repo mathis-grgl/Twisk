@@ -50,6 +50,6 @@ class KitCTest {
     @Test
     void construireLaLibrairie1(){
         C = new KitC();
-        C.construireLaLibrairie();
+        C.construireLaLibrairie(String.valueOf(0));
     }
 }

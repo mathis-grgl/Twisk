@@ -7,22 +7,28 @@ public class FabriqueIdentifiant {
     private int noEtape;
     private static FabriqueIdentifiant instance;
 
-    private FabriqueIdentifiant(){}
+    private FabriqueIdentifiant() {
+        noEtape = 0;
+    }
 
     /**
      * Retourne l'instance de FabriqueIdentifiant.
+     *
      * @return L'instance FabriqueIdentifiant
      */
-    public static FabriqueIdentifiant getInstance(){
+    public static FabriqueIdentifiant getInstance() {
         if (instance == null) instance = new FabriqueIdentifiant();
-        return instance;}
+        return instance;
+    }
 
     /**
      * Retourne un identifiant unique pour une étape.
+     *
      * @return L'identifiant unique
      */
-    public String getIdentifiantEtape(){
+    public String getIdentifiantEtape() {
         int cmp = noEtape;
-        noEtape+=1;
-        return String.valueOf(cmp);}
+        noEtape += 1;
+        return String.valueOf(cmp);
+    }
 }
