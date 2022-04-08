@@ -9,7 +9,11 @@ public class FabriqueNumero {
     /**
      * Le numéro unique de chaque étape.
      */
-    private int cptEtape,noSim;
+    private int cptEtape;
+    /**
+     * Le numéro unique de chaque simulation.
+     */
+    private int noSim;
     /**
      *  Le numéro unique de chaque guichet (sémaphore).
      */
@@ -59,6 +63,12 @@ public class FabriqueNumero {
         return cmp;
     }
 
+    public String getIdentifiantSimulation(){
+        int cmp = noSim;
+        noSim +=1;
+        return String.valueOf(cmp);
+    }
+
     /**
      * Réinitialise les variables à l'état défaut.
      */
@@ -66,11 +76,5 @@ public class FabriqueNumero {
         cptEtape = 0;
         cptSemaphore = 1;
         noSim = 0;
-    }
-
-    public String getIdentifiantSimulation(){
-        int cmp = noSim;
-        noSim +=1;
-        return String.valueOf(cmp);
     }
 }

@@ -25,12 +25,13 @@ public class ClientTwisk {
         to.ajouterSuccesseur(bas);
         bas.ajouterSuccesseur(test);
 
-
         monde.aCommeEntree(fpi);
         monde.ajouter(fpi, pi, to, fto, bas,test);
         monde.aCommeSortie(test);
 
+
         FabriqueNumero.getInstance().reset();
+
 
         Monde monde2 = new Monde();
         Etape fpi2 = new Guichet("FilePiscine", 3);
@@ -45,10 +46,10 @@ public class ClientTwisk {
         to2.ajouterSuccesseur(bas2);
         bas2.ajouterSuccesseur(test2);
 
-
         monde2.aCommeEntree(fpi2);
         monde2.ajouter(fpi2, pi2, to2, fto2, bas2,test2);
         monde2.aCommeSortie(test2);
+
 
         ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
         Class classeSimu = classloader.loadClass("twisk.simulation.Simulation");

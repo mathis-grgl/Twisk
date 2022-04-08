@@ -38,6 +38,16 @@ public class ActiviteIG extends EtapeIG {
         this.ecartTemps = ecartTemps;
     }
 
+    @Override
+    public boolean estUneActivite() {
+        return true;
+    }
+
+    @Override
+    public boolean estUnGuichet() {
+        return false;
+    }
+
     /**
      * Retourne le nom modifié avec le temps et l'écart-temps de l'activité.
      * @return Le nom modifié

@@ -39,6 +39,8 @@ public class EcouteurDrag implements EventHandler<MouseEvent> {
         cc.putString(etape.getIdentifiant());
 
         db.setDragView(vueEtape.snapshot(new SnapshotParameters(),null));
+        db.setDragViewOffsetX(vueEtape.getScaleX()+ etape.getLargeur() /2);
+        db.setDragViewOffsetY(vueEtape.getScaleY()+ etape.getHauteur() /2);
         db.setContent(cc);
 
         mouseEvent.consume();

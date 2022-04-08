@@ -4,6 +4,7 @@ import twisk.Ecouteur.*;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import twisk.mondeIG.EtapeIG;
 import twisk.mondeIG.MondeIG;
 
 /**
@@ -11,8 +12,8 @@ import twisk.mondeIG.MondeIG;
  */
 public class VueMenu extends MenuBar implements Observateur {
     private MondeIG monde;
-    private Menu Fichier, Edition, Parametres;
-    private MenuItem quitter,supprimer, renommer,effacer,entree,sortie,delai;
+    private Menu Fichier, Edition, Monde, Parametres;
+    private MenuItem quitter,supprimer, renommer,effacer,entree,sortie,delai,nbjetons;
 
     /**
      * Instancie une nouvelle VueMenu.
@@ -24,6 +25,7 @@ public class VueMenu extends MenuBar implements Observateur {
 
         Fichier = new Menu("Fichier");
         Edition = new Menu("Edition");
+        Monde = new Menu("Monde");
         Parametres = new Menu("Paramètres");
 
         quitter = new MenuItem("Quitter");
@@ -33,6 +35,7 @@ public class VueMenu extends MenuBar implements Observateur {
         entree = new MenuItem("Définir comme entrée");
         sortie = new MenuItem("Définir comme sortie");
         delai = new MenuItem("Modifier les délais");
+        nbjetons = new MenuItem("Modifier le nombre de jetons");
 
         quitter.setOnAction(new EcouteurQuitter());
         supprimer.setOnAction(new EcouteurSupprimer(this.monde));
@@ -41,12 +44,14 @@ public class VueMenu extends MenuBar implements Observateur {
         entree.setOnAction(new EcouteurEntree(this.monde));
         sortie.setOnAction(new EcouteurSortie(this.monde));
         delai.setOnAction(new EcouteurDelai(this.monde));
+        nbjetons.setOnAction(new EcouteurJetons(this.monde));
 
 
         Fichier.getItems().add(quitter);
-        Edition.getItems().addAll(supprimer,effacer,entree,sortie);
+        Edition.getItems().addAll(supprimer,effacer);
+        Monde.getItems().addAll(entree,sortie);
 
-        this.getMenus().addAll(Fichier,Edition,Parametres);
+        this.getMenus().addAll(Fichier,Edition,Monde,Parametres);
     }
 
     @Override
@@ -55,12 +60,18 @@ public class VueMenu extends MenuBar implements Observateur {
         if(this.monde.getListeEtapesSelec().size()==1){
             if(!Edition.getItems().contains(renommer))
                 Edition.getItems().add(renommer);
-            if(!Parametres.getItems().contains(delai))
-                Parametres.getItems().add(delai);
+            if(monde.getListeEtapesSelec().get(0).estUnGuichet()) {
+                if (!Parametres.getItems().contains(nbjetons))
+                    Parametres.getItems().add(nbjetons);
+            } else {
+                if (!Parametres.getItems().contains(delai))
+                    Parametres.getItems().add(delai);
+            }
         }
         else {
             Edition.getItems().remove(renommer);
             Parametres.getItems().remove(delai);
+            Parametres.getItems().remove(nbjetons);
         }
     }
 }

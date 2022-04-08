@@ -33,19 +33,17 @@ public abstract class VueEtapeIG extends VBox implements Observateur{
 
         this.relocate(etape.getPosX(),etape.getPosY());
 
-        this.setStyle("-fx-border-radius: 7 7 7 7;-fx-border-color: #0059FF; -fx-background-color: #FAE8E0 ;-fx-background-insets: 0 0 -1 0, 0, 1, 2; -fx-background-radius: 7 7 7 7 ;");
         this.setAlignment(Pos.CENTER);
-        this.setPrefSize(TailleComposant.getInstance().getLargeur(),TailleComposant.getInstance().getHauteur());
 
-        if(this.etape.isEntree()){
-            ImageView entreeIMG = new ImageView(new Image("E.png"));
+        if(this.etape.estUneEntree()){
+            ImageView entreeIMG = new ImageView(new Image("images/E.png"));
             entreeIMG.setFitHeight(15);
             entreeIMG.setPreserveRatio(true);
             titre.setGraphic(entreeIMG);
         }
 
-        if(this.etape.isSortie()){
-            ImageView sortieIMG = new ImageView(new Image("S.png"));
+        if(this.etape.estUneSortie()){
+            ImageView sortieIMG = new ImageView(new Image("images/S.png"));
             sortieIMG.setFitHeight(15);
             sortieIMG.setPreserveRatio(true);
             titre.setGraphic(sortieIMG);
@@ -56,11 +54,5 @@ public abstract class VueEtapeIG extends VBox implements Observateur{
         this.setOnDragDetected(new EcouteurDrag(this,this.etape));
 
         this.getChildren().add(titre);
-
-        if(this.monde.getListeEtapesSelec() !=null) {
-            if (this.monde.getListeEtapesSelec().contains(this.etape)) {
-                this.setStyle("-fx-border-radius: 7 7 7 7;-fx-border-color: RED; -fx-background-color: #fffdd0 ;-fx-background-insets: 0 0 -1 0, 0, 1, 2; -fx-background-radius: 7 7 7 7 ;");
-            }
-        }
     }
 }

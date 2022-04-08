@@ -36,15 +36,23 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void ajouter(String type){
         String id = FabriqueIdentifiant.getInstance().getIdentifiantEtape();
+
         switch(type){
             case "Activite":
-                String str = "Activite"+id;
-                hmEtape.put(id,new ActiviteIG(str,id, TailleComposant.getInstance().getLargeur(),TailleComposant.getInstance().getHauteur()));
+                String idActivite = FabriqueIdentifiant.getInstance().getIdentifiantActivite();
+                String nomActivite = "Activite"+idActivite;
+                hmEtape.put(id,new ActiviteIG(nomActivite,id, TailleComposant.getInstance().getLargeurAC(),TailleComposant.getInstance().getHauteurAC()));
+                System.out.println("Activité ajoutée");
+                break;
+            case "Guichet":
+                String idSema = FabriqueIdentifiant.getInstance().getSemaphore();
+                String nomGuichet = "Guichet"+idSema;
+                hmEtape.put(id,new GuichetIG(nomGuichet,id,TailleComposant.getInstance().getLargeurGUI(),TailleComposant.getInstance().getHauteurGUI()));
+                System.out.println("Guichet ajouté");
                 break;
             default:
                 break;
         }
-        System.out.println("Activité ajoutée");
     }
 
     /**
@@ -150,6 +158,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public void resetListeSelec(){
         listeArcsSelec.clear();
         listeEtapesSelec.clear();
+        pSelectionne = null;
     }
 
     /**
@@ -188,7 +197,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void aCommeEntree() {
         for(EtapeIG e : listeEtapesSelec){
-            e.estUneEntree();
+            e.changementEtatEntree();
         }
     }
 
@@ -197,7 +206,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void aCommeSortie() {
         for(EtapeIG e : listeEtapesSelec){
-            e.estUneSortie();
+            e.changementEtatSortie();
         }
     }
 
@@ -217,5 +226,14 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public void modifEcartTemps(int ecartTemps) {
         ActiviteIG ac = (ActiviteIG) listeEtapesSelec.get(0);
         ac.setEcartTemps(ecartTemps);
+    }
+
+    /**
+     * Permet de modifier le nombre de jetons d'un guichet sélectionné en fonction du nombre en paramètre.
+     * @param nbjetons Le nouveau nombre de jetons
+     */
+    public void modifNbJetons(int nbjetons){
+        GuichetIG gui = (GuichetIG) listeEtapesSelec.get(0);
+        gui.setNbJetons(nbjetons);
     }
 }

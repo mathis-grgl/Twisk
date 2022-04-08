@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import twisk.mondeIG.MondeIG;
+import twisk.outils.TailleComposant;
 import twisk.vues.VueMondeIG;
 
 /**
@@ -27,7 +28,7 @@ public class EcouteurDropped implements EventHandler<DragEvent> {
     public void handle(DragEvent dragEvent) {
         Dragboard db = dragEvent.getDragboard();
         if (db.hasString()) {
-            monde.dragnDrop(db.getString(),(int) dragEvent.getSceneX(),(int) dragEvent.getSceneY());
+            monde.dragnDrop(db.getString(),(int) dragEvent.getX() - TailleComposant.getInstance().getLargeurAC() /2,(int) dragEvent.getY() - TailleComposant.getInstance().getHauteurAC() /2);
             dragEvent.setDropCompleted(true);
             this.monde.notifierObservateurs();
         }

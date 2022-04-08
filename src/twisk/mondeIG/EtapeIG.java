@@ -7,11 +7,11 @@ import java.util.Random;
 /**
  * Représente la classe EtapeIG.
  */
-public class EtapeIG implements Iterable<PointDeControleIG>{
+public abstract class EtapeIG implements Iterable<PointDeControleIG>{
     private String nom,identifiant;
     private int posX, posY, largeur, hauteur;
     private ArrayList<PointDeControleIG> PdcIG;
-    private boolean entree,sortie;
+    private boolean entree,sortie,guichet,activite;
 
     /**
      * Instancie une nouvelle EtapeIG.
@@ -33,6 +33,8 @@ public class EtapeIG implements Iterable<PointDeControleIG>{
         PdcIG = new ArrayList<>(4);
         entree = false;
         sortie = false;
+        guichet = false;
+        activite = false;
 
         this.PdcIG.add(new PointDeControleIG(posX+this.largeur/2,posY,""+1,this));
         this.PdcIG.add(new PointDeControleIG(posX+this.largeur/2,posY+this.hauteur,""+2,this));
@@ -59,7 +61,7 @@ public class EtapeIG implements Iterable<PointDeControleIG>{
     /**
      * Si l'étape était une entrée alors elle ne l'est plus et inversement.
      */
-    public void estUneEntree(){
+    public void changementEtatEntree(){
         if(entree) System.out.println(nom+" n'est plus définit comme une entree");
         else System.out.println(nom+" est définit comme une entree");
         entree = !entree;
@@ -68,17 +70,29 @@ public class EtapeIG implements Iterable<PointDeControleIG>{
     /**
      * Si l'étape était une sortie alors elle ne l'est plus et inversement.
      */
-    public void estUneSortie(){
+    public void changementEtatSortie(){
         if(sortie) System.out.println(nom+" n'est plus définit comme une sortie");
         else System.out.println(nom+" est définit comme une sortie");
         sortie = !sortie;
     }
 
     /**
+     * Retourne si une étape est une activité.
+     * @return le booléen.
+     */
+    public abstract boolean estUneActivite();
+
+    /**
+     * Retourne si une étape est un guichet.
+     * @return le booléen.
+     */
+    public abstract boolean estUnGuichet();
+
+    /**
      * Retourne la valeur d'entrée (si l'étape est une entrée ou non).
      * @return Le booléen
      */
-    public boolean isEntree() {
+    public boolean estUneEntree() {
         return entree;
     }
 
@@ -86,7 +100,7 @@ public class EtapeIG implements Iterable<PointDeControleIG>{
      * Retourne la valeur de sortie (si l'étape est une sortie ou non).
      * @return Le booléen
      */
-    public boolean isSortie() {
+    public boolean estUneSortie() {
         return sortie;
     }
 
@@ -157,7 +171,7 @@ public class EtapeIG implements Iterable<PointDeControleIG>{
      */
     public void modifPosition(int posX, int posY) {
         this.posX = posX;
-        this.posY = posY-hauteur/2-5;
+        this.posY = posY;
         PdcIG.get(0).setPos(this.posX+this.largeur/2,this.posY);
         PdcIG.get(1).setPos(this.posX+this.largeur/2,this.posY+this.hauteur);
         PdcIG.get(2).setPos(this.posX,this.posY+this.hauteur/2);

@@ -14,7 +14,7 @@ class PointDeControleIGTest {
 
     @BeforeEach
     void setUp() {
-        e = new EtapeIG("Activite","0",500,250);
+        e = new ActiviteIG("Activite","0",500,250);
         liste = new ArrayList<>();
         for (PointDeControleIG p : e){
             liste.add(p);

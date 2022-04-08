@@ -1,9 +1,11 @@
 package twisk.vues;
 
-import twisk.Ecouteur.EcouteurAjouter;
+import javafx.geometry.Pos;
+import twisk.Ecouteur.EcouteurAjouterActivite;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.TilePane;
+import twisk.Ecouteur.EcouteurAjouterGuichet;
 import twisk.mondeIG.MondeIG;
 
 /**
@@ -19,11 +21,23 @@ public class VueOutils extends TilePane implements Observateur {
     public VueOutils(MondeIG monde){
         super();
         this.monde = monde;
-        Button ajouterB = new Button("Ajouter");
-        ajouterB.setPrefSize(80,30);
-        ajouterB.setOnAction(new EcouteurAjouter(this.monde));
-        ajouterB.setTooltip(new Tooltip("Bouton qui permet d'ajouter une activité"));
-        this.getChildren().add(ajouterB);
+
+        Button ajouterActivite = new Button("Ajouter activité");
+        Button ajouterGuichet = new Button("Ajouter guichet");
+
+        //Bouton activite
+        ajouterActivite.setPrefSize(150,30);
+        ajouterActivite.setOnAction(new EcouteurAjouterActivite(this.monde));
+        ajouterActivite.setTooltip(new Tooltip("Bouton qui permet d'ajouter une activité"));
+        ajouterActivite.setAlignment(Pos.BOTTOM_LEFT);
+
+        //Bouton Guichet
+        ajouterGuichet.setPrefSize(150,30);
+        ajouterGuichet.setOnAction(new EcouteurAjouterGuichet(this.monde));
+        ajouterGuichet.setTooltip(new Tooltip("Bouton qui permet d'ajouter un guichet"));
+        ajouterGuichet.setAlignment(Pos.BOTTOM_RIGHT);
+
+        this.getChildren().addAll(ajouterActivite,ajouterGuichet);
     }
 
     @Override

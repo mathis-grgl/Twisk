@@ -5,10 +5,14 @@ package twisk.outils;
  */
 public class FabriqueIdentifiant {
     private int noEtape;
+    private int noActivite;
+    private int noSema;
     private static FabriqueIdentifiant instance;
 
     private FabriqueIdentifiant() {
         noEtape = 0;
+        noSema = 0;
+        noActivite = 0;
     }
 
     /**
@@ -29,6 +33,18 @@ public class FabriqueIdentifiant {
     public String getIdentifiantEtape() {
         int cmp = noEtape;
         noEtape += 1;
+        return String.valueOf(cmp);
+    }
+
+    public String getSemaphore() {
+        int cmp = noSema;
+        noSema += 1;
+        return String.valueOf(cmp);
+    }
+
+    public String getIdentifiantActivite() {
+        int cmp = noActivite;
+        noActivite += 1;
         return String.valueOf(cmp);
     }
 }

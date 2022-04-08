@@ -12,7 +12,7 @@ class ArcIGTest {
 
     @BeforeEach
     void setUp() {
-        e = new EtapeIG("Activite","0",100,200);
+        e = new ActiviteIG("Activite","0",100,200);
         p1 = new PointDeControleIG(200,300,"1",e);
         p2 = new PointDeControleIG(100,150,"1",e);
         a = new ArcIG(p1,p2);

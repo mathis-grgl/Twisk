@@ -29,13 +29,13 @@ class MondeIGTest {
     
     @Test
     void ajouter1() {
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
         assertEquals(monde.getSizeArc(),1,"Bug dans ajouter");
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
         assertEquals(monde.getSizeArc(),2,"Bug dans ajouter");
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
         assertEquals(monde.getSizeArc(),3,"Bug dans ajouter");
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
         assertEquals(monde.getSizeArc(),4,"Bug dans ajouter");
     }
 
@@ -57,10 +57,10 @@ class MondeIGTest {
     @Test
     void iteratorArc(){
         int cpt=0;
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
-        monde.ajouter(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
+        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
         Iterator<ArcIG> ite = monde.iteratorArc();
         while(ite.hasNext()){
             cpt++;
@@ -71,7 +71,7 @@ class MondeIGTest {
 
     @Test
     void selectDeselect(){
-        ArcIG arc = new ArcIG(new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new EtapeIG("DD","DD",100,100)));
+        ArcIG arc = new ArcIG(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
         monde.selectDeselect(arc);
         assertEquals(1,monde.getListeArcsSelec().size(),"Bug dans selectDeselect");
         monde.selectDeselect(arc);
@@ -92,9 +92,9 @@ class MondeIGTest {
 
     @Test
     void resetListeSelec(){
-        monde.selectDeselect(new EtapeIG("DD","DD",100,100));
-        monde.selectDeselect(new EtapeIG("DD","DD",100,100));
-        monde.selectDeselect(new EtapeIG("DD","DD",100,100));
+        monde.selectDeselect(new ActiviteIG("DD","DD",100,100));
+        monde.selectDeselect(new ActiviteIG("DD","DD",100,100));
+        monde.selectDeselect(new ActiviteIG("DD","DD",100,100));
         assertEquals(3,monde.getListeEtapesSelec().size(),"Bug dans resetListeSelec()");
         monde.resetListeSelec();
         assertEquals(0,monde.getListeEtapesSelec().size(),"Bug dans resetListeSelec()");

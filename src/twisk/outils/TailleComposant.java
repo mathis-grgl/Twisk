@@ -4,12 +4,14 @@ package twisk.outils;
  * Représente le singleton TailleComposant.
  */
 public class TailleComposant {
-    private int largeur,hauteur;
+    private int largeurAC,largeurGUI,hauteurGUI,hauteurAC;
     private static TailleComposant instance;
 
     private TailleComposant(){
-        hauteur = 80;
-        largeur = (int) (hauteur*2.5);
+        hauteurAC = 80;
+        largeurAC = (int) (hauteurAC*2.5);
+        hauteurGUI = 50;
+        largeurGUI = 200;
     }
 
     /**
@@ -24,15 +26,23 @@ public class TailleComposant {
      * Retourne la largeur d'un composant.
      * @return La largeur
      */
-    public int getLargeur(){
-        return largeur;
+    public int getLargeurAC(){
+        return largeurAC;
     }
 
     /**
      * Retourne la hauteur d'un composant.
      * @return La hauteur
      */
-    public int getHauteur(){
-        return hauteur;
+    public int getHauteurAC(){
+        return hauteurAC;
+    }
+
+    public int getLargeurGUI() {
+        return largeurGUI;
+    }
+
+    public int getHauteurGUI() {
+        return hauteurGUI;
     }
 }

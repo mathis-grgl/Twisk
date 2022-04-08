@@ -3,8 +3,6 @@ package twisk.mondeIG;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class EtapeIGTest {
@@ -13,50 +11,50 @@ class EtapeIGTest {
 
     @BeforeEach
     void setUp() {
-        e = new EtapeIG("Etap","0",100,50);
-        e1 = new EtapeIG("Etap","2",100,50);
-        e2 = new EtapeIG("Etap","3",100,50);
+        e = new ActiviteIG("Etap","0",100,50);
+        e1 = new ActiviteIG("Etap","2",100,50);
+        e2 = new ActiviteIG("Etap","3",100,50);
         ac = new ActiviteIG("Ac","1",100,50);
     }
 
     @Test
     void estUneEntree() {
-        e.estUneEntree();
-        e1.estUneEntree();
-        e2.estUneEntree();
-        ac.estUneEntree();
-        assertTrue(e.isEntree(),"Bug dans estUneEntree");
-        assertTrue(e1.isEntree(),"Bug dans estUneEntree");
-        assertTrue(e2.isEntree(),"Bug dans estUneEntree");
-        assertTrue(ac.isEntree(),"Bug dans estUneEntree");
-        e.estUneEntree();
-        e1.estUneEntree();
-        e2.estUneEntree();
-        ac.estUneEntree();
-        assertFalse(e.isEntree(),"Bug dans estUneEntree");
-        assertFalse(e1.isEntree(),"Bug dans estUneEntree");
-        assertFalse(e2.isEntree(),"Bug dans estUneEntree");
-        assertFalse(ac.isEntree(),"Bug dans estUneEntree");
+        e.changementEtatEntree();
+        e1.changementEtatEntree();
+        e2.changementEtatEntree();
+        ac.changementEtatEntree();
+        assertTrue(e.estUneEntree(),"Bug dans estUneEntree");
+        assertTrue(e1.estUneEntree(),"Bug dans estUneEntree");
+        assertTrue(e2.estUneEntree(),"Bug dans estUneEntree");
+        assertTrue(ac.estUneEntree(),"Bug dans estUneEntree");
+        e.changementEtatEntree();
+        e1.changementEtatEntree();
+        e2.changementEtatEntree();
+        ac.changementEtatEntree();
+        assertFalse(e.estUneEntree(),"Bug dans estUneEntree");
+        assertFalse(e1.estUneEntree(),"Bug dans estUneEntree");
+        assertFalse(e2.estUneEntree(),"Bug dans estUneEntree");
+        assertFalse(ac.estUneEntree(),"Bug dans estUneEntree");
     }
 
     @Test
     void estUneSortie() {
-        e.estUneSortie();
-        e1.estUneSortie();
-        e2.estUneSortie();
-        ac.estUneSortie();
-        assertTrue(e.isSortie(),"Bug dans estUneSortie");
-        assertTrue(e1.isSortie(),"Bug dans estUneSortie");
-        assertTrue(e2.isSortie(),"Bug dans estUneSortie");
-        assertTrue(ac.isSortie(),"Bug dans estUneSortie");
-        e.estUneSortie();
-        e1.estUneSortie();
-        e2.estUneSortie();
-        ac.estUneSortie();
-        assertFalse(e.isSortie(),"Bug dans estUneSortie");
-        assertFalse(e1.isSortie(),"Bug dans estUneSortie");
-        assertFalse(e2.isSortie(),"Bug dans estUneSortie");
-        assertFalse(ac.isSortie(),"Bug dans estUneSortie");
+        e.changementEtatSortie();
+        e1.changementEtatSortie();
+        e2.changementEtatSortie();
+        ac.changementEtatSortie();
+        assertTrue(e.estUneSortie(),"Bug dans estUneSortie");
+        assertTrue(e1.estUneSortie(),"Bug dans estUneSortie");
+        assertTrue(e2.estUneSortie(),"Bug dans estUneSortie");
+        assertTrue(ac.estUneSortie(),"Bug dans estUneSortie");
+        e.changementEtatSortie();
+        e1.changementEtatSortie();
+        e2.changementEtatSortie();
+        ac.changementEtatSortie();
+        assertFalse(e.estUneSortie(),"Bug dans estUneSortie");
+        assertFalse(e1.estUneSortie(),"Bug dans estUneSortie");
+        assertFalse(e2.estUneSortie(),"Bug dans estUneSortie");
+        assertFalse(ac.estUneSortie(),"Bug dans estUneSortie");
     }
 
     @Test
