@@ -1,5 +1,6 @@
 package twisk.mondeIG;
 
+import javafx.concurrent.Task;
 import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.TailleComposant;
 import twisk.vues.SujetObserve;
@@ -236,4 +237,5 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         GuichetIG gui = (GuichetIG) listeEtapesSelec.get(0);
         gui.setNbJetons(nbjetons);
     }
+
 }

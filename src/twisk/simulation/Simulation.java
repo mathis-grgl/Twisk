@@ -156,6 +156,8 @@ public class Simulation extends SujetObserve {
             this.notifierObservateurs();
         }
 
+
+
         //Retour à la ligne
         System.out.println();
 
