@@ -5,13 +5,14 @@ import twisk.mondeIG.MondeIG;
 import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.FabriqueNumero;
 import twisk.outils.KitC;
+import twisk.vues.SujetObserve;
 
 /**
  * Représente la classe Simulation, qui simule le monde.
  * @author Mathis GEORGEL
  * @version 1.0
  */
-public class Simulation {
+public class Simulation extends SujetObserve {
     /**
      * Le KitC nécessaire au bon fonctionnement de la compilation.
      */
@@ -27,11 +28,6 @@ public class Simulation {
     private GestionnaireClients gC;
 
     /**
-     * L'interface du monde
-     */
-    private MondeIG mondeIG;
-
-    /**
      * Initialise une nouvelle simulation.
      */
     public Simulation(){
@@ -39,7 +35,6 @@ public class Simulation {
         c.creerEnvironnemment();
         nbClients = 2;
         gC = new GestionnaireClients();
-        mondeIG = new MondeIG();
     }
 
     /**
@@ -158,7 +153,7 @@ public class Simulation {
             if(cliPos[nbClients+1]==nbClients) cmp += 1;
 
             //Actualise l'affichage
-            mondeIG.notifierObservateurs();
+            this.notifierObservateurs();
         }
 
         //Retour à la ligne
