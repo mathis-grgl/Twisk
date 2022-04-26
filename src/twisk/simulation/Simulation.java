@@ -1,6 +1,7 @@
 package twisk.simulation;
 
 import twisk.monde.*;
+import twisk.mondeIG.MondeIG;
 import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.FabriqueNumero;
 import twisk.outils.KitC;
@@ -25,6 +26,10 @@ public class Simulation {
      */
     private GestionnaireClients gC;
 
+    /**
+     * L'interface du monde
+     */
+    private MondeIG mondeIG;
 
     /**
      * Initialise une nouvelle simulation.
@@ -34,6 +39,7 @@ public class Simulation {
         c.creerEnvironnemment();
         nbClients = 2;
         gC = new GestionnaireClients();
+        mondeIG = new MondeIG();
     }
 
     /**
@@ -63,10 +69,16 @@ public class Simulation {
         c.construireLaLibrairie(num);
         System.load("/tmp/twisk/libTwisk"+ num+".so");
 
+
+
+
         //Initialisation et déclarations des variables
         int nbEtapes = monde.nbEtapes();
         int nbGuichets = monde.nbGuichets();
         int[] Guichet = new int[nbGuichets];
+
+
+
 
         //Assignation des jetons au(x) différent(s) guichet(s)
         int cmpGuichet = 0;
@@ -82,13 +94,20 @@ public class Simulation {
         gC.setClients(start_simulation(nbEtapes,nbGuichets,nbClients,Guichet));
 
 
+
         //Affichage des clients
         System.out.print("les clients : ");
         for(int i =0;i!=gC.size();i++) System.out.print(gC.getClient(i).getNumeroClient()+" ");
         System.out.println();
 
+
+
+
         //Création et affectation du tableau de la position des clients
         int[] cliPos = ou_sont_les_clients(nbEtapes,nbClients);
+
+
+
 
 
         //Affichage des étapes avec le nombre de clients et les numéros des clients
@@ -128,6 +147,8 @@ public class Simulation {
             for (int j = nbClients + 2; j < (nbClients + 1) + cliPos[nbClients + 1] + 1; j++)
                 System.out.print(cliPos[j] + " ");
 
+
+
             //Actualisation
             cliPos = ou_sont_les_clients(nbEtapes,nbClients);
 
@@ -135,6 +156,9 @@ public class Simulation {
 
             //Teste si tous les clients sont arrivés à la sortie (et permet d'afficher correctement la dernière sortie)
             if(cliPos[nbClients+1]==nbClients) cmp += 1;
+
+            //Actualise l'affichage
+            mondeIG.notifierObservateurs();
         }
 
         //Retour à la ligne
