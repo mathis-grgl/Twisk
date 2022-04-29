@@ -40,6 +40,11 @@ public class GuichetIG extends EtapeIG{
         return false;
     }
 
+    @Override
+    public boolean estUneActiviteRestreinte() {
+        return false;
+    }
+
     /**
      * Retourne le nom modifié avec le nombre de jetons du guichet.
      * @return Le nom modifié

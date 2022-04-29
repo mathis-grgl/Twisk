@@ -79,6 +79,7 @@ public class ActiviteIG extends EtapeIG {
      * retourne si c est une activite restrainte ou pas
      * @return boolean
      */
+    @Override
     public boolean estUneActiviteRestreinte(){
         return activiteRestreinte;
     }

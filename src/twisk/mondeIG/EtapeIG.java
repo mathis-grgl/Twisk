@@ -79,15 +79,19 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
 
     /**
      * Retourne si une étape est une activité.
-     * @return le booléen.
+     * @return false.
      */
-    public abstract boolean estUneActivite();
+    public boolean estUneActivite(){
+        return false;
+    }
 
     /**
      * Retourne si une étape est un guichet.
-     * @return le booléen.
+     * @return false.
      */
-    public abstract boolean estUnGuichet();
+    public boolean estUnGuichet(){
+        return false;
+    }
 
     /**
      * Retourne la valeur d'entrée (si l'étape est une entrée ou non).
@@ -195,8 +199,8 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
         return successeur;
     }
     /**
-     * retourne la liste des successeur
-     * @return les successeur
+     * Retourne si une etape est une activite restrainte
+     * @return false
      */
     public boolean estUneActiviteRestreinte(){
         return false;
