@@ -8,6 +8,7 @@ public class ActiviteIG extends EtapeIG {
      * Représente les délais pour les activités.
      */
     private int temps,ecartTemps;
+    private  boolean activiteRestreinte;
 
     /**
      * Instancie une nouvelle ActiviteIG.
@@ -20,6 +21,7 @@ public class ActiviteIG extends EtapeIG {
         super(nom,idf,larg,haut);
         temps = 4;
         ecartTemps = 2;
+        activiteRestreinte = false;
     }
 
     /**
@@ -71,5 +73,21 @@ public class ActiviteIG extends EtapeIG {
      */
     public int getEcartTemps() {
         return ecartTemps;
+    }
+
+    /**
+     * retourne si c est une activite restrainte ou pas
+     * @return boolean
+     */
+    public boolean estUneActiviteRestreinte(){
+        return activiteRestreinte;
+    }
+
+
+    /**
+     * setter sur activiterRestrainte.
+     */
+    public void setEstUnActiviteRestreinte(){
+        activiteRestreinte = !activiteRestreinte;
     }
 }

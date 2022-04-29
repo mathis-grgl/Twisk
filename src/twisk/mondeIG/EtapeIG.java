@@ -12,6 +12,7 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
     private int posX, posY, largeur, hauteur;
     private ArrayList<PointDeControleIG> PdcIG;
     private boolean entree,sortie,guichet,activite;
+    private ArrayList<EtapeIG> successeur = new ArrayList<>();
 
     /**
      * Instancie une nouvelle EtapeIG.
@@ -176,5 +177,28 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
         PdcIG.get(1).setPos(this.posX+this.largeur/2,this.posY+this.hauteur);
         PdcIG.get(2).setPos(this.posX,this.posY+this.hauteur/2);
         PdcIG.get(3).setPos(this.posX+this.largeur,this.posY+this.hauteur/2);
+    }
+
+    /**
+     * ajoute un successeur
+     * @param e etape a ajouter comme successeur
+     */
+    public void ajouterSuccesseur(EtapeIG e){
+        successeur.add(e);
+    }
+
+    /**
+     * retourne la liste des successeur
+     * @return les successeur
+     */
+    public ArrayList<EtapeIG> getSuccesseur() {
+        return successeur;
+    }
+    /**
+     * retourne la liste des successeur
+     * @return les successeur
+     */
+    public boolean estUneActiviteRestreinte(){
+        return false;
     }
 }

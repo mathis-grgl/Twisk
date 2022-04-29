@@ -52,13 +52,13 @@ public class ClientTwisk {
 
 
         ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
-        Class classeSimu = classloader.loadClass("twisk.simulation.Simulation");
+        Class<?> classeSimu = classloader.loadClass("twisk.simulation.Simulation");
         Object sim = classeSimu.getConstructor().newInstance();
         Method simuler = classeSimu.getMethod("simuler",Monde.class);
         simuler.invoke(sim,monde);
 
         ClassLoaderPerso classloader2 = new ClassLoaderPerso(this.getClass().getClassLoader());
-        Class classeSimu2 = classloader2.loadClass("twisk.simulation.Simulation");
+        Class<?> classeSimu2 = classloader2.loadClass("twisk.simulation.Simulation");
         Object sim2 = classeSimu2.getConstructor().newInstance();
         Method simuler2 = classeSimu2.getMethod("simuler",Monde.class);
         simuler2.invoke(sim2,monde2);

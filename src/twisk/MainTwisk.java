@@ -17,7 +17,9 @@ public class MainTwisk extends Application {
         root.setCenter(new VueMondeIG(monde));
         root.setBottom(new VueOutils(monde));
         root.setTop(new VueMenu(monde));
-        stage.setScene(new Scene(root,1000,700));
+        Scene scene = new Scene(root,1000,700);
+        scene.getRoot().setStyle("-fx-font-family: 'serif'");
+        stage.setScene(scene);
         stage.show();
     }
 
