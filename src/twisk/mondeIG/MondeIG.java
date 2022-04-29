@@ -1,9 +1,14 @@
 package twisk.mondeIG;
 
+import twisk.ClientTwisk;
+import twisk.exceptions.MondeException;
+import twisk.monde.*;
+import twisk.outils.ClassLoaderPerso;
 import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.TailleComposant;
 import twisk.vues.SujetObserve;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,22 +17,40 @@ import java.util.Iterator;
  * Représente la classe MondeIG (qui extends SujetObserve).
  */
 public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
-    private HashMap<String,EtapeIG> hmEtape;
-    private ArrayList<ArcIG> listeArc, listeArcsSelec;
-    private PointDeControleIG pSelectionne;
-    private ArrayList<EtapeIG> listeEtapesSelec;
-
+    private HashMap<String,EtapeIG> hmEtape = new HashMap<>();
+    private ArrayList<ArcIG> listeArc, listeArcsSelec = new ArrayList<>();;
+    private PointDeControleIG pSelectionne = null;
+    private ArrayList<EtapeIG> listeEtapesSelec = new ArrayList<>();;
+    private ArrayList<EtapeIG> etapesEntre = new ArrayList<>();
+    private ArrayList<EtapeIG> etapesSortie = new ArrayList<>();
+    private CorrespondanceEtapes correspondance;
 
     /**
-     * Instancie un nouvel MondeIG.
+     * Creation du monde
+     * @return monde
      */
-    public MondeIG(){
-        hmEtape = new HashMap<>();
-        ajouter("Activite");
-        listeArc = new ArrayList<>();
-        pSelectionne = null;
-        listeEtapesSelec = new ArrayList<>();
-        listeArcsSelec = new ArrayList<>();
+    private Monde creerMonde(){
+        Monde monde = new Monde();
+        correspondance = new CorrespondanceEtapes();
+        for (EtapeIG etapeIG : hmEtape.values()){
+            if(etapeIG.estUneActivite()){
+                if (etapeIG.estUneActiviteRestreinte()){
+                    Etape activiteRestreinte = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
+                    monde.ajouter(activiteRestreinte);
+                    correspondance.ajouter(etapeIG,activiteRestreinte);
+                }else {
+                    Etape activite = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
+                    monde.ajouter(activite);
+                    correspondance.ajouter(etapeIG, activite);
+                }
+            }else {
+                Etape guichet = new Guichet(((GuichetIG) etapeIG).getNom());
+                monde.ajouter(guichet);
+                correspondance.ajouter(etapeIG,guichet);
+            }
+
+        }
+        return monde;
     }
 
     /**
@@ -53,6 +76,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
             default:
                 break;
         }
+        notifierObservateurs();
     }
 
     /**
@@ -62,6 +86,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void ajouter(PointDeControleIG pt1, PointDeControleIG pt2){
         listeArc.add(new ArcIG(pt1, pt2));
+        pt1.getEtape().ajouterSuccesseur(pt2.getEtape());
         System.out.println("Nouvelle arc crée entre l'étape "+listeArc.get(listeArc.size() - 1).getP1().getEtape().getNom()+" et l'étape "+listeArc.get(listeArc.size() - 1).getP2().getEtape().getNom());
     }
 
@@ -198,6 +223,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public void aCommeEntree() {
         for(EtapeIG e : listeEtapesSelec){
             e.changementEtatEntree();
+            etapesEntre.add(e);
         }
     }
 
@@ -207,6 +233,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public void aCommeSortie() {
         for(EtapeIG e : listeEtapesSelec){
             e.changementEtatSortie();
+            etapesSortie.add(e);
         }
     }
 
@@ -236,4 +263,59 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         GuichetIG gui = (GuichetIG) listeEtapesSelec.get(0);
         gui.setNbJetons(nbjetons);
     }
+
+    /**
+     * Permet la simulation du monde apres l'affichage graphique
+     */
+    public void simuler() throws MondeException {
+        verifierMondeIG();
+        Monde m = creerMonde();
+        try{
+            ClassLoaderPerso classLoader = new ClassLoaderPerso(ClientTwisk.class.getClassLoader());
+            Class<?> classSimu = classLoader.loadClass("twisk.simulation.Simulation");
+            Object sim = classSimu.getConstructor().newInstance();
+            Method simuler = classSimu.getDeclaredMethod("simuler", twisk.monde.Monde.class);
+            Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
+            mAjouterObs.invoke(sim,this);
+            simuler.invoke(sim,m);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Verifie si MondeIG est totalement correct
+     */
+    private void verifierMondeIG() throws MondeException{
+        //le monde doit contenir au moin une entre, une sortie et une etape
+        if (etapesSortie.size() < 1 || etapesEntre.size() <1 || hmEtape.size() < 3){
+            throw new MondeException();
+        }
+        for (EtapeIG etape : hmEtape.values()){
+            for (EtapeIG succ : etape.getSuccesseur() ){
+                if(succ.estUneActivite() && etape.estUnGuichet()){
+                    ((ActiviteIG) succ).setEstUnActiviteRestreinte();
+                }
+                //une activiter ne peut pas etre suivie par une activite restrainte
+                if((etape.estUneActivite() || etape.estUneActiviteRestreinte()) && succ.estUneActiviteRestreinte()) {
+                    throw new MondeException();
+                }
+                // Vérification qu'un guichet n'est pas suivis d'un guichet@
+                if(succ.estUnGuichet() && etape.estUnGuichet()){
+                    throw new MondeException();
+                }
+                // Tout les activités ont au moins un successeurs !
+                if(etape.getSuccesseur().size() < 1){
+                    throw new MondeException();
+                }
+
+                if (etape.estUnGuichet() && etape.getSuccesseur().size() > 1) {
+                    throw new MondeException();
+                }
+
+            }
+        }
+    }
+
 }
