@@ -2,7 +2,7 @@ package twisk.mondeIG;
 
 import twisk.ClientTwisk;
 import twisk.exceptions.MondeException;
-import twisk.monde.Monde;
+import twisk.monde.*;
 import twisk.outils.ClassLoaderPerso;
 import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.TailleComposant;
@@ -17,27 +17,41 @@ import java.util.Iterator;
  * Représente la classe MondeIG (qui extends SujetObserve).
  */
 public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
-    private HashMap<String,EtapeIG> hmEtape;
-    private ArrayList<ArcIG> listeArc, listeArcsSelec;
-    private PointDeControleIG pSelectionne;
-    private ArrayList<EtapeIG> listeEtapesSelec;
+    private HashMap<String,EtapeIG> hmEtape = new HashMap<>();
+    private ArrayList<ArcIG> listeArc, listeArcsSelec = new ArrayList<>();;
+    private PointDeControleIG pSelectionne = null;
+    private ArrayList<EtapeIG> listeEtapesSelec = new ArrayList<>();;
     private ArrayList<EtapeIG> etapesEntre = new ArrayList<>();
     private ArrayList<EtapeIG> etapesSortie = new ArrayList<>();
-
+    private CorrespondanceEtapes correspondance;
 
     /**
-     * Instancie un nouvel MondeIG.
+     * Creation du monde
+     * @return monde
      */
-    public MondeIG(){
-        hmEtape = new HashMap<>();
-        ajouter("Activite");
-        listeArc = new ArrayList<>();
-        pSelectionne = null;
-        listeEtapesSelec = new ArrayList<>();
-        listeArcsSelec = new ArrayList<>();
+    private Monde creerMonde(){
+        Monde monde = new Monde();
+        correspondance = new CorrespondanceEtapes();
+        for (EtapeIG etapeIG : hmEtape.values()){
+            if(etapeIG.estUneActivite()){
+                if (etapeIG.estUneActiviteRestreinte()){
+                    Etape activiteRestreinte = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
+                    monde.ajouter(activiteRestreinte);
+                    correspondance.ajouter(etapeIG,activiteRestreinte);
+                }else {
+                    Etape activite = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
+                    monde.ajouter(activite);
+                    correspondance.ajouter(etapeIG, activite);
+                }
+            }else {
+                Etape guichet = new Guichet(((GuichetIG) etapeIG).getNom());
+                monde.ajouter(guichet);
+                correspondance.ajouter(etapeIG,guichet);
+            }
+
+        }
+        return monde;
     }
-
-
 
     /**
      * Ajouter une nouvelle étape au monde.
