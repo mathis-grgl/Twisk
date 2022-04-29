@@ -76,6 +76,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
             default:
                 break;
         }
+        notifierObservateurs();
     }
 
     /**
@@ -263,7 +264,25 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         gui.setNbJetons(nbjetons);
     }
 
+    /**
+     * Permet la simulation du monde apres l'affichage graphique
+     */
+    public void simuler() throws MondeException {
+        verifierMondeIG();
+        Monde m = creerMonde();
+        try{
+            ClassLoaderPerso classLoader = new ClassLoaderPerso(ClientTwisk.class.getClassLoader());
+            Class<?> classSimu = classLoader.loadClass("twisk.simulation.Simulation");
+            Object sim = classSimu.getConstructor().newInstance();
+            Method simuler = classSimu.getDeclaredMethod("simuler", twisk.monde.Monde.class);
+            Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
+            mAjouterObs.invoke(sim,this);
+            simuler.invoke(sim,m);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Verifie si MondeIG est totalement correct

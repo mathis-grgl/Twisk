@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.TilePane;
 import twisk.Ecouteur.EcouteurAjouterGuichet;
+import twisk.exceptions.MondeException;
 import twisk.mondeIG.MondeIG;
 
 /**
@@ -24,6 +25,7 @@ public class VueOutils extends TilePane implements Observateur {
 
         Button ajouterActivite = new Button("Ajouter activité");
         Button ajouterGuichet = new Button("Ajouter guichet");
+        Button simuler = new Button("simuler");
 
         //Bouton activite
         ajouterActivite.setPrefSize(150,30);
@@ -37,7 +39,19 @@ public class VueOutils extends TilePane implements Observateur {
         ajouterGuichet.setTooltip(new Tooltip("Bouton qui permet d'ajouter un guichet"));
         ajouterGuichet.setAlignment(Pos.BOTTOM_RIGHT);
 
-        this.getChildren().addAll(ajouterActivite,ajouterGuichet);
+        //Bouton Simulation
+        simuler.setPrefSize(150,30);
+        simuler.setTooltip(new Tooltip("Boutton qui permet de simuler"));
+        simuler.setOnAction(actionEvent -> {
+            try{
+                monde.simuler();
+            } catch (MondeException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        this.getChildren().addAll(ajouterActivite,ajouterGuichet,simuler);
     }
 
     @Override
