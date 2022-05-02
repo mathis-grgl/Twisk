@@ -17,13 +17,26 @@ import java.util.Iterator;
  * Représente la classe MondeIG (qui extends SujetObserve).
  */
 public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
-    private HashMap<String,EtapeIG> hmEtape = new HashMap<>();
-    private ArrayList<ArcIG> listeArc, listeArcsSelec = new ArrayList<>();;
+    private HashMap<String,EtapeIG> hmEtape ;
+    private ArrayList<ArcIG> listeArc, listeArcsSelec;
     private PointDeControleIG pSelectionne = null;
-    private ArrayList<EtapeIG> listeEtapesSelec = new ArrayList<>();;
+    private ArrayList<EtapeIG> listeEtapesSelec ;
     private ArrayList<EtapeIG> etapesEntre = new ArrayList<>();
     private ArrayList<EtapeIG> etapesSortie = new ArrayList<>();
     private CorrespondanceEtapes correspondance;
+
+    /**
+     * Instancie un nouvel MondeIG.
+     * Creation du monde
+     */
+    public MondeIG() {
+        hmEtape = new HashMap<>();
+        ajouter("Activite");
+        listeArc = new ArrayList<>();
+        pSelectionne = null;
+        listeEtapesSelec = new ArrayList<>();
+        listeArcsSelec = new ArrayList<>();
+    }
 
     /**
      * Creation du monde
