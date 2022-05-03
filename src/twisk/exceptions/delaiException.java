@@ -12,12 +12,6 @@ public class delaiException extends TwiskException{
      * Instancies une nouvelle instance de delaiException.
      */
     public delaiException(){
-        Alert alert = new Alert(Alert.AlertType.ERROR,"Le délai ou l'écart-temps est faux");
-        alert.setTitle("Erreur dans les délais");
-        alert.show();
-
-        PauseTransition pause = new PauseTransition(Duration.seconds(4));
-        pause.playFromStart();
-        pause.setOnFinished(e -> alert.close());
+        super("délai");
     }
 }
