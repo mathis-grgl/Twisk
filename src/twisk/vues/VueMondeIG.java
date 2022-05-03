@@ -1,7 +1,7 @@
 package twisk.vues;
 
-import twisk.Ecouteur.EcouteurDropped;
-import twisk.Ecouteur.EcouteurOver;
+import twisk.ecouteur.EcouteurDropped;
+import twisk.ecouteur.EcouteurOver;
 import javafx.scene.layout.Pane;
 import twisk.mondeIG.ArcIG;
 import twisk.mondeIG.EtapeIG;

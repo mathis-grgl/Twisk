@@ -1,11 +1,11 @@
 package twisk.vues;
 
 import javafx.geometry.Pos;
-import twisk.Ecouteur.EcouteurAjouterActivite;
+import twisk.ecouteur.EcouteurAjouterActivite;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.TilePane;
-import twisk.Ecouteur.EcouteurAjouterGuichet;
+import twisk.ecouteur.EcouteurAjouterGuichet;
 import twisk.exceptions.MondeException;
 import twisk.mondeIG.MondeIG;
 

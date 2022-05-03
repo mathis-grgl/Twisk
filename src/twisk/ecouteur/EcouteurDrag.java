@@ -1,4 +1,4 @@
-package twisk.Ecouteur;
+package twisk.ecouteur;
 
 import javafx.event.EventHandler;
 import javafx.scene.SnapshotParameters;
@@ -7,10 +7,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import twisk.mondeIG.EtapeIG;
-import twisk.mondeIG.MondeIG;
 import twisk.vues.VueEtapeIG;
-
-import java.util.HashMap;
 
 
 /**

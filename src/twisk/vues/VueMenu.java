@@ -1,10 +1,9 @@
 package twisk.vues;
 
-import twisk.Ecouteur.*;
+import twisk.ecouteur.*;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import twisk.mondeIG.EtapeIG;
 import twisk.mondeIG.MondeIG;
 
 /**

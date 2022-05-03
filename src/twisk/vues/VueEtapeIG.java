@@ -1,7 +1,7 @@
 package twisk.vues;
 
-import twisk.Ecouteur.EcouteurDrag;
-import twisk.Ecouteur.EcouteurEtape;
+import twisk.ecouteur.EcouteurDrag;
+import twisk.ecouteur.EcouteurEtape;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -9,7 +9,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import twisk.mondeIG.EtapeIG;
 import twisk.mondeIG.MondeIG;
-import twisk.outils.TailleComposant;
 
 
 /**
