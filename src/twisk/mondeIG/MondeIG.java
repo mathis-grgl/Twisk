@@ -24,6 +24,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private ArrayList<EtapeIG> etapesEntre = new ArrayList<>();
     private ArrayList<EtapeIG> etapesSortie = new ArrayList<>();
     private CorrespondanceEtapes correspondance;
+    private Boolean estLancee;
 
     /**
      * Instancie un nouvel MondeIG.
@@ -36,6 +37,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         pSelectionne = null;
         listeEtapesSelec = new ArrayList<>();
         listeArcsSelec = new ArrayList<>();
+        estLancee = false;
     }
 
     /**
@@ -291,10 +293,17 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
             Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
             mAjouterObs.invoke(sim,this);
             simuler.invoke(sim,m);
-
+            estLancee = !estLancee;
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Renvoie si la simulation est lancée ou non.
+     */
+    public Boolean getEstLancee() {
+        return estLancee;
     }
 
     /**
