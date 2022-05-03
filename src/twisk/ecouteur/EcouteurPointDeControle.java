@@ -1,4 +1,4 @@
-package twisk.Ecouteur;
+package twisk.ecouteur;
 
 import twisk.exceptions.TwiskException;
 import twisk.exceptions.arcException;

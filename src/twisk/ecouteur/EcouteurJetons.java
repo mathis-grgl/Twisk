@@ -1,10 +1,9 @@
-package twisk.Ecouteur;
+package twisk.ecouteur;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextInputDialog;
 import twisk.exceptions.TwiskException;
-import twisk.exceptions.delaiException;
 import twisk.exceptions.jetonsException;
 import twisk.mondeIG.MondeIG;
 

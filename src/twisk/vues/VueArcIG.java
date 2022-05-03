@@ -1,7 +1,6 @@
 package twisk.vues;
 
-import twisk.Ecouteur.EcouteurArc;
-import javafx.geometry.Point2D;
+import twisk.ecouteur.EcouteurArc;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
