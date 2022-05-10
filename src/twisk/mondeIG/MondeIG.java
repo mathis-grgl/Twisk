@@ -36,6 +36,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         pSelectionne = null;
         listeEtapesSelec = new ArrayList<>();
         listeArcsSelec = new ArrayList<>();
+
     }
 
     /**
@@ -46,22 +47,37 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         Monde monde = new Monde();
         correspondance = new CorrespondanceEtapes();
         for (EtapeIG etapeIG : hmEtape.values()){
+
             if(etapeIG.estUneActivite()){
                 if (etapeIG.estUneActiviteRestreinte()){
                     Etape activiteRestreinte = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
                     monde.ajouter(activiteRestreinte);
                     correspondance.ajouter(etapeIG,activiteRestreinte);
+                    if (etapeIG.estUneSortie()){
+                        monde.aCommeSortie(activiteRestreinte);
+                    }
+                    if (etapeIG.estUneEntree()){
+                        monde.aCommeEntree(activiteRestreinte);
+                    }
                 }else {
                     Etape activite = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
                     monde.ajouter(activite);
                     correspondance.ajouter(etapeIG, activite);
+                    if (etapeIG.estUneSortie()){
+                        monde.aCommeSortie(activite);
+                    }
+                    if (etapeIG.estUneEntree()){
+                        monde.aCommeEntree(activite);
+                    }
                 }
             }else {
                 Etape guichet = new Guichet(((GuichetIG) etapeIG).getNom());
                 monde.ajouter(guichet);
                 correspondance.ajouter(etapeIG,guichet);
             }
-
+        }
+        for (EtapeIG etapeIG : hmEtape.values()){
+            correspondance.correspondanceSucc(etapeIG);
         }
         return monde;
     }
@@ -99,8 +115,8 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void ajouter(PointDeControleIG pt1, PointDeControleIG pt2){
         listeArc.add(new ArcIG(pt1, pt2));
-        pt1.getEtape().ajouterSuccesseur(pt2.getEtape());
-        System.out.println("Nouvelle arc crée entre l'étape "+listeArc.get(listeArc.size() - 1).getP1().getEtape().getNom()+" et l'étape "+listeArc.get(listeArc.size() - 1).getP2().getEtape().getNom());
+        System.out.println("Nouvelle arc crée entre l'étape "+listeArc.get(listeArc.size() - 1).getP1().getEtapeIG().getNom()+" et l'étape "+listeArc.get(listeArc.size() - 1).getP2().getEtapeIG().getNom());
+        pt1.getEtapeIG().ajouterSuccesseur(pt2.getEtapeIG());
     }
 
     /**
@@ -165,7 +181,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void supprListeEtapesSelec(){
         for(EtapeIG e : listeEtapesSelec){
-            listeArc.removeIf(a -> e.getIdentifiant().equals(a.getP1().getEtape().getIdentifiant()) || e.getIdentifiant().equals(a.getP2().getEtape().getIdentifiant()));
+            listeArc.removeIf(a -> e.getIdentifiant().equals(a.getP1().getEtapeIG().getIdentifiant()) || e.getIdentifiant().equals(a.getP2().getEtapeIG().getIdentifiant()));
             hmEtape.remove(e.getIdentifiant(),e);
         }
         for(ArcIG a : listeArcsSelec){
@@ -284,12 +300,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         verifierMondeIG();
         Monde m = creerMonde();
         try{
-            ClassLoaderPerso classLoader = new ClassLoaderPerso(ClientTwisk.class.getClassLoader());
-            Class<?> classSimu = classLoader.loadClass("twisk.simulation.Simulation");
+            ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
+            Class<?> classSimu = classloader.loadClass("twisk.simulation.Simulation");
             Object sim = classSimu.getConstructor().newInstance();
-            Method simuler = classSimu.getDeclaredMethod("simuler", twisk.monde.Monde.class);
-            Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
-            mAjouterObs.invoke(sim,this);
+            Method simuler = classSimu.getMethod("simuler",Monde.class);
+            //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
+            //mAjouterObs.invoke(sim,this);
             simuler.invoke(sim,m);
 
         } catch (Exception e) {

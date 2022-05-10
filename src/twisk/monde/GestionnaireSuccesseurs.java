@@ -62,8 +62,8 @@ public class GestionnaireSuccesseurs implements Iterable<Etape>{
         StringBuilder str = new StringBuilder();
         str.append(gSuccesseur.size()).append(" successeur");
         if(gSuccesseur.size()!=0) {
-            for (int i = 0; i < gSuccesseur.size(); i++) {
-                str.append(" - "+gSuccesseur.get(i).getNom() );
+            for (Etape etape : gSuccesseur) {
+                str.append(" - ").append(etape.getNom());
             }
         }
         return str.toString();

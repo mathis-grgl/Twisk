@@ -27,7 +27,7 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
         //Garde en mémoire les points sélectionnés et permet d'utiliser la fonction ajouter() de deux points de controle.
-            System.out.println("Le point sélectionné est le " + point.getId()+ " de l'étape "+ point.getEtape().getNom());
+            System.out.println("Le point sélectionné est le " + point.getId()+ " de l'étape "+ point.getEtapeIG().getNom());
 
         //S'il n'y a aucun point en mémoire
         if (monde.getpSelectionne() == null) {
@@ -36,7 +36,7 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
             monde.setpSelectionne(point);
         }
         else {
-            if (monde.getpSelectionne().getEtape().getIdentifiant().equals(point.getEtape().getIdentifiant())) {
+            if (monde.getpSelectionne().getEtapeIG().getIdentifiant().equals(point.getEtapeIG().getIdentifiant())) {
                 monde.setpSelectionne(null);
                 try {
                     throw new arcException();

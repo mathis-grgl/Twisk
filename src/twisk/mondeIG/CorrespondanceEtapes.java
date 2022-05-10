@@ -22,7 +22,7 @@ public class CorrespondanceEtapes {
      * @param etig  EtapeIG
      * @param et  Etape
      */
-    void ajouter(EtapeIG etig, Etape et){
+    public void ajouter(EtapeIG etig, Etape et){
         etapes.put(etig,et);
     }
 
@@ -33,4 +33,15 @@ public class CorrespondanceEtapes {
     public Etape get(EtapeIG e){
         return etapes.get(e);
     }
+
+    /**
+     * ajoute les successeur de etapeIG a Etape
+     * @param etig EtapeIG
+     */
+    public void correspondanceSucc(EtapeIG etig){
+        for (EtapeIG etapeig : etig.getSuccesseur()){
+            get(etig).ajouterSuccesseur(get(etapeig));
+        }
+    }
+
 }

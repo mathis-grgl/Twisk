@@ -2,6 +2,7 @@ package twisk.mondeIG;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -187,8 +188,8 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
      * ajoute un successeur
      * @param e etape a ajouter comme successeur
      */
-    public void ajouterSuccesseur(EtapeIG e){
-        successeur.add(e);
+    public void ajouterSuccesseur(EtapeIG... e){
+        successeur.addAll(List.of(e));
     }
 
     /**

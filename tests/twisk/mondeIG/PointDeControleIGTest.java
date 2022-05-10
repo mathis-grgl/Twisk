@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,10 +38,10 @@ class PointDeControleIGTest {
 
     @Test
     void getEtape() {
-        assertEquals(liste.get(0).getEtape(),e,"bug dans getEtape()");
-        assertEquals(liste.get(1).getEtape(),e,"bug dans getEtape()");
-        assertEquals(liste.get(2).getEtape(),e,"bug dans getEtape()");
-        assertEquals(liste.get(3).getEtape(),e,"bug dans getEtape()");
+        assertEquals(liste.get(0).getEtapeIG(),e,"bug dans getEtape()");
+        assertEquals(liste.get(1).getEtapeIG(),e,"bug dans getEtape()");
+        assertEquals(liste.get(2).getEtapeIG(),e,"bug dans getEtape()");
+        assertEquals(liste.get(3).getEtapeIG(),e,"bug dans getEtape()");
     }
 
     @Test

@@ -52,7 +52,7 @@ public class PointDeControleIG {
      * Retourne l'étape du pdcIG.
      * @return L'étape correspondante
      */
-    public EtapeIG getEtape() {
+    public EtapeIG getEtapeIG() {
         return etape;
     }
 
