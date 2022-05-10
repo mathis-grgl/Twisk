@@ -48,42 +48,24 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         Monde monde = new Monde();
         correspondance = new CorrespondanceEtapes();
         for (EtapeIG etapeIG : hmEtape.values()){
-
+            Etape aAjouter = null;
             if(etapeIG.estUneActivite()){
                 if (etapeIG.estUneActiviteRestreinte()){
-                    Etape activiteRestreinte = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
-                    monde.ajouter(activiteRestreinte);
-                    correspondance.ajouter(etapeIG,activiteRestreinte);
-                    if (etapeIG.estUneSortie()){
-                        monde.aCommeSortie(activiteRestreinte);
-                    }
-                    if (etapeIG.estUneEntree()){
-                        monde.aCommeEntree(activiteRestreinte);
-                    }
+                    aAjouter = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
                 }else {
-                    Etape activite = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
-                    monde.ajouter(activite);
-                    correspondance.ajouter(etapeIG, activite);
-                    if (etapeIG.estUneSortie()){
-                        monde.aCommeSortie(activite);
-                    }
-                    if (etapeIG.estUneEntree()){
-                        monde.aCommeEntree(activite);
-                    }
+                    aAjouter = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
                 }
             }else {
-                Etape guichet = new Guichet(((GuichetIG) etapeIG).getNom());
-                monde.ajouter(guichet);
-                correspondance.ajouter(etapeIG,guichet);
-                if (etapeIG.estUneSortie()){
-                    monde.aCommeSortie(guichet);
-                }
-                if (etapeIG.estUneEntree()){
-                    monde.aCommeEntree(guichet);
-                }
+                aAjouter = new Guichet(etapeIG.getNom());
             }
-        }
-        for (EtapeIG etapeIG : hmEtape.values()){
+            monde.ajouter(aAjouter);
+            correspondance.ajouter(etapeIG,aAjouter);
+            if (etapeIG.estUneSortie()){
+                monde.aCommeSortie(aAjouter);
+            }
+            if (etapeIG.estUneEntree()){
+                monde.aCommeEntree(aAjouter);
+            }
             correspondance.correspondanceSucc(etapeIG);
         }
         return monde;
@@ -354,10 +336,8 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     }
 
     public Boolean getEstLancee() {
-        return estLancee;
-    }
-
-    public void setEstLancee(Boolean estLancee) {
-        this.estLancee = estLancee;
+        boolean copie = estLancee;
+        estLancee = !estLancee;
+        return copie;
     }
 }
