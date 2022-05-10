@@ -26,7 +26,7 @@ public class VuePointDeControleIG extends Circle {
 
         this.setRadius(4);
         if(this.point.isSelected()){
-            this.setStyle("-fx-fill: #ff5733 ;");
+            this.setStyle("-fx-fill: #ff0000 ;");
         } else{
             this.setStyle("-fx-fill: #EF7C8E ;");
         }
