@@ -75,6 +75,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
                 Etape guichet = new Guichet(((GuichetIG) etapeIG).getNom());
                 monde.ajouter(guichet);
                 correspondance.ajouter(etapeIG,guichet);
+                if (etapeIG.estUneSortie()){
+                    monde.aCommeSortie(guichet);
+                }
+                if (etapeIG.estUneEntree()){
+                    monde.aCommeEntree(guichet);
+                }
             }
         }
         for (EtapeIG etapeIG : hmEtape.values()){
