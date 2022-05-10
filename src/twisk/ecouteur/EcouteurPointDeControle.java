@@ -27,7 +27,12 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
         //Garde en mémoire les points sélectionnés et permet d'utiliser la fonction ajouter() de deux points de controle.
-            System.out.println("Le point sélectionné est le " + point.getId()+ " de l'étape "+ point.getEtapeIG().getNom());
+        if (!this.point.isSelected()){
+            System.out.println("Le point sélectionné est le " + point.getId() + " de l'étape " + point.getEtapeIG().getNom());
+        }else {
+            System.out.println("Le point " + point.getId() + " de l'étape " + point.getEtapeIG().getNom() + "a été déselectionnée");
+        }
+        this.point.select();
 
         //S'il n'y a aucun point en mémoire
         if (monde.getpSelectionne() == null) {
@@ -36,7 +41,9 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
             monde.setpSelectionne(point);
         }
         else {
-            if (monde.getpSelectionne().getEtapeIG().getIdentifiant().equals(point.getEtapeIG().getIdentifiant())) {
+            if (monde.getpSelectionne().getPosX() == point.getPosX() && monde.getpSelectionne().getPosY() == point.getPosY()){
+                monde.setpSelectionne(null);
+            } else if (monde.getpSelectionne().getEtapeIG().getIdentifiant().equals(point.getEtapeIG().getIdentifiant())) {
                 monde.setpSelectionne(null);
                 try {
                     throw new arcException();
@@ -47,6 +54,8 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
                 
                 //On utilise la fonction ajouter pour crée l'arc en fonction des deux points en mémoire.
                 monde.ajouter(monde.getpSelectionne(), point);
+                monde.getpSelectionne().select();
+                point.select();
 
                 // On le rend null afin de pouvoir le réutiliser par la suite
                 monde.setpSelectionne(null);

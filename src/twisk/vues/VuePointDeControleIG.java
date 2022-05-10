@@ -25,7 +25,11 @@ public class VuePointDeControleIG extends Circle {
         this.setCenterY(this.point.getPosY());
 
         this.setRadius(4);
-        this.setStyle("-fx-fill: #EF7C8E ;");
+        if(this.point.isSelected()){
+            this.setStyle("-fx-fill: #ff5733 ;");
+        } else{
+            this.setStyle("-fx-fill: #EF7C8E ;");
+        }
 
         this.setOnMouseClicked(new EcouteurPointDeControle(monde,point));
     }

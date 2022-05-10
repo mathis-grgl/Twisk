@@ -7,6 +7,7 @@ public class PointDeControleIG {
     private int posX,posY;
     private String id;
     private EtapeIG etape;
+    private boolean isSelected;
 
     /**
      * Instancie un nouveau PointDeControleIG.
@@ -20,6 +21,7 @@ public class PointDeControleIG {
         this.posY = posY;
         this.id = id;
         this.etape = etape;
+        this.isSelected = false;
     }
 
     /**
@@ -62,5 +64,20 @@ public class PointDeControleIG {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * renvoie si le bouton est selectione ou pas
+     * @return isSelected
+     */
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    /**
+     * selectione/deselectione un bouton
+     */
+    public void select() {
+        isSelected = !isSelected;
     }
 }
