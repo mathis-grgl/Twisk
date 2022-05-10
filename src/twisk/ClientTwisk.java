@@ -29,7 +29,7 @@ public class ClientTwisk {
         monde.ajouter(fpi, pi, to, fto, bas,test);
         monde.aCommeSortie(test);
 
-
+        //Mettre ça dans le constructeur de Monde (à voir)
         FabriqueNumero.getInstance().reset();
 
 

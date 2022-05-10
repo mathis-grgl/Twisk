@@ -24,6 +24,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private ArrayList<EtapeIG> etapesEntre = new ArrayList<>();
     private ArrayList<EtapeIG> etapesSortie = new ArrayList<>();
     private CorrespondanceEtapes correspondance;
+    private Boolean estLancee;
 
     /**
      * Instancie un nouvel MondeIG.
@@ -36,7 +37,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         pSelectionne = null;
         listeEtapesSelec = new ArrayList<>();
         listeArcsSelec = new ArrayList<>();
-
+        estLancee = false;
     }
 
     /**
@@ -318,7 +319,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     private void verifierMondeIG() throws MondeException{
         //le monde doit contenir au moin une entre, une sortie et une etape
-        if (etapesSortie.size() < 1 || etapesEntre.size() <1 || hmEtape.size() < 3){
+        if (etapesSortie.size() < 1 || etapesEntre.size() <1 || hmEtape.size() < 1){
             throw new MondeException();
         }
         for (EtapeIG etape : hmEtape.values()){
@@ -342,9 +343,15 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
                 if (etape.estUnGuichet() && etape.getSuccesseur().size() > 1) {
                     throw new MondeException();
                 }
-
             }
         }
     }
 
+    public Boolean getEstLancee() {
+        return estLancee;
+    }
+
+    public void setEstLancee(Boolean estLancee) {
+        this.estLancee = estLancee;
+    }
 }
