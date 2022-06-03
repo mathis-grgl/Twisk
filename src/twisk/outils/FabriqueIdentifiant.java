@@ -47,4 +47,8 @@ public class FabriqueIdentifiant {
         noActivite += 1;
         return String.valueOf(cmp);
     }
+
+
+
+
 }

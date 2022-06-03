@@ -57,11 +57,11 @@ public class Simulation extends SujetObserve {
         System.out.println();
 
         //Partie concernant la génération des fichiers .c
-        String num = FabriqueNumero.getInstance().getIdentifiantSimulation();
+        String num = FabriqueNumero.getInstance().getNouveauNoSim();
         String code = monde.toC();
         c.creerFichier(code);
         c.compiler();
-        c.construireLaLibrairie(num);
+        c.construireLaLibrairie();
         System.load("/tmp/twisk/libTwisk"+ num+".so");
 
 
@@ -163,6 +163,8 @@ public class Simulation extends SujetObserve {
 
         //Nettoyage
         nettoyage();
+        gC.nettoyer();
+        FabriqueNumero.getInstance().reset();
     }
 
     /**

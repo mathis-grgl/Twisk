@@ -94,10 +94,10 @@ public class KitC {
     /**
      * Construit la librairie partagée utile pour exécuter le main.c.
      */
-    public void construireLaLibrairie(String numSim){
+    public void construireLaLibrairie(){
         Runtime runtime = Runtime.getRuntime();
         try {
-            Process p = runtime.exec("gcc -shared /tmp/twisk/programmeC.o /tmp/twisk/codeNatif.o /tmp/twisk/client.o -o /tmp/twisk/libTwisk"+numSim+".so" );
+            Process p = runtime.exec("gcc -shared /tmp/twisk/programmeC.o /tmp/twisk/codeNatif.o /tmp/twisk/client.o -o /tmp/twisk/libTwisk"+FabriqueNumero.getInstance().getNoSim()+".so" );
             p.waitFor();
             // récupération des messages sur la sortie standard et la sortie d’erreur de la commande exécutée
             // à reprendre éventuellement et à adapter à votre code

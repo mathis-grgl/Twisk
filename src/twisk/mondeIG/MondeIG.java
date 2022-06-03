@@ -1,10 +1,10 @@
 package twisk.mondeIG;
 
-import twisk.ClientTwisk;
 import twisk.exceptions.MondeException;
 import twisk.monde.*;
 import twisk.outils.ClassLoaderPerso;
 import twisk.outils.FabriqueIdentifiant;
+import twisk.outils.FabriqueNumero;
 import twisk.outils.TailleComposant;
 import twisk.vues.SujetObserve;
 
@@ -19,10 +19,11 @@ import java.util.Iterator;
 public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private HashMap<String,EtapeIG> hmEtape ;
     private ArrayList<ArcIG> listeArc, listeArcsSelec;
-    private PointDeControleIG pSelectionne = null;
+    private PointDeControleIG pSelectionne;
     private ArrayList<EtapeIG> listeEtapesSelec ;
-    private ArrayList<EtapeIG> etapesEntre = new ArrayList<>();
-    private ArrayList<EtapeIG> etapesSortie = new ArrayList<>();
+    private ArrayList<EtapeIG> etapesEntree;
+    private ArrayList<EtapeIG> etapesSortie;
+    private ArrayList<ClassLoaderPerso> classLoaderPersoList;
     private CorrespondanceEtapes correspondance;
     private Boolean estLancee;
 
@@ -37,6 +38,9 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         pSelectionne = null;
         listeEtapesSelec = new ArrayList<>();
         listeArcsSelec = new ArrayList<>();
+        etapesEntree = new ArrayList<>();
+        etapesSortie = new ArrayList<>();
+        classLoaderPersoList = new ArrayList<>();
         estLancee = false;
     }
 
@@ -241,7 +245,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public void aCommeEntree() {
         for(EtapeIG e : listeEtapesSelec){
             e.changementEtatEntree();
-            etapesEntre.add(e);
+            etapesEntree.add(e);
         }
     }
 
@@ -290,12 +294,14 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         Monde m = creerMonde();
         try{
             ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
-            Class<?> classSimu = classloader.loadClass("twisk.simulation.Simulation");
+            classLoaderPersoList.add(classloader);
+            Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size()-1).loadClass("twisk.simulation.Simulation");
             Object sim = classSimu.getConstructor().newInstance();
             Method simuler = classSimu.getMethod("simuler",Monde.class);
             //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
             //mAjouterObs.invoke(sim,this);
             simuler.invoke(sim,m);
+            System.out.println("La simulation du monde a été terminé");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -307,7 +313,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     private void verifierMondeIG() throws MondeException{
         //le monde doit contenir au moin une entre, une sortie et une etape
-        if (etapesSortie.size() < 1 || etapesEntre.size() <1 || hmEtape.size() < 1){
+        if (etapesSortie.size() < 1 || etapesEntree.size() <1 || hmEtape.size() < 1){
             throw new MondeException();
         }
         for (EtapeIG etape : hmEtape.values()){
@@ -338,6 +344,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public Boolean getEstLancee() {
         boolean copie = estLancee;
         estLancee = !estLancee;
+        System.out.println(copie);
         return copie;
     }
 }
