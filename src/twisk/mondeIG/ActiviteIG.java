@@ -8,7 +8,7 @@ public class ActiviteIG extends EtapeIG {
      * Représente les délais pour les activités.
      */
     private int temps,ecartTemps;
-    private  boolean activiteRestreinte;
+    private boolean activiteRestreinte;
 
     /**
      * Instancie une nouvelle ActiviteIG.
@@ -22,6 +22,21 @@ public class ActiviteIG extends EtapeIG {
         temps = 4;
         ecartTemps = 2;
         activiteRestreinte = false;
+    }
+
+    @Override
+    public boolean estUneActivite() {
+        return true;
+    }
+
+    @Override
+    public boolean estUnGuichet() {
+        return false;
+    }
+
+    @Override
+    public boolean estUneActiviteRestreinte(){
+        return activiteRestreinte;
     }
 
     /**
@@ -40,14 +55,11 @@ public class ActiviteIG extends EtapeIG {
         this.ecartTemps = ecartTemps;
     }
 
-    @Override
-    public boolean estUneActivite() {
-        return true;
-    }
-
-    @Override
-    public boolean estUnGuichet() {
-        return false;
+    /**
+     * Inverse la valeur booléenne d'activitéRestreinte.
+     */
+    public void setEstUnActiviteRestreinte(){
+        activiteRestreinte = !activiteRestreinte;
     }
 
     /**
@@ -73,22 +85,5 @@ public class ActiviteIG extends EtapeIG {
      */
     public int getEcartTemps() {
         return ecartTemps;
-    }
-
-    /**
-     * retourne si c est une activite restrainte ou pas
-     * @return boolean
-     */
-    @Override
-    public boolean estUneActiviteRestreinte(){
-        return activiteRestreinte;
-    }
-
-
-    /**
-     * setter sur activiterRestrainte.
-     */
-    public void setEstUnActiviteRestreinte(){
-        activiteRestreinte = !activiteRestreinte;
     }
 }

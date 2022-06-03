@@ -26,7 +26,7 @@ public class EcouteurArc implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
         this.monde.selectDeselect(arc);
-        System.out.println("L'arc selectionnée est au position x :"+arc.getP1().getPosX()+" "+arc.getP2().getPosX()+", et y : "+arc.getP1().getPosY()+ " "+arc.getP2().getPosY());
+        //System.out.println("L'arc selectionnée est au position x :"+arc.getP1().getPosX()+" "+arc.getP2().getPosX()+", et y : "+arc.getP1().getPosY()+ " "+arc.getP2().getPosY());
         this.monde.notifierObservateurs();
     }
 }

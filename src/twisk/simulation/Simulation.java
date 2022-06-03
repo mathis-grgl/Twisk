@@ -1,8 +1,6 @@
 package twisk.simulation;
 
 import twisk.monde.*;
-import twisk.mondeIG.MondeIG;
-import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.FabriqueNumero;
 import twisk.outils.KitC;
 import twisk.vues.SujetObserve;

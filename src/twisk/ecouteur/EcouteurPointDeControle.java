@@ -28,9 +28,9 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
     public void handle(MouseEvent mouseEvent) {
         //Garde en mémoire les points sélectionnés et permet d'utiliser la fonction ajouter() de deux points de controle.
         if (!this.point.isSelected()){
-            System.out.println("Le point sélectionné est le " + point.getId() + " de l'étape " + point.getEtapeIG().getNom());
+            //System.out.println("Le point sélectionné est le " + point.getId() + " de l'étape " + point.getEtapeIG().getNom());
         }else {
-            System.out.println("Le point " + point.getId() + " de l'étape " + point.getEtapeIG().getNom() + "a été déselectionnée");
+            //System.out.println("Le point " + point.getId() + " de l'étape " + point.getEtapeIG().getNom() + "a été déselectionnée");
         }
         this.point.select();
 

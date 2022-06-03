@@ -13,7 +13,7 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
     private int posX, posY, largeur, hauteur;
     private ArrayList<PointDeControleIG> PdcIG;
     private boolean entree,sortie,guichet,activite;
-    private ArrayList<EtapeIG> successeur = new ArrayList<>();
+    private ArrayList<EtapeIG> listSuccesseurs;
 
     /**
      * Instancie une nouvelle EtapeIG.
@@ -38,6 +38,8 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
         guichet = false;
         activite = false;
 
+        listSuccesseurs = new ArrayList<>();
+
         this.PdcIG.add(new PointDeControleIG(posX+this.largeur/2,posY,""+1,this));
         this.PdcIG.add(new PointDeControleIG(posX+this.largeur/2,posY+this.hauteur,""+2,this));
         this.PdcIG.add(new PointDeControleIG(posX,posY+this.hauteur/2,""+3,this));
@@ -45,27 +47,25 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
     }
 
     /**
-     * Retourne l'identifiant.
-     * @return L'identifiant
+     * Modifie la position de l'étape et ses points de contrôle en fonction des positions rentrées en paramètre.
+     * @param posX La nouvelle position en x
+     * @param posY La nouvelle position en y
      */
-    public String getIdentifiant() {
-        return identifiant;
-    }
-
-    /**
-     * Retourne le nom de l'étape.
-     * @return Le nom modifié
-     */
-    public String getNom() {
-        return nom;
+    public void modifPosition(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+        PdcIG.get(0).setPos(this.posX+this.largeur/2,this.posY);
+        PdcIG.get(1).setPos(this.posX+this.largeur/2,this.posY+this.hauteur);
+        PdcIG.get(2).setPos(this.posX,this.posY+this.hauteur/2);
+        PdcIG.get(3).setPos(this.posX+this.largeur,this.posY+this.hauteur/2);
     }
 
     /**
      * Si l'étape était une entrée alors elle ne l'est plus et inversement.
      */
     public void changementEtatEntree(){
-        if(entree) System.out.println(nom+" n'est plus définit comme une entree");
-        else System.out.println(nom+" est définit comme une entree");
+        //if(entree) System.out.println(nom+" n'est plus définit comme une entree");
+        //else System.out.println(nom+" est définit comme une entree");
         entree = !entree;
     }
 
@@ -73,8 +73,8 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
      * Si l'étape était une sortie alors elle ne l'est plus et inversement.
      */
     public void changementEtatSortie(){
-        if(sortie) System.out.println(nom+" n'est plus définit comme une sortie");
-        else System.out.println(nom+" est définit comme une sortie");
+        //if(sortie) System.out.println(nom+" n'est plus définit comme une sortie");
+        //else //System.out.println(nom+" est définit comme une sortie");
         sortie = !sortie;
     }
 
@@ -87,8 +87,16 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
     }
 
     /**
+     * Retourne si une étape est une activité restreinte.
+     * @return Le booléen
+     */
+    public boolean estUneActiviteRestreinte(){
+        return false;
+    }
+
+    /**
      * Retourne si une étape est un guichet.
-     * @return false.
+     * @return Le booléen
      */
     public boolean estUnGuichet(){
         return false;
@@ -108,6 +116,22 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
      */
     public boolean estUneSortie() {
         return sortie;
+    }
+
+    /**
+     * Retourne l'identifiant.
+     * @return L'identifiant
+     */
+    public String getIdentifiant() {
+        return identifiant;
+    }
+
+    /**
+     * Retourne le nom de l'étape.
+     * @return Le nom modifié
+     */
+    public String getNom() {
+        return nom;
     }
 
     /**
@@ -150,16 +174,20 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
         this.nom = nom;
     }
 
-    @Override
-    public String toString() {
-        return "EtapeIG{" +
-                "nom='" + nom + '\'' +
-                ", identifiant='" + identifiant + '\'' +
-                ", posX=" + posX +
-                ", posY=" + posY +
-                ", largeur=" + largeur +
-                ", hauteur=" + hauteur +
-                "}";
+    /**
+     * Ajoute un ou plusieurs successeur(s) à une étapeIG.
+     * @param e La ou les étape(s) à ajouter comme successeur
+     */
+    public void ajouterSuccesseur(EtapeIG... e){
+        listSuccesseurs.addAll(List.of(e));
+    }
+
+    /**
+     * Retourne la liste des successeurs d'une étapeIG.
+     * @return Les successeurs de cette EtapeIG
+     */
+    public ArrayList<EtapeIG> getListSuccesseurs() {
+        return listSuccesseurs;
     }
 
     /**
@@ -170,40 +198,15 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
         return this.PdcIG.iterator();
     }
 
-    /**
-     * Modifie la position de l'étape et ses points de contrôle en fonction des positions rentrées en paramètre.
-     * @param posX La nouvelle position en x
-     * @param posY La nouvelle position en y
-     */
-    public void modifPosition(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
-        PdcIG.get(0).setPos(this.posX+this.largeur/2,this.posY);
-        PdcIG.get(1).setPos(this.posX+this.largeur/2,this.posY+this.hauteur);
-        PdcIG.get(2).setPos(this.posX,this.posY+this.hauteur/2);
-        PdcIG.get(3).setPos(this.posX+this.largeur,this.posY+this.hauteur/2);
-    }
-
-    /**
-     * ajoute un successeur
-     * @param e etape a ajouter comme successeur
-     */
-    public void ajouterSuccesseur(EtapeIG... e){
-        successeur.addAll(List.of(e));
-    }
-
-    /**
-     * retourne la liste des successeur
-     * @return les successeur
-     */
-    public ArrayList<EtapeIG> getSuccesseur() {
-        return successeur;
-    }
-    /**
-     * Retourne si une etape est une activite restrainte
-     * @return false
-     */
-    public boolean estUneActiviteRestreinte(){
-        return false;
+    @Override
+    public String toString() {
+        return "EtapeIG{" +
+                "nom='" + nom + '\'' +
+                ", identifiant='" + identifiant + '\'' +
+                ", posX=" + posX +
+                ", posY=" + posY +
+                ", largeur=" + largeur +
+                ", hauteur=" + hauteur +
+                "}";
     }
 }

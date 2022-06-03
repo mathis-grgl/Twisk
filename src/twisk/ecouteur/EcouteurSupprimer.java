@@ -21,7 +21,7 @@ public class EcouteurSupprimer implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         monde.supprListeEtapesSelec();
-        System.out.println("Toutes les étapes sélectionnées et leurs arcs ont été supprimées");
+        //System.out.println("Toutes les étapes sélectionnées et leurs arcs ont été supprimées");
         monde.notifierObservateurs();
     }
 }

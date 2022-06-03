@@ -4,7 +4,6 @@ import twisk.exceptions.MondeException;
 import twisk.monde.*;
 import twisk.outils.ClassLoaderPerso;
 import twisk.outils.FabriqueIdentifiant;
-import twisk.outils.FabriqueNumero;
 import twisk.outils.TailleComposant;
 import twisk.vues.SujetObserve;
 
@@ -24,7 +23,6 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private ArrayList<EtapeIG> etapesEntree;
     private ArrayList<EtapeIG> etapesSortie;
     private ArrayList<ClassLoaderPerso> classLoaderPersoList;
-    private CorrespondanceEtapes correspondance;
     private Boolean estLancee;
 
     /**
@@ -50,33 +48,28 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     private Monde creerMonde(){
         Monde monde = new Monde();
-        correspondance = new CorrespondanceEtapes();
+        CorrespondanceEtapes correspondanceEtapes = new CorrespondanceEtapes();
         for (EtapeIG etapeIG : hmEtape.values()){
-            Etape aAjouter = null;
+            Etape etapeAAjouter;
             if(etapeIG.estUneActivite()){
-                if (etapeIG.estUneActiviteRestreinte()){
-                    aAjouter = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
-                }else {
-                    aAjouter = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
-                }
-            }else {
-                aAjouter = new Guichet(etapeIG.getNom());
-            }
-            monde.ajouter(aAjouter);
-            correspondance.ajouter(etapeIG,aAjouter);
-            if (etapeIG.estUneSortie()){
-                monde.aCommeSortie(aAjouter);
-            }
-            if (etapeIG.estUneEntree()){
-                monde.aCommeEntree(aAjouter);
-            }
-            correspondance.correspondanceSucc(etapeIG);
+                if (etapeIG.estUneActiviteRestreinte())
+                    etapeAAjouter = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
+                else
+                    etapeAAjouter = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
+            } else
+                etapeAAjouter = new Guichet(etapeIG.getNom());
+            monde.ajouter(etapeAAjouter);
+            if (etapeIG.estUneSortie()) monde.aCommeSortie(etapeAAjouter);
+            if (etapeIG.estUneEntree()) monde.aCommeEntree(etapeAAjouter);
+            correspondanceEtapes.ajouter(etapeIG,etapeAAjouter);
+            correspondanceEtapes.correspondanceSucc(etapeIG);
         }
+        //for(Etape e : monde) System.out.println(e);
         return monde;
     }
 
     /**
-     * Ajouter une nouvelle étape au monde.
+     * Ajoute une nouvelle étape au monde.
      * @param type Le type d'étape à ajouter
      */
     public void ajouter(String type){
@@ -87,13 +80,13 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
                 String idActivite = FabriqueIdentifiant.getInstance().getIdentifiantActivite();
                 String nomActivite = "Activite"+idActivite;
                 hmEtape.put(id,new ActiviteIG(nomActivite,id, TailleComposant.getInstance().getLargeurAC(),TailleComposant.getInstance().getHauteurAC()));
-                System.out.println("Activité ajoutée");
+                //System.out.println("Activité ajoutée");
                 break;
             case "Guichet":
                 String idSema = FabriqueIdentifiant.getInstance().getSemaphore();
                 String nomGuichet = "Guichet"+idSema;
                 hmEtape.put(id,new GuichetIG(nomGuichet,id,TailleComposant.getInstance().getLargeurGUI(),TailleComposant.getInstance().getHauteurGUI()));
-                System.out.println("Guichet ajouté");
+                //System.out.println("Guichet ajouté");
                 break;
             default:
                 break;
@@ -113,35 +106,72 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     }
 
     /**
-     * Retourne le nombre d'étapes dans le monde.
-     * @return Nb étapes
+     * Permet de simuler le monde à partir de la partie graphique du monde.
      */
-    public int getSize(){
-        return hmEtape.size();
+    public void simuler() throws MondeException {
+        verifierMondeIG();
+        Monde m = creerMonde();
+        try{
+            ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
+            classLoaderPersoList.add(classloader);
+            Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size()-1).loadClass("twisk.simulation.Simulation");
+            Object sim = classSimu.getConstructor().newInstance();
+            Method simuler = classSimu.getMethod("simuler",Monde.class);
+            //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
+            //mAjouterObs.invoke(sim,this);
+            simuler.invoke(sim,m);
+            System.out.println("La simulation du monde a été terminé");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
-     * Retourne le nombre d'arcs dans le monde.
-     * @return Nb arcs.
+     * Vérifie si le monde crée dans la partie graphique du monde est correcte.
      */
-    public int getSizeArc(){
-        return listeArc.size();
+    private void verifierMondeIG() throws MondeException{
+        //le monde doit contenir au moin une entre, une sortie et une etape
+        if (etapesSortie.size() < 1 || etapesEntree.size() <1 || hmEtape.size() < 1){
+            throw new MondeException();
+        }
+        for (EtapeIG etape : hmEtape.values()){
+            for (EtapeIG succ : etape.getListSuccesseurs() ){
+                if(succ.estUneActivite() && etape.estUnGuichet()){
+                    ((ActiviteIG) succ).setEstUnActiviteRestreinte();
+                }
+                //une activiter ne peut pas etre suivie par une activite restrainte
+                if((etape.estUneActivite() || etape.estUneActiviteRestreinte()) && succ.estUneActiviteRestreinte()) {
+                    throw new MondeException();
+                }
+                // Vérification qu'un guichet n'est pas suivis d'un guichet@
+                if(succ.estUnGuichet() && etape.estUnGuichet()){
+                    throw new MondeException();
+                }
+                // Tout les activités ont au moins un successeurs !
+                if(etape.getListSuccesseurs().size() < 1){
+                    throw new MondeException();
+                }
+
+                if (etape.estUnGuichet() && etape.getListSuccesseurs().size() > 1) {
+                    throw new MondeException();
+                }
+            }
+        }
     }
 
     /**
-     * Modifie la valeur de la variable mémoire pSelectionne du monde.
-     * @param pSelectionne La nouvelle valeur de pSelectionne
+     * Modifie la position d'une étape dans la liste des étapes du monde en fonction de son identifiant et des nouvelles positions x et y.
+     * @param idEtape L'identifiant de l'étape recherché.
+     * @param posX    La nouvelle position en x
+     * @param posY    La nouvelle position en y
      */
-    public void setpSelectionne(PointDeControleIG pSelectionne) {
-        this.pSelectionne = pSelectionne;
-    }
-
-    /**
-     * Retourne le point sélectionné du monde.
-     * @return Le point sélectionné
-     */
-    public PointDeControleIG getpSelectionne() {
-        return pSelectionne;
+    public void dragnDrop(String idEtape,int posX, int posY){
+        for(EtapeIG e : this){
+            if(idEtape.equals(e.getIdentifiant())){
+                e.modifPosition(posX,posY);
+            }
+        }
     }
 
     /**
@@ -184,59 +214,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     }
 
     /**
-     * Retourne la liste des étapes sélectionnées.
-     * @return La liste d'étapes
-     */
-    public ArrayList<EtapeIG> getListeEtapesSelec() {
-        return listeEtapesSelec;
-    }
-
-    /**
-     * Retourne la liste des arcs sélectionnés.
-     * @return La liste d'arcs
-     */
-    public ArrayList<ArcIG> getListeArcsSelec() {
-        return listeArcsSelec;
-    }
-
-    /**
      * Reset les listes sélectionnées des arcs et des étapes.
      */
     public void resetListeSelec(){
         listeArcsSelec.clear();
         listeEtapesSelec.clear();
         pSelectionne = null;
-    }
-
-    /**
-     * Modifie la position d'une étape dans la liste des étapes du monde en fonction de son identifiant et des nouvelles positions x et y.
-     * @param idEtape L'identifiant de l'étape recherché.
-     * @param posX    La nouvelle position en x
-     * @param posY    La nouvelle position en y
-     */
-    public void dragnDrop(String idEtape,int posX, int posY){
-        for(EtapeIG e : this){
-            if(idEtape.equals(e.getIdentifiant())){
-                e.modifPosition(posX,posY);
-            }
-        }
-    }
-
-    /**
-     * Rend itérable les étapes du monde.
-     * @return L'itérateur des étapes
-     */
-    public Iterator<EtapeIG> iterator() {
-        return hmEtape.values().iterator();
-    }
-
-
-    /**
-     * Rend itérable les arcs du monde.
-     * @return L'itérateur des arcs
-     */
-    public Iterator<ArcIG> iteratorArc(){
-        return listeArc.iterator();
     }
 
     /**
@@ -287,64 +270,75 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     }
 
     /**
-     * Permet la simulation du monde apres l'affichage graphique
+     * Retourne le nombre d'étapes dans le monde.
+     * @return Nb étapes
      */
-    public void simuler() throws MondeException {
-        verifierMondeIG();
-        Monde m = creerMonde();
-        try{
-            ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
-            classLoaderPersoList.add(classloader);
-            Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size()-1).loadClass("twisk.simulation.Simulation");
-            Object sim = classSimu.getConstructor().newInstance();
-            Method simuler = classSimu.getMethod("simuler",Monde.class);
-            //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
-            //mAjouterObs.invoke(sim,this);
-            simuler.invoke(sim,m);
-            System.out.println("La simulation du monde a été terminé");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public int getSize(){
+        return hmEtape.size();
     }
 
     /**
-     * Verifie si MondeIG est totalement correct
+     * Retourne le nombre d'arcs dans le monde.
+     * @return Nb arcs.
      */
-    private void verifierMondeIG() throws MondeException{
-        //le monde doit contenir au moin une entre, une sortie et une etape
-        if (etapesSortie.size() < 1 || etapesEntree.size() <1 || hmEtape.size() < 1){
-            throw new MondeException();
-        }
-        for (EtapeIG etape : hmEtape.values()){
-            for (EtapeIG succ : etape.getSuccesseur() ){
-                if(succ.estUneActivite() && etape.estUnGuichet()){
-                    ((ActiviteIG) succ).setEstUnActiviteRestreinte();
-                }
-                //une activiter ne peut pas etre suivie par une activite restrainte
-                if((etape.estUneActivite() || etape.estUneActiviteRestreinte()) && succ.estUneActiviteRestreinte()) {
-                    throw new MondeException();
-                }
-                // Vérification qu'un guichet n'est pas suivis d'un guichet@
-                if(succ.estUnGuichet() && etape.estUnGuichet()){
-                    throw new MondeException();
-                }
-                // Tout les activités ont au moins un successeurs !
-                if(etape.getSuccesseur().size() < 1){
-                    throw new MondeException();
-                }
+    public int getSizeArc(){
+        return listeArc.size();
+    }
 
-                if (etape.estUnGuichet() && etape.getSuccesseur().size() > 1) {
-                    throw new MondeException();
-                }
-            }
-        }
+    /**
+     * Retourne la liste des étapes sélectionnées.
+     * @return La liste d'étapes
+     */
+    public ArrayList<EtapeIG> getListeEtapesSelec() {
+        return listeEtapesSelec;
+    }
+
+    /**
+     * Retourne la liste des arcs sélectionnés.
+     * @return La liste d'arcs
+     */
+    public ArrayList<ArcIG> getListeArcsSelec() {
+        return listeArcsSelec;
+    }
+
+
+    /**
+     * Modifie la valeur de la variable mémoire pSelectionne du monde.
+     * @param pSelectionne La nouvelle valeur de pSelectionne
+     */
+    public void setpSelectionne(PointDeControleIG pSelectionne) {
+        this.pSelectionne = pSelectionne;
+    }
+
+    /**
+     * Retourne le point sélectionné du monde.
+     * @return Le point sélectionné
+     */
+    public PointDeControleIG getpSelectionne() {
+        return pSelectionne;
     }
 
     public Boolean getEstLancee() {
         boolean copie = estLancee;
         estLancee = !estLancee;
-        System.out.println(copie);
         return copie;
     }
+
+    /**
+     * Rend itérable les étapes du monde.
+     * @return L'itérateur des étapes
+     */
+    public Iterator<EtapeIG> iterator() {
+        return hmEtape.values().iterator();
+    }
+
+
+    /**
+     * Rend itérable les arcs du monde.
+     * @return L'itérateur des arcs
+     */
+    public Iterator<ArcIG> iteratorArc(){
+        return listeArc.iterator();
+    }
+
 }
