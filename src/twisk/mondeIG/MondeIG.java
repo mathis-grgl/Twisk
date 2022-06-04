@@ -10,6 +10,7 @@ import twisk.vues.SujetObserve;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -138,38 +139,42 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      * Vérifie si le monde crée dans la partie graphique du monde est correcte.
      */
     private void verifierMondeIG() throws MondeException{
+        setAllActiviteRestreinteFalse();
+
         //le monde doit contenir au moin une entre, une sortie et une etape
         if (etapesSortie.size() < 1 || etapesEntree.size() <1 || hmEtape.size() < 1){
-            throw new MondeException();
+            throw new MondeException("Pas assez d'entrées, de sorties ou trop petit.");
         }
         int compteur = 0;
         for (EtapeIG etape : hmEtape.values()){
             for (EtapeIG succ : etape.getListSuccesseurs() ){
                 if(succ.estUneActivite() && etape.estUnGuichet()){
-                    ((ActiviteIG) succ).setEstUneActiviteRestreinte();
+                    ((ActiviteIG) succ).setEstUneActiviteRestreinte(true);
                 }
                 //Une activité ne peut pas être suivit d'une activité restreinte
                 if((etape.estUneActivite() || etape.estUneActiviteRestreinte()) && succ.estUneActiviteRestreinte()) {
-                    throw new MondeException();
+                    throw new MondeException("Activité suivi d'une activité restreinte.");
                 }
                 // Vérification qu'un guichet n'est pas suivit d'un guichet
                 if(succ.estUnGuichet() && etape.estUnGuichet()){
-                    throw new MondeException();
+                    throw new MondeException("Un guichet est suivi d'un guichet.");
                 }
                 // Vérification que chaque étape ait un successeur
                 if(etape.getListSuccesseurs().size() < 1){
-                    throw new MondeException();
+                    throw new MondeException("Chaque étape n'a pas un successeur.");
                 }
 
                 // Vérification qu'un guichet n'a pas plusieurs étapes qui la suivent
                 if (etape.estUnGuichet() && etape.getListSuccesseurs().size() > 1) {
-                    throw new MondeException();
+                    throw new MondeException("Trop d'étapes qui suivent un seul guichet.");
                 }
             }
 
             if(etape.getListSuccesseurs().size()>=1) compteur++;
         }
-        if(compteur!= hmEtape.size()-1) throw new MondeException();
+        if(compteur != hmEtape.size()-1){
+            throw new MondeException("Le lien n'est pas fait entre toutes les étapes.");
+        }
     }
 
     /**
@@ -330,6 +335,15 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void setpSelectionne(PointDeControleIG pSelectionne) {
         this.pSelectionne = pSelectionne;
+    }
+
+    /**
+     * Remet toutes les activités du Monde en tant qu'activités classiques.
+     */
+    public void setAllActiviteRestreinteFalse(){
+        for(EtapeIG e : hmEtape.values()){
+            if(e.estUneActivite()) ((ActiviteIG) e).setEstUneActiviteRestreinte(false);
+        }
     }
 
     /**

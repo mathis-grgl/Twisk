@@ -58,8 +58,8 @@ public class ActiviteIG extends EtapeIG {
     /**
      * Inverse la valeur booléenne d'activitéRestreinte.
      */
-    public void setEstUneActiviteRestreinte(){
-        activiteRestreinte = !activiteRestreinte;
+    public void setEstUneActiviteRestreinte(Boolean activiteRestreinte){
+        this.activiteRestreinte = activiteRestreinte;
     }
 
     /**

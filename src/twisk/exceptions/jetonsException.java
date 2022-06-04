@@ -12,6 +12,6 @@ public class jetonsException extends TwiskException {
      * Instancies une nouvelle instance de jetonsException.
      */
     public jetonsException(){
-        super("jetons");
+        super("Saisi des entiers pour les jetons.");
     }
 }

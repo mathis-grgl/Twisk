@@ -12,6 +12,6 @@ public class arcException extends TwiskException{
      * Instancies une nouvelle instance d'arcException.
      */
     public arcException(){
-        super("l'arc");
+        super("Problème lié à la création de l'arc.");
     }
 }

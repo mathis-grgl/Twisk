@@ -12,6 +12,6 @@ public class delaiException extends TwiskException{
      * Instancies une nouvelle instance de delaiException.
      */
     public delaiException(){
-        super("délai");
+        super("Saisi des entiers pour les délais.");
     }
 }
