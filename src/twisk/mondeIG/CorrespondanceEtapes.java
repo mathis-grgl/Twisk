@@ -2,6 +2,7 @@ package twisk.mondeIG;
 
 import twisk.monde.Etape;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -30,7 +31,7 @@ public class CorrespondanceEtapes {
      * Renvoie l'étape correspondante à l'étapeIG.
      * @param etape L'étapeIG
      */
-    public Etape getEtape(EtapeIG etape){
+    public Etape get(EtapeIG etape){
         return hashEtapes.get(etape);
     }
 
@@ -40,10 +41,8 @@ public class CorrespondanceEtapes {
      */
     public void correspondanceSucc(EtapeIG etapeIG){
         for (EtapeIG etapeIGSucc : etapeIG.getListSuccesseurs()){
-            System.out.println(getEtape(etapeIG));
-            System.out.println(getEtape(etapeIGSucc));
-            Etape etape = getEtape(etapeIG);
-            Etape etapeSucc = getEtape(etapeIGSucc);
+            Etape etape = get(etapeIG);
+            Etape etapeSucc = get(etapeIGSucc);
             etape.ajouterSuccesseur(etapeSucc);
         }
     }

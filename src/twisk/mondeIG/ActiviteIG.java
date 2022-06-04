@@ -58,7 +58,7 @@ public class ActiviteIG extends EtapeIG {
     /**
      * Inverse la valeur booléenne d'activitéRestreinte.
      */
-    public void setEstUnActiviteRestreinte(){
+    public void setEstUneActiviteRestreinte(){
         activiteRestreinte = !activiteRestreinte;
     }
 

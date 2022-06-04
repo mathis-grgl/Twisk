@@ -4,6 +4,7 @@ import twisk.exceptions.MondeException;
 import twisk.monde.*;
 import twisk.outils.ClassLoaderPerso;
 import twisk.outils.FabriqueIdentifiant;
+import twisk.outils.FabriqueNumero;
 import twisk.outils.TailleComposant;
 import twisk.vues.SujetObserve;
 
@@ -24,6 +25,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private ArrayList<EtapeIG> etapesSortie;
     private ArrayList<ClassLoaderPerso> classLoaderPersoList;
     private Boolean estLancee;
+    private CorrespondanceEtapes correspondanceEtapes;
 
     /**
      * Instancie un nouvel MondeIG.
@@ -47,8 +49,13 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      * @return monde
      */
     private Monde creerMonde(){
+
+        FabriqueNumero.getInstance().reset();
+
         Monde monde = new Monde();
-        CorrespondanceEtapes correspondanceEtapes = new CorrespondanceEtapes();
+
+        correspondanceEtapes = new CorrespondanceEtapes();
+
         for (EtapeIG etapeIG : hmEtape.values()){
             Etape etapeAAjouter;
             if(etapeIG.estUneActivite()){
@@ -59,12 +66,11 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
             } else
                 etapeAAjouter = new Guichet(etapeIG.getNom());
             monde.ajouter(etapeAAjouter);
+            correspondanceEtapes.ajouter(etapeIG,etapeAAjouter);
             if (etapeIG.estUneSortie()) monde.aCommeSortie(etapeAAjouter);
             if (etapeIG.estUneEntree()) monde.aCommeEntree(etapeAAjouter);
-            correspondanceEtapes.ajouter(etapeIG,etapeAAjouter);
-            correspondanceEtapes.correspondanceSucc(etapeIG);
         }
-        //for(Etape e : monde) System.out.println(e);
+        for(EtapeIG etapeIG : hmEtape.values()) correspondanceEtapes.correspondanceSucc(etapeIG);
         return monde;
     }
 
@@ -101,7 +107,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void ajouter(PointDeControleIG pt1, PointDeControleIG pt2){
         listeArc.add(new ArcIG(pt1, pt2));
-        System.out.println("Nouvelle arc crée entre l'étape "+listeArc.get(listeArc.size() - 1).getP1().getEtapeIG().getNom()+" et l'étape "+listeArc.get(listeArc.size() - 1).getP2().getEtapeIG().getNom());
+        //System.out.println("Nouvelle arc crée entre l'étape "+listeArc.get(listeArc.size() - 1).getP1().getEtapeIG().getNom()+" et l'étape "+listeArc.get(listeArc.size() - 1).getP2().getEtapeIG().getNom());
         pt1.getEtapeIG().ajouterSuccesseur(pt2.getEtapeIG());
     }
 
@@ -111,6 +117,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     public void simuler() throws MondeException {
         verifierMondeIG();
         Monde m = creerMonde();
+        FabriqueNumero.getInstance().reset();
         try{
             ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
             classLoaderPersoList.add(classloader);
@@ -135,29 +142,34 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         if (etapesSortie.size() < 1 || etapesEntree.size() <1 || hmEtape.size() < 1){
             throw new MondeException();
         }
+        int compteur = 0;
         for (EtapeIG etape : hmEtape.values()){
             for (EtapeIG succ : etape.getListSuccesseurs() ){
                 if(succ.estUneActivite() && etape.estUnGuichet()){
-                    ((ActiviteIG) succ).setEstUnActiviteRestreinte();
+                    ((ActiviteIG) succ).setEstUneActiviteRestreinte();
                 }
-                //une activiter ne peut pas etre suivie par une activite restrainte
+                //Une activité ne peut pas être suivit d'une activité restreinte
                 if((etape.estUneActivite() || etape.estUneActiviteRestreinte()) && succ.estUneActiviteRestreinte()) {
                     throw new MondeException();
                 }
-                // Vérification qu'un guichet n'est pas suivis d'un guichet@
+                // Vérification qu'un guichet n'est pas suivit d'un guichet
                 if(succ.estUnGuichet() && etape.estUnGuichet()){
                     throw new MondeException();
                 }
-                // Tout les activités ont au moins un successeurs !
+                // Vérification que chaque étape ait un successeur
                 if(etape.getListSuccesseurs().size() < 1){
                     throw new MondeException();
                 }
 
+                // Vérification qu'un guichet n'a pas plusieurs étapes qui la suivent
                 if (etape.estUnGuichet() && etape.getListSuccesseurs().size() > 1) {
                     throw new MondeException();
                 }
             }
+
+            if(etape.getListSuccesseurs().size()>=1) compteur++;
         }
+        if(compteur!= hmEtape.size()-1) throw new MondeException();
     }
 
     /**
@@ -204,11 +216,21 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void supprListeEtapesSelec(){
         for(EtapeIG e : listeEtapesSelec){
-            listeArc.removeIf(a -> e.getIdentifiant().equals(a.getP1().getEtapeIG().getIdentifiant()) || e.getIdentifiant().equals(a.getP2().getEtapeIG().getIdentifiant()));
+            for(ArcIG arc : listeArc){
+                if(e == arc.getP2().getEtapeIG()){
+                    EtapeIG predecesseur = arc.getP1().getEtapeIG();
+                    predecesseur.supprimerSuccesseur(e);
+                }
+            }
+
+            listeArc.removeIf(arc -> e == arc.getP2().getEtapeIG() || e == arc.getP1().getEtapeIG());
             hmEtape.remove(e.getIdentifiant(),e);
         }
         for(ArcIG a : listeArcsSelec){
             listeArc.remove(a);
+            EtapeIG etape = a.getP1().getEtapeIG();
+            EtapeIG succ = a.getP2().getEtapeIG();
+            etape.supprimerSuccesseur(succ);
         }
         resetListeSelec();
     }

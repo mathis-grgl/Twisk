@@ -1,9 +1,6 @@
 package twisk.mondeIG;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Représente la classe EtapeIG.
@@ -179,7 +176,15 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
      * @param e La ou les étape(s) à ajouter comme successeur
      */
     public void ajouterSuccesseur(EtapeIG... e){
-        listSuccesseurs.addAll(List.of(e));
+        listSuccesseurs.addAll(Arrays.asList(e));
+    }
+
+    /**
+     * Supprime un ou plusieurs successeur(s) à une étapeIG.
+     * @param e La ou les étape(s) à supprimer comme successeur
+     */
+    public void supprimerSuccesseur(EtapeIG... e){
+        listSuccesseurs.removeAll(Arrays.asList(e));
     }
 
     /**

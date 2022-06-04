@@ -162,7 +162,6 @@ public class Simulation extends SujetObserve {
         //Nettoyage
         nettoyage();
         gC.nettoyer();
-        FabriqueNumero.getInstance().reset();
     }
 
     /**
