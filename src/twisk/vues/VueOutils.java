@@ -75,7 +75,7 @@ public class VueOutils extends TilePane implements Observateur {
     @Override
     public void reagir() {
         //Image Simulation
-        if(!monde.getEstLancee()){
+        if(!monde.isSimStarted()){
             ImageView playIMG = new ImageView(new Image("/twisk/ressources/images/play.png"));
             playIMG.setFitHeight(25);
             playIMG.setPreserveRatio(true);
