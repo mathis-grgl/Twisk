@@ -5,6 +5,7 @@ import twisk.monde.*;
 import twisk.outils.FabriqueNumero;
 import twisk.outils.KitC;
 import twisk.outils.ThreadsManager;
+import twisk.vues.Observateur;
 import twisk.vues.SujetObserve;
 
 import java.io.IOException;
@@ -58,7 +59,7 @@ public class Simulation extends SujetObserve {
     public void simuler(Monde monde){
        Task<Void> task = new Task<>() {
            @Override
-           protected Void call(){
+           protected Void call() throws Exception{
              try {
                    simuStarted = true;
                    //Affichage du monde
@@ -184,7 +185,8 @@ public class Simulation extends SujetObserve {
                return null;
            }
        };
-        ThreadsManager.getInstance().lancer(task);
+        Thread thread = new Thread(task);
+        thread.start();
     }
 
     /**
@@ -224,4 +226,9 @@ public class Simulation extends SujetObserve {
      * Nettoie tout correctement.
      */
     public native void nettoyage();
+
+    @Override
+    public void ajouterObservateur(Observateur o) {
+        super.ajouterObservateur(o);
+    }
 }
