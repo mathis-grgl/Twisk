@@ -6,18 +6,19 @@ import twisk.outils.ClassLoaderPerso;
 import twisk.outils.FabriqueIdentifiant;
 import twisk.outils.FabriqueNumero;
 import twisk.outils.TailleComposant;
+import twisk.simulation.Client;
+import twisk.simulation.GestionnaireClients;
+import twisk.vues.Observateur;
 import twisk.vues.SujetObserve;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Représente la classe MondeIG (qui extends SujetObserve).
  */
-public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
+public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observateur {
     private HashMap<String,EtapeIG> hmEtape ;
     private ArrayList<ArcIG> listeArc, listeArcsSelec;
     private PointDeControleIG pSelectionne;
@@ -27,6 +28,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private ArrayList<ClassLoaderPerso> classLoaderPersoList;
     private Boolean estLancee;
     private CorrespondanceEtapes correspondanceEtapes;
+    private Object simulation;
 
     /**
      * Instancie un nouvel MondeIG.
@@ -123,11 +125,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
             ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
             classLoaderPersoList.add(classloader);
             Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size()-1).loadClass("twisk.simulation.Simulation");
-            Object sim = classSimu.getConstructor().newInstance();
+            simulation = classSimu.getConstructor().newInstance();
             Method simuler = classSimu.getMethod("simuler",Monde.class);
             //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
             //mAjouterObs.invoke(sim,this);
-            simuler.invoke(sim,m);
+            simuler.invoke(simulation,m);
+            setSimulationStarted(true);
             System.out.println("La simulation du monde a été terminé");
 
         } catch (Exception e) {
@@ -361,6 +364,64 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     }
 
     /**
+     *Getter sur les client
+     * @return liste de cients (a partir de GestionnaireClient)
+     */
+    public ArrayList<Client> getClients(){
+        GestionnaireClients gestionnaireClients = null;
+        try{
+            Method getGesClients = simulation.getClass().getDeclaredMethod("getGestionnaireClients");
+            gestionnaireClients = (GestionnaireClients) getGesClients.invoke(simulation);
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return Objects.requireNonNull(gestionnaireClients).getClients();
+    }
+
+    /**
+     * set si la simulation a commence ou pas (dans Simulation)
+     */
+    public void setSimStarted(boolean bool){
+        try{
+            Method setSimuStarted = simulation.getClass().getDeclaredMethod("setSimuStarted",boolean.class);
+            setSimuStarted.invoke(simulation,bool);
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * get si la simulation a commence a partire de Simulation
+     * @return si la simulation a commence
+     */
+    public boolean isSimStarted(){
+        boolean isStarted = false;
+        try{
+            Method isSimuStarted = simulation.getClass().getDeclaredMethod("isSimuStarted");
+            isStarted = (boolean) isSimuStarted.invoke(simulation);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return isStarted;
+    }
+
+    /**
+     * Retourne a simulation.
+     * @return simulation
+     */
+    public Object getSimulation() {
+        return simulation;
+    }
+
+    /**
+     * getteur corespondance etapes
+     * @return correspondanceetapes
+     */
+    public CorrespondanceEtapes getCorrespondanceEtapes() {
+        return correspondanceEtapes;
+    }
+
+    /**
      * Rend itérable les étapes du monde.
      * @return L'itérateur des étapes
      */
@@ -377,4 +438,8 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         return listeArc.iterator();
     }
 
+    @Override
+    public void reagir() {
+        notifierObservateurs();
+    }
 }
