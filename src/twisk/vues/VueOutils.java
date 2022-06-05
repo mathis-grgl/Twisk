@@ -49,20 +49,20 @@ public class VueOutils extends TilePane implements Observateur {
         simuler.setOnAction(new EcouteurSimuler(this.monde));
 
         //Image Activite
-        ImageView activiteIMG = new ImageView(new Image("images/activite.png"));
+        ImageView activiteIMG = new ImageView(new Image("/twisk/ressources/images/activite.png"));
         activiteIMG.setFitHeight(25);
         activiteIMG.setPreserveRatio(true);
         ajouterActivite.setGraphic(activiteIMG);
 
         //Image Guichet
-        ImageView guichetIMG = new ImageView(new Image("images/guichet.png"));
+        ImageView guichetIMG = new ImageView(new Image("/twisk/ressources/images/guichet.png"));
         guichetIMG.setFitHeight(25);
         guichetIMG.setPreserveRatio(true);
         ajouterGuichet.setGraphic(guichetIMG);
 
         //Image Simulation
         if(!monde.getEstLancee()){
-            ImageView playIMG = new ImageView(new Image("images/play.png"));
+            ImageView playIMG = new ImageView(new Image("/twisk/ressources/images/play.png"));
             playIMG.setFitHeight(25);
             playIMG.setPreserveRatio(true);
             simuler.setGraphic(playIMG);
@@ -76,12 +76,12 @@ public class VueOutils extends TilePane implements Observateur {
     public void reagir() {
         //Image Simulation
         if(!monde.getEstLancee()){
-            ImageView playIMG = new ImageView(new Image("images/play.png"));
+            ImageView playIMG = new ImageView(new Image("/twisk/ressources/images/play.png"));
             playIMG.setFitHeight(25);
             playIMG.setPreserveRatio(true);
             simuler.setGraphic(playIMG);
         } else {
-            ImageView pauseIMG = new ImageView(new Image("images/pause.png"));
+            ImageView pauseIMG = new ImageView(new Image("/twisk/ressources/images/pause.png"));
             pauseIMG.setFitHeight(25);
             pauseIMG.setPreserveRatio(true);
             simuler.setGraphic(pauseIMG);
