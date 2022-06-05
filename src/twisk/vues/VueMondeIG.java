@@ -1,5 +1,6 @@
 package twisk.vues;
 
+import javafx.scene.layout.HBox;
 import twisk.ecouteur.EcouteurDropped;
 import twisk.ecouteur.EcouteurOver;
 import javafx.scene.layout.Pane;
@@ -7,6 +8,7 @@ import twisk.mondeIG.ArcIG;
 import twisk.mondeIG.EtapeIG;
 import twisk.mondeIG.MondeIG;
 import twisk.mondeIG.PointDeControleIG;
+import twisk.simulation.Client;
 
 import java.util.Iterator;
 
@@ -30,6 +32,23 @@ public class VueMondeIG extends Pane implements Observateur {
 
         this.setOnDragOver(new EcouteurOver(this,this.monde));
         this.setOnDragDropped(new EcouteurDropped(this,this.monde));
+    }
+
+    /**
+     *
+     * @param hbox
+     * @param etapeIG
+     */
+    public void ajouterClient(HBox hbox, EtapeIG etapeIG){
+        if (monde.getSimulation() != null){
+            if(monde.isSimStarted()){
+                for(Client client : monde.getClients()){
+                    if (monde.getCorrespondanceEtapes().get(e).equals(client.getEtape())){
+                        hbox.getChildren().add(new VueClientIG(client));
+                    }
+                }
+            }
+        }
     }
 
     @Override
