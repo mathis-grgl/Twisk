@@ -25,6 +25,8 @@ public class Simulation extends SujetObserve {
      */
     private GestionnaireClients gC;
 
+    private boolean simuStarted
+
     /**
      * Initialise une nouvelle simulation.
      */
@@ -33,6 +35,7 @@ public class Simulation extends SujetObserve {
         c.creerEnvironnemment();
         nbClients = 2;
         gC = new GestionnaireClients();
+        simuStarted = false;
     }
 
     /**
@@ -49,6 +52,7 @@ public class Simulation extends SujetObserve {
      * @param monde Le monde à simuler
      */
     public void simuler(Monde monde){
+        simuStarted = true;
         //Affichage du monde
         System.out.println(monde+"\n");
         for(Etape e : monde) System.out.println(e);
@@ -158,7 +162,7 @@ public class Simulation extends SujetObserve {
 
         //Retour à la ligne
         System.out.println();
-
+        simuStarted = false;
         //Nettoyage
         nettoyage();
         gC.nettoyer();
@@ -181,6 +185,21 @@ public class Simulation extends SujetObserve {
      * @return Le tableau contenant la position des clients et le nombre de clients dans chaque étape
      */
     public native int[] ou_sont_les_clients(int nbEtapes, int nbClients);
+
+    /**
+     * @return si la simualtion a comancer ou pas
+     */
+    public boolean isSimuStarted() {
+        return simuStarted;
+    }
+
+    /**
+     * setter simuStarted
+     * @param simuStarted
+     */
+    public void setSimuStarted(boolean simuStarted) {
+        this.simuStarted = simuStarted;
+    }
 
     /**
      * Nettoie tout correctement.
