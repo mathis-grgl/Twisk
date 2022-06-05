@@ -43,7 +43,7 @@ public class VueMondeIG extends Pane implements Observateur {
         if (monde.getSimulation() != null){
             if(monde.isSimStarted()){
                 for(Client client : monde.getClients()){
-                    if (monde.getCorrespondanceEtapes().get(e).equals(client.getEtape())){
+                    if (monde.getCorrespondanceEtapes().get(etapeIG).equals(client.getEtape())){
                         hbox.getChildren().add(new VueClientIG(client));
                     }
                 }

@@ -127,10 +127,10 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
             Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size()-1).loadClass("twisk.simulation.Simulation");
             simulation = classSimu.getConstructor().newInstance();
             Method simuler = classSimu.getMethod("simuler",Monde.class);
-            //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
-            //mAjouterObs.invoke(sim,this);
+            Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
+            mAjouterObs.invoke(simulation,this);
             simuler.invoke(simulation,m);
-            setSimulationStarted(true);
+            setSimStarted(true);
             System.out.println("La simulation du monde a été terminé");
 
         } catch (Exception e) {
