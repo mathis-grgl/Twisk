@@ -1,7 +1,7 @@
 package twisk.ecouteur;
 
 import twisk.exceptions.TwiskException;
-import twisk.exceptions.delaiException;
+import twisk.exceptions.DelaiException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextInputDialog;
@@ -38,7 +38,7 @@ public class EcouteurDelai implements EventHandler<ActionEvent> {
                 this.monde.modifTemps(temps);
             else
                 try {
-                    throw new delaiException();
+                    throw new DelaiException();
                 } catch (TwiskException e) {
                     e.printStackTrace();
                 }
@@ -58,7 +58,7 @@ public class EcouteurDelai implements EventHandler<ActionEvent> {
                 this.monde.modifEcartTemps(ecartemps);
             else
                 try {
-                    throw new delaiException();
+                    throw new DelaiException();
                 } catch (TwiskException e) {
                     e.printStackTrace();
                 }
