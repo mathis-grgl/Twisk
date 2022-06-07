@@ -6,10 +6,20 @@ import twisk.mondeIG.EtapeIG;
 import twisk.mondeIG.MondeIG;
 import twisk.outils.TailleComposant;
 
+
+/**
+ * Représente la vue d'un client sur la partie graphique sous forme de cercle.
+ */
 public class VueClientIG extends Circle implements Observateur{
     private MondeIG mondeIG;
     private EtapeIG etapeIG;
 
+    /**
+     * Instancie un nouveau VueClientIG.
+     * @param mondeIG le monde correspondant
+     * @param etapeIG l'étape où se trouve le client
+     * @param rang son rang dans l'étape
+     */
     public VueClientIG(MondeIG mondeIG, EtapeIG etapeIG, int rang){
         this.mondeIG = mondeIG;
         this.etapeIG = etapeIG;

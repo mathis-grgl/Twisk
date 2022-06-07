@@ -60,10 +60,18 @@ public class FabriqueNumero {
         return cmp;
     }
 
+    /**
+     * Retourne le numéro de la simulation actuelle.
+     * @return le n° de la sim en string
+     */
     public String getNoSim() {
         return String.valueOf(noSim);
     }
 
+    /**
+     * Incrémente et retourne le numéro de la simulation.
+     * @return le nouveau n° de la simulation en string
+     */
     public String getNouveauNoSim() {
         noSim += 1;
         return String.valueOf(noSim);
@@ -77,6 +85,9 @@ public class FabriqueNumero {
         cptSemaphore = 1;
     }
 
+    /**
+     * Réinitialise le numéro de la simulation à l'état défaut.
+     */
     public void resetNoSim(){
         noSim = 0;
     }

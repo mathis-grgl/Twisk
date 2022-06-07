@@ -22,22 +22,22 @@ public class ThreadsManager {
         return instance;
     }
 
+    /**
+     * Crée un thread et l'ajoute à la liste puis lance la task.
+     * @param task la task à lancer
+     */
     public void lancer(Task task){
         Thread thread = new Thread(task);
         threadList.add(thread);
         thread.start();
     }
 
+    /**
+     * Arrête tous les threads dans la liste des threads.
+     */
     public void detruireTout(){
         for(Thread thr : threadList){
-            if (thr.isInterrupted()) {
-                try {
-                    throw new InterruptedException();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } else
-                thr.interrupt();
+            thr.interrupt();
         }
     }
 }

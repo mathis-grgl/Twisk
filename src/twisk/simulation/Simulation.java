@@ -175,19 +175,34 @@ public class Simulation extends SujetObserve {
         this.nbClients = nbClients;
     }
 
+    /**
+     * Retourne le gestionnaire des clients de la simulation.
+     * @return le gestionnaire clients
+     */
     public GestionnaireClients getGestionnaireClients() {
         return gC;
     }
 
+    /**
+     * Définit la simulation comme stoppée et appelle la fonction tuerToutLesProcessus de KitC.
+     */
     public void stopSimulation(){
         simuEstLancee = false;
         c.tuerToutLesProcessus();
     }
 
+    /**
+     * Retourne si la simulation est lancée.
+     * @return Vrai si la simulation est lancée
+     */
     public Boolean isSimuEstLancee() {
         return simuEstLancee;
     }
 
+    /**
+     * Définit la variable de la simulation en fonction de celle en paramètre.
+     * @param simuEstLancee la nouvelle valeur de simulation
+     */
     public void setSimuEstLancee(boolean simuEstLancee) {
         this.simuEstLancee = simuEstLancee;
     }

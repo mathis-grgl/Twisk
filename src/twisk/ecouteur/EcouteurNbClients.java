@@ -9,9 +9,16 @@ import twisk.mondeIG.MondeIG;
 
 import java.util.Optional;
 
+/**
+ * Permet de modifier le nombre de clients dans la simulation.
+ */
 public class EcouteurNbClients implements EventHandler<ActionEvent> {
     private MondeIG mondeIG;
 
+    /**
+     * Instancie un nouveau EcouteurNbClients.
+     * @param monde Le monde où se trouve les étapes.
+     */
     public EcouteurNbClients(MondeIG monde) {
         this.mondeIG = monde;
     }

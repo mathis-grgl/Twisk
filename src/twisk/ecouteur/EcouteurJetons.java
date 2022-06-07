@@ -9,9 +9,16 @@ import twisk.mondeIG.MondeIG;
 
 import java.util.Optional;
 
+/**
+ * Représente l'écouteur permettant de modifier le nombre de jetons des guichets.
+ */
 public class EcouteurJetons implements EventHandler<ActionEvent> {
     private MondeIG monde;
 
+    /**
+     * Instancie un nouveau EcouteurJetons.
+     * @param monde Le monde où se trouve les étapes.
+     */
     public EcouteurJetons(MondeIG monde) {
         this.monde = monde;
     }

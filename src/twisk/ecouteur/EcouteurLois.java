@@ -10,10 +10,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import twisk.mondeIG.MondeIG;
 
+/**
+ * Permet de modifier la loi de probabilité utilisée pour la simulation.
+ */
 public class EcouteurLois implements EventHandler<ActionEvent> {
 
     private MondeIG mondeIG;
 
+    /**
+     * Instancie un nouveau EcouteurLois.
+     * @param monde Le monde où se trouve les étapes.
+     */
     public EcouteurLois(MondeIG monde){
         this.mondeIG = monde;
     }

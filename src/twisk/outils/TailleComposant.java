@@ -23,7 +23,7 @@ public class TailleComposant {
         return instance;}
 
     /**
-     * Retourne la largeur d'un composant.
+     * Retourne la largeur d'un composant activité.
      * @return La largeur
      */
     public int getLargeurAC(){
@@ -31,17 +31,25 @@ public class TailleComposant {
     }
 
     /**
-     * Retourne la hauteur d'un composant.
+     * Retourne la hauteur d'un composant activité.
      * @return La hauteur
      */
     public int getHauteurAC(){
         return hauteurAC;
     }
 
+    /**
+     * Retourne la largeur d'un composant guichet.
+     * @return La largeur
+     */
     public int getLargeurGUI() {
         return largeurGUI;
     }
 
+    /**
+     * Retourne la hauteur d'un composant guichet.
+     * @return La hauteur
+     */
     public int getHauteurGUI() {
         return hauteurGUI;
     }

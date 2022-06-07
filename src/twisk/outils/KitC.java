@@ -114,6 +114,9 @@ public class KitC {
         }
     }
 
+    /**
+     * Tue tous les processus .c lancés par la simulation.
+     */
     public void tuerToutLesProcessus(){
 
     }

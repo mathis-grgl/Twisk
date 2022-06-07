@@ -184,6 +184,10 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
         }*/
     }
 
+    /**
+     * Retourne si un chemin est possible dans la simulation.
+     * @return Vrai si un chemin est possible
+     */
     public Boolean cheminPossible(){
         Boolean chemin = false;
         for(EtapeIG etapeIG : hmEtape.values()) {
@@ -384,6 +388,10 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
         return pSelectionne;
     }
 
+    /**
+     * Retourne la correspondance entre les étapesIG et les Etapes.
+     * @return la correspondanceEtapes
+     */
     public CorrespondanceEtapes getCorrespondanceEtapes() {
         return correspondanceEtapes;
     }
@@ -405,6 +413,10 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
         return Objects.requireNonNull(gestionnaireClients).getListClients();
     }
 
+    /**
+     * Permet de définir le nombre de clients dans Simulation.java sans l'initialiser.
+     * @param nbClients le nouveau nombre de clients
+     */
     public void setNbClients(int nbClients){
         GestionnaireClients gestionnaireClients = null;
         if(simulation != null) {
@@ -448,10 +460,17 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
         }
     }
 
+    /**
+     * Retourne la simulation du monde.
+     * @return La simulation
+     */
     public Object getSimulation() {
         return simulation;
     }
 
+    /**
+     * Stop la simulation si la simulation est lancée, en modifiant les valeurs dans Simulation.java et en arrêtant tous les threads.
+     */
     public void stopSimulation() {
         simuEstLancee = getSimuEstLancee();
         if(simulation != null && simuEstLancee) {
@@ -467,8 +486,8 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
     }
 
     /**
-     * setter loi
-     * @param loi nouvelle loi
+     * Définit la loi en fonction de la loi (String) en paramètre.
+     * @param loi Nouvelle loi
      */
     public void setLoi(String loi) {
         this.loi = loi;

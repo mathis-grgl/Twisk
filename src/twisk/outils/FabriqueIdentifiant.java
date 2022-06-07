@@ -36,12 +36,20 @@ public class FabriqueIdentifiant {
         return String.valueOf(cmp);
     }
 
+    /**
+     * Retourne l'identifiant unique d'un guichet (sémaphore).
+     * @return le sémaphore d'un guichet
+     */
     public String getSemaphore() {
         int cmp = noSema;
         noSema += 1;
         return String.valueOf(cmp);
     }
 
+    /**
+     * Retourne l'identifiant d'une activité.
+     * @return l'id en string de l'activité
+     */
     public String getIdentifiantActivite() {
         int cmp = noActivite;
         noActivite += 1;
