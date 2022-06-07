@@ -1,5 +1,6 @@
 package twisk.ecouteur;
 
+import twisk.exceptions.MondeException;
 import twisk.exceptions.TwiskException;
 import twisk.exceptions.ArcException;
 import javafx.event.EventHandler;
@@ -52,7 +53,11 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
             } else {
                 
                 //On utilise la fonction ajouter pour crée l'arc en fonction des deux points en mémoire.
-                monde.ajouter(monde.getpSelectionne(), point);
+                try {
+                    monde.ajouter(monde.getpSelectionne(), point);
+                } catch (MondeException e) {
+                    e.printStackTrace();
+                }
                 monde.getpSelectionne().select();
                 point.select();
 

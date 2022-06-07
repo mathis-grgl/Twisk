@@ -2,6 +2,7 @@ package twisk.mondeIG;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import twisk.exceptions.MondeException;
 
 import java.util.Iterator;
 
@@ -29,14 +30,18 @@ class MondeIGTest {
     
     @Test
     void ajouter1() {
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        assertEquals(monde.getSizeArc(),1,"Bug dans ajouter");
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        assertEquals(monde.getSizeArc(),2,"Bug dans ajouter");
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        assertEquals(monde.getSizeArc(),3,"Bug dans ajouter");
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        assertEquals(monde.getSizeArc(),4,"Bug dans ajouter");
+        try {
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            assertEquals(monde.getSizeArc(), 1, "Bug dans ajouter");
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            assertEquals(monde.getSizeArc(), 2, "Bug dans ajouter");
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            assertEquals(monde.getSizeArc(), 3, "Bug dans ajouter");
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            assertEquals(monde.getSizeArc(), 4, "Bug dans ajouter");
+        } catch (MondeException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -57,10 +62,14 @@ class MondeIGTest {
     @Test
     void iteratorArc(){
         int cpt=0;
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
-        monde.ajouter(new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)),new PointDeControleIG(100,100,"0",new ActiviteIG("DD","DD",100,100)));
+        try {
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+            monde.ajouter(new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)), new PointDeControleIG(100, 100, "0", new ActiviteIG("DD", "DD", 100, 100)));
+        } catch (MondeException e) {
+            e.printStackTrace();
+        }
         Iterator<ArcIG> ite = monde.iteratorArc();
         while(ite.hasNext()){
             cpt++;

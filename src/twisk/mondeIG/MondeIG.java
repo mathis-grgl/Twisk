@@ -104,9 +104,11 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
      * @param pt1 Premier point de contrôle
      * @param pt2 Deuxième point de contrôle
      */
-    public void ajouter(PointDeControleIG pt1, PointDeControleIG pt2){
-        listeArc.add(new ArcIG(pt1, pt2));
-        pt1.getEtapeIG().ajouterSuccesseur(pt2.getEtapeIG());
+    public void ajouter(PointDeControleIG pt1, PointDeControleIG pt2) throws MondeException {
+        if (!pt1.getEtapeIG().estAccessibleDepuis(pt2.getEtapeIG())){
+            listeArc.add(new ArcIG(pt1, pt2));
+            pt1.getEtapeIG().ajouterSuccesseur(pt2.getEtapeIG());
+        }else throw new MondeException("L'étape choisie ne peut pas etre accede a partir de cette étape");
     }
 
     /**
