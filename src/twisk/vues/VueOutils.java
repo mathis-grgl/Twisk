@@ -75,11 +75,13 @@ public class VueOutils extends TilePane implements Observateur {
     public void reagir() {
         //Image Simulation
         if(!monde.getSimuEstLancee()){
+            System.out.println("play"+monde.getSimuEstLancee());
             ImageView playIMG = new ImageView(new Image("images/play.png"));
             playIMG.setFitHeight(25);
             playIMG.setPreserveRatio(true);
             simuler.setGraphic(playIMG);
         } else {
+            System.out.println("pause"+monde.getSimuEstLancee());
             ImageView pauseIMG = new ImageView(new Image("images/pause.png"));
             pauseIMG.setFitHeight(25);
             pauseIMG.setPreserveRatio(true);

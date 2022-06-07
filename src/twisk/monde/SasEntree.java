@@ -27,13 +27,13 @@ public class SasEntree extends Activite {
         StringBuilder str = new StringBuilder();
         str.append("entrer(")
                 .append(getNomNumero());
-        if (this.loi.equals("Uniforme")) {
+        /*if (this.loi.equals("Uniforme")) {
             str.append("delai((int) delaiUniforme(5,1),1); \n");
         } else if (this.loi.equals("Gaussienne")){
             str.append("delai((int) delaiGauss(5,1),1); \n");
         }else {// Exponentielle
             str.append("delai((int) delaiExponentiel(1.0/5.0),1); \n");
-        }
+        }*/
 
         str.append(");\n")
                 .append("transfert(")

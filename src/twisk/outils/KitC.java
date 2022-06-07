@@ -25,7 +25,7 @@ public class KitC {
             // création du répertoire twisk sous /tmp. Ne déclenche pas d’erreur si le répertoire existe déjà
             Path directories = Files.createDirectories(Paths.get("/tmp/twisk"));
             // copie des deux fichiers programmeC.o et def.h depuis le projet sous /tmp/twisk
-            String[] liste = {"programmeC.o", "def.h","codeNatif.o"};
+            String[] liste = {"programmeC.o", "def.h","codeNatif.o","lois.h"};
             for (String nom : liste) {
                 InputStream source = getClass().getResource("/codeC/" + nom).openStream() ;
                 File destination = new File("/tmp/twisk/" + nom) ;

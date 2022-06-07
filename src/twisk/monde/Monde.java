@@ -94,7 +94,7 @@ public class Monde implements Iterable<Etape>{
         StringBuilder str = new StringBuilder();
 
         str.append("#include \"def.h\" \n" +
-                "#include \"lois.h\n \n");
+                "#include \"lois.h\"\n \n");
 
         for(Etape e : gEtapes){
             str.append("#define ").append(e.getNomNumero()).append(" ").append(e.num).append("\n");

@@ -48,11 +48,11 @@ public class VueMondeIG extends Pane implements Observateur {
                     else panneau.getChildren().add(new VueGuichetIG(monde, e));
                     for (PointDeControleIG point : e) panneau.getChildren().add(new VuePointDeControleIG(monde, point));
                 }
-                if (monde.getSimuEstLancee()) {
+                if (monde.getSimulation() != null) {
                     CorrespondanceEtapes correspondanceEtapes = monde.getCorrespondanceEtapes();
                     ArrayList<Client> listClients = monde.getClients();
                     for (Client clientActuel : listClients) {
-                        //panneau.getChildren().add(new VueClientIG(monde, correspondanceEtapes.getEtapeIG(clientActuel.getEtape()), clientActuel.getRang()));
+                        panneau.getChildren().add(new VueClientIG(monde, correspondanceEtapes.getEtapeIG(clientActuel.getEtape()), clientActuel.getRang()));
                     }
                 }
             }

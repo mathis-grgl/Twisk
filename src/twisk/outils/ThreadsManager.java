@@ -28,6 +28,10 @@ public class ThreadsManager {
         thread.start();
     }
 
+    public Thread getLastThread(){
+        return threadList.get(threadList.size()-1);
+    }
+
     public void detruireTout(){
         for(Thread thr : threadList){
             if (thr.isInterrupted()) {

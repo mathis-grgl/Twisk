@@ -119,23 +119,25 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
             verifierMondeIG();
             ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
             classLoaderPersoList.add(classloader);
+            Monde m = creerMonde();
+            Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size() - 1).loadClass("twisk.simulation.Simulation");
+            simulation = classSimu.getConstructor().newInstance();
+            Method simuler = classSimu.getMethod("simuler", Monde.class);
+            Method mAjouterObs = classSimu.getMethod("ajouterObservateur", Observateur.class);
+            mAjouterObs.invoke(simulation, this);
 
             Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    Monde m = creerMonde();
-                    Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size() - 1).loadClass("twisk.simulation.Simulation");
-                    simulation = classSimu.getConstructor().newInstance();
-                    Method simuler = classSimu.getMethod("simuler", Monde.class);
-                    Method mAjouterObs = classSimu.getMethod("ajouterObservateur", Observateur.class);
-                    simuler.invoke(simulation, m);
-                    mAjouterObs.invoke(simulation, this);
-                    System.out.println("La simulation du monde a été terminé");
-                    return null;
+                   simuler.invoke(simulation, m);
+                   return null;
                 }
             };
             ThreadsManager.getInstance().lancer(task);
-        } catch (MondeException ignored) {}
+
+        } catch (MondeException ignored) {} catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
         simuEstLancee = getSimuEstLancee();
     }
@@ -431,8 +433,8 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
         simuEstLancee = getSimuEstLancee();
         if(simulation != null && simuEstLancee) {
             setSimStarted(false);
+            ThreadsManager.getInstance().getLastThread().interrupt();
             simuEstLancee = false;
-            ThreadsManager.getInstance().detruireTout();
         }
     }
 
@@ -463,5 +465,6 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
 
     @Override
     public void reagir() {
+        this.notifierObservateurs();
     }
 }
