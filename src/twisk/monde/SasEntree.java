@@ -6,11 +6,14 @@ package twisk.monde;
  * @version 1.0
  */
 public class SasEntree extends Activite {
+    private String loi ;
+
     /**
      * Initialise un nouveau sas d'entrée.
      */
-    public SasEntree() {
+    public SasEntree(String loi) {
         super("entree");
+        this.loi = loi ;
     }
 
     public String toString(){return super.toString();}
@@ -23,12 +26,16 @@ public class SasEntree extends Activite {
     public String toC() {
         StringBuilder str = new StringBuilder();
         str.append("entrer(")
-                .append(getNomNumero())
-                .append(");\ndelai(")
-                .append(temps)
-                .append(",")
-                .append(ecartTemps)
-                .append(");\n")
+                .append(getNomNumero());
+        if (this.loi.equals("Uniforme")) {
+            str.append("delai((int) delaiUniforme(5,1),1); \n");
+        } else if (this.loi.equals("Gaussienne")){
+            str.append("delai((int) delaiGauss(5,1),1); \n");
+        }else {// Exponentielle
+            str.append("delai((int) delaiExponentiel(1.0/5.0),1); \n");
+        }
+
+        str.append(");\n")
                 .append("transfert(")
                 .append(getNomNumero())
                 .append(",")

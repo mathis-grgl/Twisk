@@ -12,7 +12,7 @@ import twisk.mondeIG.MondeIG;
 public class VueMenu extends MenuBar implements Observateur {
     private MondeIG monde;
     private Menu Fichier, Edition, Monde, Parametres;
-    private MenuItem quitter,supprimer, renommer,effacer,entree,sortie,delai,nbjetons,nbclients;
+    private MenuItem quitter,supprimer, renommer,effacer,entree,sortie,delai,nbjetons,nbclients,loiArive;
 
     /**
      * Instancie une nouvelle VueMenu.
@@ -27,6 +27,7 @@ public class VueMenu extends MenuBar implements Observateur {
         Monde = new Menu("Monde");
         Parametres = new Menu("Paramètres");
 
+
         quitter = new MenuItem("Quitter");
         supprimer = new MenuItem("Supprimer");
         renommer =  new MenuItem("Renommer");
@@ -36,6 +37,7 @@ public class VueMenu extends MenuBar implements Observateur {
         delai = new MenuItem("Modifier les délais");
         nbjetons = new MenuItem("Modifier le nombre de jetons");
         nbclients = new MenuItem("Modifier le nombre de clients");
+        loiArive = new MenuItem("Choisir la loi d'arivée");
 
         quitter.setOnAction(new EcouteurQuitter());
         supprimer.setOnAction(new EcouteurSupprimer(this.monde));
@@ -46,12 +48,13 @@ public class VueMenu extends MenuBar implements Observateur {
         delai.setOnAction(new EcouteurDelai(this.monde));
         nbjetons.setOnAction(new EcouteurJetons(this.monde));
         nbclients.setOnAction(new EcouteurNbClients(this.monde));
+        loiArive.setOnAction(new EcouteurLois(this.monde));
 
 
         Fichier.getItems().add(quitter);
         Edition.getItems().addAll(supprimer,effacer);
         Monde.getItems().addAll(entree,sortie);
-        Parametres.getItems().addAll(nbclients);
+        Parametres.getItems().addAll(nbclients,loiArive);
 
         this.getMenus().addAll(Fichier,Edition,Monde,Parametres);
     }

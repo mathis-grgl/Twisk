@@ -27,6 +27,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
     private Boolean simuEstLancee;
     private CorrespondanceEtapes correspondanceEtapes;
     private Object simulation;
+    private String loi ="Uniforme";
 
     /**
      * Instancie un nouvel MondeIG.
@@ -52,7 +53,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
 
         FabriqueNumero.getInstance().reset();
 
-        Monde monde = new Monde();
+        Monde monde = new Monde(loi);
 
         correspondanceEtapes = new CorrespondanceEtapes();
 
@@ -433,6 +434,14 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
             simuEstLancee = false;
             ThreadsManager.getInstance().detruireTout();
         }
+    }
+
+    /**
+     * setter loi
+     * @param loi nouvelle loi
+     */
+    public void setLoi(String loi) {
+        this.loi = loi;
     }
 
     /**

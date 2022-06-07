@@ -14,7 +14,7 @@ class EtapeTest {
         ac2 = new Activite("ac 2");
         ac3 = new Activite("ac&3");
         gui2 = new Guichet("guié2");
-        sE = new SasEntree();
+        sE = new SasEntree("Uniforme");
         sS = new SasSortie();
     }
 

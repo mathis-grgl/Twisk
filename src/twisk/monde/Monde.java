@@ -24,8 +24,8 @@ public class Monde implements Iterable<Etape>{
     /**
      * Initialise un nouveau monde.
      */
-    public Monde(){
-        sasE = new SasEntree();
+    public Monde(String loi){
+        sasE = new SasEntree(loi);
         sasS = new SasSortie();
         gEtapes = new GestionnaireEtapes();
         gEtapes.ajouter(sasE,sasS);
@@ -93,7 +93,8 @@ public class Monde implements Iterable<Etape>{
     public String toC(){
         StringBuilder str = new StringBuilder();
 
-        str.append("#include \"def.h\"\n");
+        str.append("#include \"def.h\" \n" +
+                "#include \"lois.h\n \n");
 
         for(Etape e : gEtapes){
             str.append("#define ").append(e.getNomNumero()).append(" ").append(e.num).append("\n");

@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 public class ClientTwisk {
 
     public ClientTwisk() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException{
-        Monde monde = new Monde();
+        Monde monde = new Monde("Uniforme");
         Etape fpi = new Guichet("FilePiscine", 3);
         Etape pi = new ActiviteRestreinte("Piscine", 8, 2);
         Etape fto = new Guichet("FileToboggan", 1);
@@ -33,7 +33,7 @@ public class ClientTwisk {
         FabriqueNumero.getInstance().reset();
 
 
-        Monde monde2 = new Monde();
+        Monde monde2 = new Monde("Gaussienne");
         Etape fpi2 = new Guichet("FilePiscine", 3);
         Etape pi2 = new ActiviteRestreinte("Piscine", 8, 2);
         Etape fto2 = new Guichet("FileToboggan", 1);

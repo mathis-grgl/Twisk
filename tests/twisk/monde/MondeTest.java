@@ -12,7 +12,7 @@ class MondeTest {
 
     @BeforeEach
     void setUp() {
-        monde = new Monde();
+        monde = new Monde("uniforme");
         gE = new GestionnaireEtapes();
         e1 = new Guichet("Guichet");
         e2 = new Activite("Activite1");
