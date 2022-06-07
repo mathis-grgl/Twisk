@@ -3,6 +3,6 @@
 #include <time.h>
 #include <math.h>
 
-void delaiUniforme(int temps,int delta);
-void delaiGauss(double moyenne, double ecartype);
-void delaiExponentiel(double lambda);
+double delaiUniforme(int temps,int delta);
+double delaiGauss(double moyenne, double ecartype);
+double delaiExponentiel(double lambda);
