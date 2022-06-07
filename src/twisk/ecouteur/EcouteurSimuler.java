@@ -3,6 +3,7 @@ package twisk.ecouteur;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import twisk.exceptions.MondeException;
+import twisk.exceptions.TwiskException;
 import twisk.mondeIG.MondeIG;
 
 /**
@@ -22,10 +23,10 @@ public class EcouteurSimuler implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent actionEvent) {
-        try {
+        if(!monde.getSimuEstLancee()) {
             monde.simuler();
-        } catch (MondeException e) {
-            e.printStackTrace();
+        } else {
+            monde.stopSimulation();
         }
         monde.notifierObservateurs();
     }

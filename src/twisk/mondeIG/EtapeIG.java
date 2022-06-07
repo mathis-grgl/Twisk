@@ -61,8 +61,6 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
      * Si l'étape était une entrée alors elle ne l'est plus et inversement.
      */
     public void changementEtatEntree(){
-        //if(entree) System.out.println(nom+" n'est plus définit comme une entree");
-        //else System.out.println(nom+" est définit comme une entree");
         entree = !entree;
     }
 
@@ -70,8 +68,6 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
      * Si l'étape était une sortie alors elle ne l'est plus et inversement.
      */
     public void changementEtatSortie(){
-        //if(sortie) System.out.println(nom+" n'est plus définit comme une sortie");
-        //else //System.out.println(nom+" est définit comme une sortie");
         sortie = !sortie;
     }
 
@@ -124,10 +120,18 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
     }
 
     /**
-     * Retourne le nom de l'étape.
+     * Retourne le nom modifié de l'étape.
      * @return Le nom modifié
      */
     public String getNom() {
+        return nom;
+    }
+
+    /**
+     * Retourne le nom de l'étape.
+     * @return Le nom
+     */
+    public String getNomSansModification(){
         return nom;
     }
 

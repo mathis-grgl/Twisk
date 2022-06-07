@@ -24,6 +24,10 @@ public class Simulation extends SujetObserve {
      * Le gestionnaire de clients
      */
     private GestionnaireClients gC;
+    /**
+     *
+     */
+    private boolean simuEstLancee;
 
     /**
      * Initialise une nouvelle simulation.
@@ -33,14 +37,7 @@ public class Simulation extends SujetObserve {
         c.creerEnvironnemment();
         nbClients = 2;
         gC = new GestionnaireClients();
-    }
-
-    /**
-     * Permet d'indiquer le nombre de clients dans la simulation.
-     * @param nbClients Le nombre de clients
-     */
-    public void setNbClients(int nbClients){
-        this.nbClients = nbClients;
+        simuEstLancee = false;
     }
 
     /**
@@ -49,6 +46,9 @@ public class Simulation extends SujetObserve {
      * @param monde Le monde à simuler
      */
     public void simuler(Monde monde){
+        //Définit la simulation comme lancée
+        simuEstLancee = true;
+
         //Affichage du monde
         System.out.println(monde+"\n");
         for(Etape e : monde) System.out.println(e);
@@ -124,12 +124,14 @@ public class Simulation extends SujetObserve {
                     for (int j = posClient+1 ;j < posClient+cliPos[posClient]+1 ;j++) {
                         System.out.print(cliPos[j] + " ");
                         gC.allerA(cliPos[j], e, rang);
+                        this.notifierObservateurs();
                         rang++;
                     }
                 } else {
                     int rang=1;
                     for (int j = posClient+1 ;j < posClient+cliPos[posClient]+1 ;j++) {
                         gC.allerA(cliPos[j], e, rang);
+                        this.notifierObservateurs();
                         rang++;
                     }
                 }
@@ -154,14 +156,35 @@ public class Simulation extends SujetObserve {
             this.notifierObservateurs();
         }
 
-
-
         //Retour à la ligne
         System.out.println();
 
         //Nettoyage
         nettoyage();
         gC.nettoyer();
+
+        //Définit que la simulation n'est plus lancée
+        simuEstLancee = false;
+    }
+
+    /**
+     * Permet d'indiquer le nombre de clients dans la simulation.
+     * @param nbClients Le nombre de clients
+     */
+    public void setNbClients(int nbClients){
+        this.nbClients = nbClients;
+    }
+
+    public GestionnaireClients getGestionnaireClients() {
+        return gC;
+    }
+
+    public Boolean isSimuEstLancee() {
+        return simuEstLancee;
+    }
+
+    public void setSimuEstLancee(boolean simuEstLancee) {
+        this.simuEstLancee = simuEstLancee;
     }
 
     /**

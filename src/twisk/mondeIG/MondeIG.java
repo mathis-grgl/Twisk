@@ -1,23 +1,22 @@
 package twisk.mondeIG;
 
+import javafx.concurrent.Task;
 import twisk.exceptions.MondeException;
 import twisk.monde.*;
-import twisk.outils.ClassLoaderPerso;
-import twisk.outils.FabriqueIdentifiant;
-import twisk.outils.FabriqueNumero;
-import twisk.outils.TailleComposant;
+import twisk.outils.*;
+import twisk.simulation.Client;
+import twisk.simulation.GestionnaireClients;
+import twisk.vues.Observateur;
 import twisk.vues.SujetObserve;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Représente la classe MondeIG (qui extends SujetObserve).
  */
-public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
+public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observateur   {
     private HashMap<String,EtapeIG> hmEtape ;
     private ArrayList<ArcIG> listeArc, listeArcsSelec;
     private PointDeControleIG pSelectionne;
@@ -25,12 +24,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
     private ArrayList<EtapeIG> etapesEntree;
     private ArrayList<EtapeIG> etapesSortie;
     private ArrayList<ClassLoaderPerso> classLoaderPersoList;
-    private Boolean estLancee;
+    private Boolean simuEstLancee;
     private CorrespondanceEtapes correspondanceEtapes;
+    private Object simulation;
 
     /**
      * Instancie un nouvel MondeIG.
-     * Creation du monde
      */
     public MondeIG() {
         hmEtape = new HashMap<>();
@@ -42,12 +41,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         etapesEntree = new ArrayList<>();
         etapesSortie = new ArrayList<>();
         classLoaderPersoList = new ArrayList<>();
-        estLancee = false;
+        simuEstLancee = false;
     }
 
     /**
-     * Creation du monde
-     * @return monde
+     * Creation du monde correspondant au mondeIG.
+     * @return monde correspondant
      */
     private Monde creerMonde(){
 
@@ -61,11 +60,11 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
             Etape etapeAAjouter;
             if(etapeIG.estUneActivite()){
                 if (etapeIG.estUneActiviteRestreinte())
-                    etapeAAjouter = new ActiviteRestreinte(etapeIG.getNom(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
+                    etapeAAjouter = new ActiviteRestreinte(etapeIG.getNomSansModification(),((ActiviteIG) etapeIG).getTemps(),((ActiviteIG) etapeIG).getEcartTemps());
                 else
-                    etapeAAjouter = new Activite(etapeIG.getNom(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
+                    etapeAAjouter = new Activite(etapeIG.getNomSansModification(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
             } else
-                etapeAAjouter = new Guichet(etapeIG.getNom());
+                etapeAAjouter = new Guichet(etapeIG.getNomSansModification());
             monde.ajouter(etapeAAjouter);
             correspondanceEtapes.ajouter(etapeIG,etapeAAjouter);
             if (etapeIG.estUneSortie()) monde.aCommeSortie(etapeAAjouter);
@@ -87,13 +86,11 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
                 String idActivite = FabriqueIdentifiant.getInstance().getIdentifiantActivite();
                 String nomActivite = "Activite"+idActivite;
                 hmEtape.put(id,new ActiviteIG(nomActivite,id, TailleComposant.getInstance().getLargeurAC(),TailleComposant.getInstance().getHauteurAC()));
-                //System.out.println("Activité ajoutée");
                 break;
             case "Guichet":
                 String idSema = FabriqueIdentifiant.getInstance().getSemaphore();
                 String nomGuichet = "Guichet"+idSema;
                 hmEtape.put(id,new GuichetIG(nomGuichet,id,TailleComposant.getInstance().getLargeurGUI(),TailleComposant.getInstance().getHauteurGUI()));
-                //System.out.println("Guichet ajouté");
                 break;
             default:
                 break;
@@ -108,31 +105,38 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
      */
     public void ajouter(PointDeControleIG pt1, PointDeControleIG pt2){
         listeArc.add(new ArcIG(pt1, pt2));
-        //System.out.println("Nouvelle arc crée entre l'étape "+listeArc.get(listeArc.size() - 1).getP1().getEtapeIG().getNom()+" et l'étape "+listeArc.get(listeArc.size() - 1).getP2().getEtapeIG().getNom());
         pt1.getEtapeIG().ajouterSuccesseur(pt2.getEtapeIG());
     }
 
     /**
      * Permet de simuler le monde à partir de la partie graphique du monde.
      */
-    public void simuler() throws MondeException {
-        verifierMondeIG();
-        Monde m = creerMonde();
-        FabriqueNumero.getInstance().reset();
-        try{
+    public void simuler() {
+        simuEstLancee = true;
+        try {
+            FabriqueNumero.getInstance().reset();
+            verifierMondeIG();
             ClassLoaderPerso classloader = new ClassLoaderPerso(this.getClass().getClassLoader());
             classLoaderPersoList.add(classloader);
-            Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size()-1).loadClass("twisk.simulation.Simulation");
-            Object sim = classSimu.getConstructor().newInstance();
-            Method simuler = classSimu.getMethod("simuler",Monde.class);
-            //Method mAjouterObs = classSimu.getDeclaredMethod("ajouterObservateur", twisk.vues.Observateur.class);
-            //mAjouterObs.invoke(sim,this);
-            simuler.invoke(sim,m);
-            System.out.println("La simulation du monde a été terminé");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    Monde m = creerMonde();
+                    Class<?> classSimu = classLoaderPersoList.get(classLoaderPersoList.size() - 1).loadClass("twisk.simulation.Simulation");
+                    simulation = classSimu.getConstructor().newInstance();
+                    Method simuler = classSimu.getMethod("simuler", Monde.class);
+                    Method mAjouterObs = classSimu.getMethod("ajouterObservateur", Observateur.class);
+                    simuler.invoke(simulation, m);
+                    mAjouterObs.invoke(simulation, this);
+                    System.out.println("La simulation du monde a été terminé");
+                    return null;
+                }
+            };
+            ThreadsManager.getInstance().lancer(task);
+        } catch (MondeException ignored) {}
+
+        simuEstLancee = getSimuEstLancee();
     }
 
     /**
@@ -354,10 +358,81 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         return pSelectionne;
     }
 
-    public Boolean getEstLancee() {
-        boolean copie = estLancee;
-        estLancee = !estLancee;
-        return copie;
+    public CorrespondanceEtapes getCorrespondanceEtapes() {
+        return correspondanceEtapes;
+    }
+
+    /**
+     * Retourne le nombre de clients du monde.
+     * @return la liste de clients
+     */
+    public ArrayList<Client> getClients(){
+        GestionnaireClients gestionnaireClients = null;
+        if(simulation != null) {
+            try {
+                Method getGesClients = simulation.getClass().getMethod("getGestionnaireClients");
+                gestionnaireClients = (GestionnaireClients) getGesClients.invoke(simulation);
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return Objects.requireNonNull(gestionnaireClients).getListClients();
+    }
+
+    public void setNbClients(int nbClients){
+        GestionnaireClients gestionnaireClients = null;
+        if(simulation != null) {
+            try {
+                Method getGesClients = simulation.getClass().getMethod("getGestionnaireClients");
+                gestionnaireClients = (GestionnaireClients) getGesClients.invoke(simulation);
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            System.out.println(gestionnaireClients.size());
+            Objects.requireNonNull(gestionnaireClients).setNbClients(nbClients);
+        }
+    }
+
+    /**
+     * Retourne si la simulation est lancée depuis la classe Simulation.java.
+     * @return Vrai si la simulation est lancée
+     */
+    public Boolean getSimuEstLancee() {
+        boolean isStarted = false;
+        if(simulation != null) {
+            try {
+                Method isSimuStarted = simulation.getClass().getDeclaredMethod("isSimuEstLancee");
+                isStarted = (boolean) isSimuStarted.invoke(simulation);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return isStarted;
+    }
+
+    /**
+     * Définit dans la classe Simulation si la simulation est lancée
+     */
+    public void setSimStarted(boolean nouveauBooleen) {
+        try {
+            Method setSimuStarted = simulation.getClass().getDeclaredMethod("setSimuEstLancee", boolean.class);
+            setSimuStarted.invoke(simulation, nouveauBooleen);
+        } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Object getSimulation() {
+        return simulation;
+    }
+
+    public void stopSimulation() {
+        simuEstLancee = getSimuEstLancee();
+        if(simulation != null && simuEstLancee) {
+            setSimStarted(false);
+            simuEstLancee = false;
+            ThreadsManager.getInstance().detruireTout();
+        }
     }
 
     /**
@@ -368,7 +443,6 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         return hmEtape.values().iterator();
     }
 
-
     /**
      * Rend itérable les arcs du monde.
      * @return L'itérateur des arcs
@@ -377,4 +451,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>   {
         return listeArc.iterator();
     }
 
+    @Override
+    public void reagir() {
+    }
 }

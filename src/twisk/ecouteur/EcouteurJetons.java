@@ -31,9 +31,7 @@ public class EcouteurJetons implements EventHandler<ActionEvent> {
             else
                 try {
                     throw new JetonsException();
-                } catch (TwiskException e) {
-                    e.printStackTrace();
-                }
+                } catch (TwiskException ignored) {}
         });
 
         this.monde.resetListeSelec();

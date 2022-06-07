@@ -9,7 +9,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.TilePane;
 import twisk.ecouteur.EcouteurAjouterGuichet;
 import twisk.ecouteur.EcouteurSimuler;
-import twisk.exceptions.MondeException;
 import twisk.mondeIG.MondeIG;
 
 /**
@@ -61,7 +60,7 @@ public class VueOutils extends TilePane implements Observateur {
         ajouterGuichet.setGraphic(guichetIMG);
 
         //Image Simulation
-        if(!monde.getEstLancee()){
+        if(!monde.getSimuEstLancee()){
             ImageView playIMG = new ImageView(new Image("images/play.png"));
             playIMG.setFitHeight(25);
             playIMG.setPreserveRatio(true);
@@ -75,7 +74,7 @@ public class VueOutils extends TilePane implements Observateur {
     @Override
     public void reagir() {
         //Image Simulation
-        if(!monde.getEstLancee()){
+        if(!monde.getSimuEstLancee()){
             ImageView playIMG = new ImageView(new Image("images/play.png"));
             playIMG.setFitHeight(25);
             playIMG.setPreserveRatio(true);

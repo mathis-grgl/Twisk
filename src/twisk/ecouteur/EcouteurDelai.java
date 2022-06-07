@@ -39,9 +39,7 @@ public class EcouteurDelai implements EventHandler<ActionEvent> {
             else
                 try {
                     throw new DelaiException();
-                } catch (TwiskException e) {
-                    e.printStackTrace();
-                }
+                } catch (TwiskException ignored) {}
         });
 
         TextInputDialog dialog = new TextInputDialog();
@@ -59,9 +57,7 @@ public class EcouteurDelai implements EventHandler<ActionEvent> {
             else
                 try {
                     throw new DelaiException();
-                } catch (TwiskException e) {
-                    e.printStackTrace();
-                }
+                } catch (TwiskException ignored) {}
         });
 
         this.monde.resetListeSelec();
