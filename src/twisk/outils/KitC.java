@@ -25,7 +25,7 @@ public class KitC {
             // création du répertoire twisk sous /tmp. Ne déclenche pas d’erreur si le répertoire existe déjà
             Path directories = Files.createDirectories(Paths.get("/tmp/twisk"));
             // copie des deux fichiers programmeC.o et def.h depuis le projet sous /tmp/twisk
-            String[] liste = {"programmeC.o", "def.h","codeNatif.o","lois.h"};
+            String[] liste = {"programmeC.o", "def.h","codeNatif.o", "lois.h", "lois.c"};
             for (String nom : liste) {
                 InputStream source = getClass().getResource("/codeC/" + nom).openStream() ;
                 File destination = new File("/tmp/twisk/" + nom) ;
@@ -78,6 +78,8 @@ public class KitC {
         try {
             Process p = runtime.exec("gcc -Wall -fPIC -c /tmp/twisk/client.c -o /tmp/twisk/client.o" );
             p.waitFor();
+            Process p2 = runtime.exec("gcc -Wall -fPIC -c /tmp/twisk/lois.c -o /tmp/twisk/lois.o -lm");
+            p2.waitFor();
             // récupération des messages sur la sortie standard et la sortie d’erreur de la commande exécutée
             // à reprendre éventuellement et à adapter à votre code
             BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -97,7 +99,7 @@ public class KitC {
     public void construireLaLibrairie(){
         Runtime runtime = Runtime.getRuntime();
         try {
-            Process p = runtime.exec("gcc -shared /tmp/twisk/programmeC.o /tmp/twisk/codeNatif.o /tmp/twisk/client.o -o /tmp/twisk/libTwisk"+FabriqueNumero.getInstance().getNoSim()+".so" );
+            Process p = runtime.exec("gcc -shared /tmp/twisk/programmeC.o /tmp/twisk/codeNatif.o /tmp/twisk/client.o /tmp/twisk/lois.o -o /tmp/twisk/libTwisk"+FabriqueNumero.getInstance().getNoSim()+".so" );
             p.waitFor();
             // récupération des messages sur la sortie standard et la sortie d’erreur de la commande exécutée
             // à reprendre éventuellement et à adapter à votre code
