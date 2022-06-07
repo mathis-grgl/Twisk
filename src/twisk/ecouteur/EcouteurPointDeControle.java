@@ -1,7 +1,7 @@
 package twisk.ecouteur;
 
 import twisk.exceptions.TwiskException;
-import twisk.exceptions.arcException;
+import twisk.exceptions.ArcException;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import twisk.mondeIG.MondeIG;
@@ -46,7 +46,7 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
             } else if (monde.getpSelectionne().getEtapeIG().getIdentifiant().equals(point.getEtapeIG().getIdentifiant())) {
                 monde.setpSelectionne(null);
                 try {
-                    throw new arcException();
+                    throw new ArcException();
                 } catch (TwiskException e) {
                     e.printStackTrace();
                 }

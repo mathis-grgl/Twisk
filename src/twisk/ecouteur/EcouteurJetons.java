@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextInputDialog;
 import twisk.exceptions.TwiskException;
-import twisk.exceptions.jetonsException;
+import twisk.exceptions.JetonsException;
 import twisk.mondeIG.MondeIG;
 
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class EcouteurJetons implements EventHandler<ActionEvent> {
                 this.monde.modifNbJetons(nbJetons);
             else
                 try {
-                    throw new jetonsException();
+                    throw new JetonsException();
                 } catch (TwiskException e) {
                     e.printStackTrace();
                 }
