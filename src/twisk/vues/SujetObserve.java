@@ -1,5 +1,7 @@
 package twisk.vues;
 
+import twisk.vues.Observateur;
+
 import java.util.ArrayList;
 
 /**
