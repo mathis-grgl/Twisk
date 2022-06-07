@@ -207,6 +207,22 @@ public abstract class EtapeIG implements Iterable<PointDeControleIG>{
         return this.PdcIG.iterator();
     }
 
+    /**
+     * Fonction qui permet de savoir si une etape est accessible a partir d une autre
+     * @param etape EtapeIG
+     * @return boolean
+     */
+    public boolean estAccessibleDepuis(EtapeIG etape){
+        for (EtapeIG successeur : etape.getListSuccesseurs()){
+            if (successeur.equals(this)){
+                return true;
+            }else {
+                return estAccessibleDepuis(successeur);
+            }
+        }
+        return  false;
+    }
+
     @Override
     public String toString() {
         return "EtapeIG{" +
