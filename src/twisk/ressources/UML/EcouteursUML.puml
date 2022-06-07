@@ -1,0 +1,117 @@
+@startuml
+package ecouteur{
+    class EcouteurAjouterActivite() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurAjouterActivite(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurAjouterGuichet() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurAjouterGuichet(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurAjouterArc() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurAjouterActivite(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurDelai() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurDelai(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurDrag() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurDrag(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurDropped() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurDropped(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurEffacer() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurEffacer(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurEntree() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurEntree(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurEtape() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurEtape(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurJetons() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurJetons(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurLois() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurLois(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurNbClients() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurNbClients(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurOver() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurOver(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurPointDeControle() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurPointDeControle(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurQuitter() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurQuitter(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurRenommer() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurRenommer(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurSimuler() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurSimuler(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurSortie() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurSortie(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+
+    class EcouteurSupprimer() implements EventHandler{
+        MondeIG mondeIG
+        public EcouteurSupprimer(MondeIG mondeIG)
+        void handle(ActionEvent actionEvent)
+    }
+}
+@enduml
