@@ -19,12 +19,12 @@ public class VueClientIG extends Circle implements Observateur{
         this.setFill(Color.BLUE);
 
         if(etapeIG.estUneActivite() || etapeIG.estUneActiviteRestreinte()) {
-            this.setCenterX(this.etapeIG.getPosX()+ TailleComposant.getInstance().getLargeurAC()-rang*10);
-            this.setCenterY(this.etapeIG.getPosY()+TailleComposant.getInstance().getHauteurAC()-rang*10);
+            this.setCenterX(this.etapeIG.getPosX()+ TailleComposant.getInstance().getLargeurAC()-(rang*10)-5);
+            this.setCenterY(this.etapeIG.getPosY()+TailleComposant.getInstance().getHauteurAC()-20);
         }
         if(etapeIG.estUnGuichet()){
-            this.setCenterX(this.etapeIG.getPosX()+ TailleComposant.getInstance().getLargeurAC()-rang*10);
-            this.setCenterY(this.etapeIG.getPosY()+TailleComposant.getInstance().getHauteurAC()-rang*10);
+            this.setCenterX(this.etapeIG.getPosX()+TailleComposant.getInstance().getLargeurGUI()-rang*16);
+            this.setCenterY(this.etapeIG.getPosY()+TailleComposant.getInstance().getHauteurGUI()-16);
         }
     }
 

@@ -1,8 +1,10 @@
 package twisk.vues;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import twisk.ecouteur.EcouteurAjouterActivite;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -25,7 +27,7 @@ public class VueOutils extends TilePane implements Observateur {
     public VueOutils(MondeIG monde){
         super();
         this.monde = monde;
-        this.monde.notifierObservateurs();
+        this.monde.ajouterObservateur(this);
 
         Button ajouterActivite = new Button("Ajouter activité");
         Button ajouterGuichet = new Button("Ajouter guichet");
@@ -73,19 +75,26 @@ public class VueOutils extends TilePane implements Observateur {
 
     @Override
     public void reagir() {
-        //Image Simulation
-        if(!monde.getSimuEstLancee()){
-            System.out.println("play"+monde.getSimuEstLancee());
-            ImageView playIMG = new ImageView(new Image("images/play.png"));
-            playIMG.setFitHeight(25);
-            playIMG.setPreserveRatio(true);
-            simuler.setGraphic(playIMG);
-        } else {
-            System.out.println("pause"+monde.getSimuEstLancee());
-            ImageView pauseIMG = new ImageView(new Image("images/pause.png"));
-            pauseIMG.setFitHeight(25);
-            pauseIMG.setPreserveRatio(true);
-            simuler.setGraphic(pauseIMG);
-        }
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                //Image Simulation
+                if (!monde.getSimuEstLancee()) {
+                    ImageView playIMG = new ImageView(new Image("images/play.png"));
+                    playIMG.setFitHeight(25);
+                    playIMG.setPreserveRatio(true);
+                    simuler.setGraphic(playIMG);
+                } else {
+                    ImageView pauseIMG = new ImageView(new Image("images/pause.png"));
+                    pauseIMG.setFitHeight(25);
+                    pauseIMG.setPreserveRatio(true);
+                    simuler.setGraphic(pauseIMG);
+                }
+            }
+        };
+        if(Platform.isFxApplicationThread())
+                command.run();
+        else
+            Platform.runLater(command);
     }
 }

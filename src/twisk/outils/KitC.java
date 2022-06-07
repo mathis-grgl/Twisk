@@ -113,4 +113,8 @@ public class KitC {
             e.printStackTrace();
         }
     }
+
+    public void tuerToutLesProcessus(){
+
+    }
 }
