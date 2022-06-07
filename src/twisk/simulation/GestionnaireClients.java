@@ -49,7 +49,7 @@ public class GestionnaireClients implements Iterable<Client>{
         return gC.get(index);
     }
 
-    public ArrayList<Client> getClients() {
+    public ArrayList<Client> getListClients() {
         return gC;
     }
 
@@ -65,4 +65,6 @@ public class GestionnaireClients implements Iterable<Client>{
 
         return str.toString();
     }
+
+
 }

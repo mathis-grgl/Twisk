@@ -26,11 +26,10 @@ public class EcouteurRenommer implements EventHandler<ActionEvent> {
         TextInputDialog dialogue = new TextInputDialog();
         dialogue.setTitle("Renommer");
         dialogue.setHeaderText(null);
-        dialogue.setContentText("Nouveau nom pour l'étape "+this.monde.getListeEtapesSelec().get(0).getNom());
+        dialogue.setContentText("Nouveau nom pour l'étape "+this.monde.getListeEtapesSelec().get(0).getNomSansModification());
         Optional<String> out = dialogue.showAndWait();
 
         out.ifPresent(nom -> {
-            //System.out.println("Nouveau nom pour l'étape "+this.monde.getListeEtapesSelec().get(0).getNom()+" est "+nom);
             this.monde.getListeEtapesSelec().get(0).setNom(nom);
         });
         this.monde.resetListeSelec();

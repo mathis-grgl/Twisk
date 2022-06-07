@@ -9,6 +9,7 @@ public class ThreadsManager {
     private ArrayList<Thread> threadList;
 
     private ThreadsManager() {
+        threadList = new ArrayList<>();
     }
 
     /**
@@ -29,7 +30,14 @@ public class ThreadsManager {
 
     public void detruireTout(){
         for(Thread thr : threadList){
-            thr.interrupt();
+            if (thr.isInterrupted()) {
+                try {
+                    throw new InterruptedException();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else
+                thr.interrupt();
         }
     }
 }

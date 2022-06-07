@@ -12,7 +12,7 @@ import twisk.mondeIG.MondeIG;
 public class VueMenu extends MenuBar implements Observateur {
     private MondeIG monde;
     private Menu Fichier, Edition, Monde, Parametres;
-    private MenuItem quitter,supprimer, renommer,effacer,entree,sortie,delai,nbjetons;
+    private MenuItem quitter,supprimer, renommer,effacer,entree,sortie,delai,nbjetons,nbclients;
 
     /**
      * Instancie une nouvelle VueMenu.
@@ -35,6 +35,7 @@ public class VueMenu extends MenuBar implements Observateur {
         sortie = new MenuItem("Définir comme sortie");
         delai = new MenuItem("Modifier les délais");
         nbjetons = new MenuItem("Modifier le nombre de jetons");
+        nbclients = new MenuItem("Modifier le nombre de clients");
 
         quitter.setOnAction(new EcouteurQuitter());
         supprimer.setOnAction(new EcouteurSupprimer(this.monde));
@@ -44,11 +45,13 @@ public class VueMenu extends MenuBar implements Observateur {
         sortie.setOnAction(new EcouteurSortie(this.monde));
         delai.setOnAction(new EcouteurDelai(this.monde));
         nbjetons.setOnAction(new EcouteurJetons(this.monde));
+        nbclients.setOnAction(new EcouteurNbClients(this.monde));
 
 
         Fichier.getItems().add(quitter);
         Edition.getItems().addAll(supprimer,effacer);
         Monde.getItems().addAll(entree,sortie);
+        Parametres.getItems().addAll(nbclients);
 
         this.getMenus().addAll(Fichier,Edition,Monde,Parametres);
     }

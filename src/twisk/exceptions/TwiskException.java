@@ -13,7 +13,7 @@ public class TwiskException extends Exception{
      */
     public TwiskException(String error){
         Alert alert = new Alert(Alert.AlertType.ERROR,error);
-        String titleError = "Erreur dans "+error;
+        String titleError = "Erreur";
         alert.setTitle(titleError);
         alert.show();
 

@@ -26,7 +26,6 @@ public class EcouteurEtape implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
         this.monde.selectDeselect(etape);
-        //System.out.println("L'étape selectionnée est "+etape.getNom());
         this.monde.notifierObservateurs();
     }
 }

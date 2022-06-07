@@ -47,8 +47,7 @@ public class EcouteurPointDeControle implements EventHandler<MouseEvent> {
                 monde.setpSelectionne(null);
                 try {
                     throw new ArcException();
-                } catch (TwiskException e) {
-                    e.printStackTrace();
+                } catch (TwiskException ignored) {
                 }
             } else {
                 

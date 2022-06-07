@@ -9,13 +9,15 @@ import java.util.HashMap;
  * Représente la classe CorrespondanceEtapes (Liaison entre Etape et EtapeIG).
  */
 public class CorrespondanceEtapes {
-    private HashMap<EtapeIG, Etape> hashEtapes;
+    private HashMap<EtapeIG, Etape> hashEtapesIGtoEtapes;
+    private HashMap<Etape,EtapeIG> hashEtapestoEtapesIG;
 
     /**
      * Instancie une nouvelle instance de CorrespondanceEtapes.
      */
     public CorrespondanceEtapes(){
-        hashEtapes = new HashMap<>();
+        hashEtapesIGtoEtapes = new HashMap<>();
+        hashEtapestoEtapesIG = new HashMap<>();
     }
 
     /**
@@ -24,7 +26,8 @@ public class CorrespondanceEtapes {
      * @param etape  L'étape correspondante
      */
     public void ajouter(EtapeIG etapeIG, Etape etape){
-        hashEtapes.put(etapeIG,etape);
+        hashEtapesIGtoEtapes.put(etapeIG,etape);
+        hashEtapestoEtapesIG.put(etape,etapeIG);
     }
 
     /**
@@ -32,12 +35,16 @@ public class CorrespondanceEtapes {
      * @param etape L'étapeIG
      */
     public Etape get(EtapeIG etape){
-        return hashEtapes.get(etape);
+        return hashEtapesIGtoEtapes.get(etape);
+    }
+
+    public EtapeIG getEtapeIG(Etape etape){
+        return hashEtapestoEtapesIG.get(etape);
     }
 
     /**
-     * ajoute les successeur de etapeIG a Etape
-     * @param etapeIG EtapeIG
+     * Fait la correspondance des successeurs entre  l'étapeIG et l'étape classique.
+     * @param etapeIG EtapeIG correspondante
      */
     public void correspondanceSucc(EtapeIG etapeIG){
         for (EtapeIG etapeIGSucc : etapeIG.getListSuccesseurs()){

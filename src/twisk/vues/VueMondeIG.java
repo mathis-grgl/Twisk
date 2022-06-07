@@ -1,15 +1,13 @@
 package twisk.vues;
 
-import javafx.scene.layout.HBox;
+import javafx.application.Platform;
 import twisk.ecouteur.EcouteurDropped;
 import twisk.ecouteur.EcouteurOver;
 import javafx.scene.layout.Pane;
-import twisk.mondeIG.ArcIG;
-import twisk.mondeIG.EtapeIG;
-import twisk.mondeIG.MondeIG;
-import twisk.mondeIG.PointDeControleIG;
+import twisk.mondeIG.*;
 import twisk.simulation.Client;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -34,34 +32,34 @@ public class VueMondeIG extends Pane implements Observateur {
         this.setOnDragDropped(new EcouteurDropped(this,this.monde));
     }
 
-    /**
-     *
-     * @param hbox
-     * @param etapeIG
-     */
-    public void ajouterClient(HBox hbox, EtapeIG etapeIG){
-        if (monde.getSimulation() != null){
-            if(monde.isSimStarted()){
-                for(Client client : monde.getClients()){
-                    if (monde.getCorrespondanceEtapes().get(etapeIG).equals(client.getEtape())){
-                        hbox.getChildren().add(new VueClientIG(client));
+    @Override
+    public void reagir() {
+        Pane panneau = this;
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                panneau.getChildren().clear();
+                for (Iterator<ArcIG> it = monde.iteratorArc(); it.hasNext(); ) {
+                    ArcIG a = it.next();
+                    panneau.getChildren().add(new VueArcIG(monde, a));
+                }
+                for (EtapeIG e : monde) {
+                    if (e.estUneActivite()) panneau.getChildren().add(new VueActiviteIG(monde, e));
+                    else panneau.getChildren().add(new VueGuichetIG(monde, e));
+                    for (PointDeControleIG point : e) panneau.getChildren().add(new VuePointDeControleIG(monde, point));
+                }
+                if (monde.getSimuEstLancee()) {
+                    CorrespondanceEtapes correspondanceEtapes = monde.getCorrespondanceEtapes();
+                    ArrayList<Client> listClients = monde.getClients();
+                    for (Client clientActuel : listClients) {
+                        //panneau.getChildren().add(new VueClientIG(monde, correspondanceEtapes.getEtapeIG(clientActuel.getEtape()), clientActuel.getRang()));
                     }
                 }
             }
-        }
-    }
-
-    @Override
-    public void reagir() {
-        this.getChildren().clear();
-        for (Iterator<ArcIG> it = monde.iteratorArc(); it.hasNext(); ) {
-            ArcIG a = it.next();
-            this.getChildren().add(new VueArcIG(monde,a));
-        }
-        for(EtapeIG e : monde){
-            if(e.estUneActivite())this.getChildren().add(new VueActiviteIG(monde,e));
-            else this.getChildren().add(new VueGuichetIG(monde,e));
-            for(PointDeControleIG point : e) this.getChildren().add(new VuePointDeControleIG(monde,point));
-        }
+        };
+        if(Platform.isFxApplicationThread())
+            command.run();
+        else
+            Platform.runLater(command);
     }
 }
