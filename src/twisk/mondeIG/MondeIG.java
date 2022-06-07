@@ -455,7 +455,12 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
     public void stopSimulation() {
         simuEstLancee = getSimuEstLancee();
         if(simulation != null && simuEstLancee) {
-            setSimStarted(false);
+            try {
+                Method setStopSimu = simulation.getClass().getDeclaredMethod("setSimuEstLancee");
+                setStopSimu.invoke(simulation);
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
             ThreadsManager.getInstance().detruireTout();
             simuEstLancee = false;
         }
