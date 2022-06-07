@@ -79,12 +79,18 @@ public class Activite extends Etape{
             str.append(delai());
             dejaAppele = false;
         }
-        str.append("transfert(")
-                .append(getNomNumero())
-                .append(",")
-                .append(gestSucc.getSucc(0).getNomNumero())
-                .append(");\n");
-        str.append(gestSucc.getSucc(0).toC());
+        if(nbSuccesseur() == 1) {
+            str.append("transfert(")
+                    .append(getNomNumero())
+                    .append(",")
+                    .append(gestSucc.getSucc(0).getNomNumero())
+                    .append(");\n");
+            str.append(gestSucc.getSucc(0).toC());
+        } else {
+            str.append("int nb = (int) ( (rand() / (float) RAND_MAX ) * ")
+                    .append(this.nbSuccesseur()).append(") ;");
+
+        }
         return str.toString();
     }
 }
