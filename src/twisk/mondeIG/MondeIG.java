@@ -179,9 +179,9 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
 
             if(etape.getListSuccesseurs().size()>=1) compteur++;
         }
-        if(compteur != hmEtape.size()-1){
+        /*if(compteur != hmEtape.size()-1){
             throw new MondeException("Le lien n'est pas fait entre toutes les étapes.");
-        }
+        }*/
     }
 
     /**

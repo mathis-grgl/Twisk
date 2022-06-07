@@ -88,7 +88,20 @@ public class Activite extends Etape{
             str.append(gestSucc.getSucc(0).toC());
         } else {
             str.append("int nb = (int) ( (rand() / (float) RAND_MAX ) * ")
-                    .append(this.nbSuccesseur()).append(") ;");
+                    .append(nbSuccesseur())
+                    .append(") ;\n")
+                    .append("switch(nb){\n");
+            for (int i = 0; i < nbSuccesseur(); i++) {
+                str.append("case "+ i + " :\n")
+                        .append("transfert(")
+                        .append(getNomNumero())
+                        .append(",")
+                        .append(gestSucc.getSucc(i).getNomNumero())
+                        .append(");\n")
+                        .append(gestSucc.getSucc(i).toC())
+                        .append("break;\n");
+            }
+            str.append("}\n");
 
         }
         return str.toString();
