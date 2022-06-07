@@ -179,6 +179,11 @@ public class Simulation extends SujetObserve {
         return gC;
     }
 
+    public void stopSimulation(){
+        simuEstLancee = false;
+        c.tuerToutLesProcessus();
+    }
+
     public Boolean isSimuEstLancee() {
         return simuEstLancee;
     }

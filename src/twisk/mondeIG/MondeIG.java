@@ -146,13 +146,13 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
      * Vérifie si le monde crée dans la partie graphique du monde est correcte.
      */
     private void verifierMondeIG() throws MondeException{
+        //Remet toutes les activités en non restreinte
         setAllActiviteRestreinteFalse();
 
         //le monde doit contenir au moin une entre, une sortie et une etape
         if (etapesSortie.size() < 1 || etapesEntree.size() <1 || hmEtape.size() < 1){
             throw new MondeException("Pas assez d'entrées, de sorties ou trop petit.");
         }
-        int compteur = 0;
         for (EtapeIG etape : hmEtape.values()){
             for (EtapeIG succ : etape.getListSuccesseurs() ){
                 if(succ.estUneActivite() && etape.estUnGuichet()){
@@ -176,12 +176,33 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
                     throw new MondeException("Trop d'étapes qui suivent un seul guichet.");
                 }
             }
-
-            if(etape.getListSuccesseurs().size()>=1) compteur++;
         }
-        /*if(compteur != hmEtape.size()-1){
+        /*if(!cheminPossible()){
             throw new MondeException("Le lien n'est pas fait entre toutes les étapes.");
         }*/
+    }
+
+    public Boolean cheminPossible(){
+        Boolean chemin = false;
+        for(EtapeIG etapeIG : hmEtape.values()) {
+            EtapeIG etapeBasique = etapeIG;
+            EtapeIG etapeSuccesseur = etapeBasique.getListSuccesseurs().get(0);
+            while (!chemin && etapeSuccesseur != null) {
+                if (etapeSuccesseur.estUneActivite()) {
+                    ActiviteIG activite = (ActiviteIG) etapeSuccesseur;
+                    if (activite.estUneSortie()) {
+                        chemin = true;
+                    } else {
+                        etapeSuccesseur = etapeBasique.getListSuccesseurs().get(0);
+                        etapeBasique = etapeSuccesseur;
+                    }
+                } else {
+                    etapeSuccesseur = etapeBasique.getListSuccesseurs().get(0);
+                    etapeBasique = etapeSuccesseur;
+                }
+            }
+        }
+        return chemin;
     }
 
     /**
