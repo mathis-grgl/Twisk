@@ -65,7 +65,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
                 else
                     etapeAAjouter = new Activite(etapeIG.getNomSansModification(), ((ActiviteIG) etapeIG).getTemps(), ((ActiviteIG) etapeIG).getEcartTemps());
             } else
-                etapeAAjouter = new Guichet(etapeIG.getNomSansModification());
+                etapeAAjouter = new Guichet(etapeIG.getNomSansModification(),((GuichetIG) etapeIG).getNbJetons());
             monde.ajouter(etapeAAjouter);
             correspondanceEtapes.ajouter(etapeIG,etapeAAjouter);
             if (etapeIG.estUneSortie()) monde.aCommeSortie(etapeAAjouter);
@@ -433,7 +433,7 @@ public class MondeIG extends SujetObserve implements Iterable<EtapeIG>, Observat
         simuEstLancee = getSimuEstLancee();
         if(simulation != null && simuEstLancee) {
             setSimStarted(false);
-            ThreadsManager.getInstance().getLastThread().interrupt();
+            ThreadsManager.getInstance().detruireTout();
             simuEstLancee = false;
         }
     }

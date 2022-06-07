@@ -35,7 +35,7 @@ public class Simulation extends SujetObserve {
     public Simulation(){
         c = new KitC();
         c.creerEnvironnemment();
-        nbClients = 2;
+        nbClients = 5;
         gC = new GestionnaireClients();
         simuEstLancee = false;
     }

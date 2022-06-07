@@ -34,7 +34,7 @@ public class EcouteurDelai implements EventHandler<ActionEvent> {
         Optional<String> out = dialogue.showAndWait();
         out.ifPresent(nom -> {
             int temps = Integer.parseInt(nom);
-            if(temps>=0 && temps<=99)
+            if(temps>=0 && temps<=99 && temps>=((ActiviteIG) monde.getListeEtapesSelec().get(0)).getEcartTemps())
                 this.monde.modifTemps(temps);
             else
                 try {

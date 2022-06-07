@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import twisk.ecouteur.EcouteurDropped;
 import twisk.ecouteur.EcouteurOver;
 import javafx.scene.layout.Pane;
+import twisk.monde.Etape;
 import twisk.mondeIG.*;
 import twisk.simulation.Client;
 
@@ -52,7 +53,9 @@ public class VueMondeIG extends Pane implements Observateur {
                     CorrespondanceEtapes correspondanceEtapes = monde.getCorrespondanceEtapes();
                     ArrayList<Client> listClients = monde.getClients();
                     for (Client clientActuel : listClients) {
-                        panneau.getChildren().add(new VueClientIG(monde, correspondanceEtapes.getEtapeIG(clientActuel.getEtape()), clientActuel.getRang()));
+                        if(correspondanceEtapes.getEtapeIG(clientActuel.getEtape())!=null) {
+                            panneau.getChildren().add(new VueClientIG(monde, correspondanceEtapes.getEtapeIG(clientActuel.getEtape()) ,clientActuel.getRang()));
+                        }
                     }
                 }
             }
